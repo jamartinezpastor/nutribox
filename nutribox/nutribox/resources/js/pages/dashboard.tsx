@@ -1,13 +1,18 @@
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
         href: '/dashboard',
     },
+   // {
+   //     title: 'Principal',
+   //     href: '/principal',
+  // },
+     
 ];
 
 export default function Dashboard() {
@@ -28,6 +33,11 @@ export default function Dashboard() {
                 </div>
                 <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
                     <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
+                </div>
+                <div className="mt-4">
+                    <Link href={route('principal')} className="inline-block rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
+                        Ir a Principal
+                    </Link>
                 </div>
             </div>
         </AppLayout>
