@@ -8,13 +8,31 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::get('inicio', function () {
+        return Inertia::render('inicio');
+    })->name('inicio');
 
-    Route::get('plantilla', function () {
-        return Inertia::render('plantilla');
-    })->name('plantilla');
+    // OPEN FOOD FACTS BUSCAR
+    Route::get('off_buscar', function () {
+        return Inertia::render('off_buscar');
+    })->name('off_buscar');
+
+    // DEEPSEEK EVALUAR
+    Route::get('ds_evaluar', function () {
+        return Inertia::render('ds_evaluar');
+    })->name('ds_evaluar');
+
+    // DIETAS IA
+    Route::get('menu_crear', function () {
+        return Inertia::render('menu_crear');
+    })->name('menu_crear');
+    Route::get('menu_ver', function () {
+        return Inertia::render('menu_ver');
+    })->name('menu_ver');
+
+
+
+
 
     Route::get('/principal', function () {return view('principal');})->name('principal');
 

@@ -15,10 +15,10 @@ export default function Welcome() {
                     <nav className="flex items-center justify-end gap-4">
                         {auth.user ? (
                             <Link
-                                href={route('dashboard')}
+                                href={route('inicio')}
                                 className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                             >
-                                Dashboard
+                                Inicio
                             </Link>
                         ) : (
                             <>
@@ -26,13 +26,13 @@ export default function Welcome() {
                                     href={route('login')}
                                     className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
                                 >
-                                    Log in
+                                    Iniciar sesión
                                 </Link>
                                 <Link
                                     href={route('register')}
                                     className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                                 >
-                                    Register
+                                    Registrarse
                                 </Link>
                             </>
                         )}
@@ -73,26 +73,8 @@ export default function Welcome() {
                                 </li>
 
                             </ul>
-                            <ul className="flex gap-3 text-sm leading-normal">
-                                <li>
-                                    <a
-                                        href="https://cloud.laravel.com"
-                                        target="_blank"
-                                        className="inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white"
-                                    >
-                                        Iniciar sesión
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="https://cloud.laravel.com"
-                                        target="_blank"
-                                        className="inline-block rounded-sm border border-black bg-[#1b1b18] px-5 py-1.5 text-sm leading-normal text-white hover:border-black hover:bg-black dark:border-[#eeeeec] dark:bg-[#eeeeec] dark:text-[#1C1C1A] dark:hover:border-white dark:hover:bg-white"
-                                    >
-                                        Registrarse
-                                    </a>
-                                </li>
-                            </ul>
+                            
+                       
                         </div>
                         <div className="relative -mb-px aspect-[335/376] w-full shrink-0 overflow-hidden rounded-t-lg bg-[#fff2f2] lg:mb-0 lg:-ml-px lg:aspect-auto lg:w-[438px] lg:rounded-t-none lg:rounded-r-lg dark:bg-[#1D0002]">
                         <img src="img/nutribox1.png" alt="" />

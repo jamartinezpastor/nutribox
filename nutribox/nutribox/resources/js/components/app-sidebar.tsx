@@ -4,35 +4,46 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, LucideAlbum, Sandwich } from 'lucide-react';
+import { BookAIcon, BookOpen, Folder, LayoutGrid, LucideAlbum, LucideCarrot, Sandwich } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
+        title: 'Inicio',
+        href: '/inicio',
         icon: LayoutGrid,
     },
     {
-        title: 'Plantilla',
-        href: '/plantilla',
-        icon: LucideAlbum,
+        title: 'Base de Datos',
+        href: '/off_buscar',
+        icon: LucideCarrot,
     },
     {
-        title: 'Principal (Mensaje bienvenida)',
-        href: '/principal',
+        title: 'Evaluar Alimento (IA)',
+        href: '/ds_evaluar',
         icon: Sandwich,
     },
+    {
+        title: 'Diseñar Menú (IA)',
+        href: '/menu_crear',
+        icon: BookAIcon,
+    },
+    {
+        title: 'Menús guardados',
+        href: '/menu_ver',
+        icon: LucideAlbum,
+    },
+  
 ];
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Enlace 1',
+        title: 'Buzón de Sugerencias',
         href: 'https://github.com/laravel/react-starter-kit',
         icon: Folder,
     },
     {
-        title: 'Enlace 2',
+        title: 'Acerca de',
         href: 'https://laravel.com/docs/starter-kits',
         icon: BookOpen,
     },
@@ -45,7 +56,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/dashboard" prefetch>
+                            <Link href="/" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

@@ -5,7 +5,7 @@ import { Head, Link } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Plantilla',
+        title: 'Diseñar Menú',
         href: '/plantilla',
     },
     // {
@@ -17,9 +17,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Dashboard() {
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-             <h1>11111111111  consectetur adipisicing elit. Architecto, aperiam quis!</h1>
-            <Head title="Plantilla" />
+        <AppLayout breadcrumbs={breadcrumbs}>            
+            <Head title="Diseñar Menú" />
             <h2>2222222222222 Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, aperiam quis!</h2>
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <h2>3333333333333 Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, aperiam quis!</h2>
