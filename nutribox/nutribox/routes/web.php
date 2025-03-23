@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\OFFController;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -16,6 +18,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('off_buscar', function () {
         return Inertia::render('off_buscar');
     })->name('off_buscar');
+    Route::get('/buscar-alimento-en-off', [OFFController::class, 'buscar'])->name('buscarEnOFF');
+
+    Route::get('/next-page', function (Request $request) {
+        return Inertia::render('NextPage', ['termino' => $request->query('termino')]);
+    });
+
+
+
 
     // DEEPSEEK EVALUAR
     Route::get('ds_evaluar', function () {

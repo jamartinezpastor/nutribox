@@ -11,26 +11,47 @@ import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
+import { BookAIcon, BookOpen, Folder, LayoutGrid, LucideAlbum, LucideCarrot, Menu, Sandwich, Search } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
+        title: 'Inicio',
+        href: '/inicio',
         icon: LayoutGrid,
     },
+    {
+        title: 'Base de Datos',
+        href: '/off_buscar',
+        icon: LucideCarrot,
+    },
+    {
+        title: 'Evaluar Alimento (IA)',
+        href: '/ds_evaluar',
+        icon: Sandwich,
+    },
+    {
+        title: 'Diseñar Menú (IA)',
+        href: '/menu_crear',
+        icon: BookAIcon,
+    },
+    {
+        title: 'Menús guardados',
+        href: '/menu_ver',
+        icon: LucideAlbum,
+    },
+  
 ];
 
 const rightNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://marca.com',
+        title: 'Buzón de Sugerencias',
+        href: 'https://github.com/laravel/react-starter-kit',
         icon: Folder,
     },
     {
-        title: 'Documentation',
+        title: 'Acerca de',
         href: 'https://laravel.com/docs/starter-kits',
         icon: BookOpen,
     },
@@ -94,7 +115,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                         </Sheet>
                     </div>
 
-                    <Link href="/inicio" prefetch className="flex items-center space-x-2">
+                    <Link href="/" prefetch className="flex items-center space-x-2">
                         <AppLogo />
                     </Link>
 
@@ -126,9 +147,11 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
 
                     <div className="ml-auto flex items-center space-x-2">
                         <div className="relative flex items-center space-x-1">
+                            {/*
                             <Button variant="ghost" size="icon" className="group h-9 w-9 cursor-pointer">
                                 <Search className="!size-5 opacity-80 group-hover:opacity-100" />
                             </Button>
+                            */}
                             <div className="hidden lg:flex">
                                 {rightNavItems.map((item) => (
                                     <TooltipProvider key={item.title} delayDuration={0}>
