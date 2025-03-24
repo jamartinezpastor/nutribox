@@ -15,13 +15,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('inicio');
 
     // OPEN FOOD FACTS BUSCAR
-    Route::get('off_buscar', function () {
-        return Inertia::render('off_buscar');
-    })->name('off_buscar');
-    Route::get('/buscar-alimento-en-off', [OFFController::class, 'buscar'])->name('buscarEnOFF');
+    Route::get('off-buscar', function () {
+        return Inertia::render('OFF_buscar');
+    })->name('off-buscar');
+    Route::get('/off_buscar_a_controller', [OFFController::class, 'buscarOFF'])->name('off_buscar_a_controller');
 
-    Route::get('/next-page', function (Request $request) {
-        return Inertia::render('NextPage', ['termino' => $request->query('termino')]);
+    Route::get('/off-resultados', function (Request $request) {
+        return Inertia::render('OFF_buscar_resultados', ['termino' => $request->query('termino')]);
     });
 
 
@@ -44,11 +44,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-    Route::get('/principal', function () {return view('principal');})->name('principal');
-
-
-
+    Route::get('/principal', function () {
+        return view('principal');
+    })->name('principal');
 });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

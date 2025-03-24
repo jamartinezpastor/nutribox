@@ -23,7 +23,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Base de Datos',
-        href: '/off_buscar',
+        href: '/off-buscar',
         icon: LucideCarrot,
     },
     {

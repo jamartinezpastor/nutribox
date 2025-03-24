@@ -16,37 +16,33 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 ];
 
-export default function Dashboard() {
+export default function OFF_buscar() {
     const [termino, setTermino] = useState("");
 
-    const handleSubmit = () => {
-      if (termino.trim()) {
-        router.visit(`/next-page`, { method: "get", data: { termino } });
-      }
-    };
+    const handleSearch = () => {
+        if (termino.trim()) {
+          router.get("/off_buscar_a_controller", { termino });
+        }
+      };
+
     return (
 
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Base de datos de alimentos" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <p className="text-4xl">1 / 2 <br />BASE DE DATOS DE ALIMENTOS. <br />OPEN FACT FOODS</p>
+                <p className="text-4xl">1 / 2 <br />PETICIÓN A LA API OFF</p>
                 <div className="flex w-full max-w-sm items-center space-x-2">
-      <Input
-        type="text"
-        placeholder="Producto"
-        value={termino}
-        onChange={(e) => setTermino(e.target.value)}
-      />
-      <Button type="button" onClick={handleSubmit}>
-        Buscar
-      </Button>
-    </div>
-
-
-
-
+                    <Input
+                        type="text"
+                        placeholder="Alimento / Producto"
+                        value={termino}
+                        onChange={(e) => setTermino(e.target.value)}
+                    />
+                    <Button type="button" onClick={handleSearch}>
+                        Buscar
+                    </Button>
+                </div>
             </div>
-
         </AppLayout>
     );
 }

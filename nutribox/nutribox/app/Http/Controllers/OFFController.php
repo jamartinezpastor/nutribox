@@ -5,32 +5,38 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
+use Inertia\Inertia;
 
 class OFFController extends Controller
 {
-    public function buscar(Request $request)
+
+
+    public function buscarOFF(Request $formulario)
     {
-        $query = $request->input('search');  // Obtiene el término de búsqueda del formulario
+        $termino = $formulario->input('termino');
 
-        // Verifica que el usuario haya ingresado un término
-        if (!$query) {
-            return response()->json(['error' => 'Debe ingresar un alimento para buscar'], 400);
-        }
-
-        // Crear el cliente HTTP
         $client = new Client();
-
-        // URL de la API con el término de búsqueda
-        $url = "https://world.openfoodfacts.org/cgi/search.pl?action=process&json=1&search_terms=" . urlencode($query);
+        $url = "https://world.openfoodfacts.org/cgi/search.pl?action=process&json=1&search_terms=" . urlencode($termino);
         try {
-            // Hacer la petición a Open Food Facts
             $response = $client->get($url);
-            $data = json_decode($response->getBody(), true); // Decodificar JSON a array
+            $resultados = json_decode($response->getBody(), true); // Decodificar JSON a array
 
-            // Devolver los productos encontrados
-            return view('busq_resultados', ['productos' => $data['products'] ?? []]);
+            return Inertia::render('OFF_buscar_resultados', compact('termino', 'resultados'));
         } catch (\Exception $e) {
-            return view('busq_resultados', ['error' => 'Error al conectar con Open Food Facts']);
+            return Inertia::render('OFF_buscar_resultados', ['error' => 'Error al conectar con Open Food Facts']);
         }
+    }
+
+    public function recibeForm_DevuelveVariable(Request $formulario)
+    {
+        $termino = $formulario->input('termino');
+
+        ///////
+        // LÓGICA !!
+        ///////
+
+        $resultados = ["Alimento 1", "Alimento 2", "Alimento 3"];
+
+        return Inertia::render('OFF_buscar_resultados', compact('termino', 'resultados'));
     }
 }
