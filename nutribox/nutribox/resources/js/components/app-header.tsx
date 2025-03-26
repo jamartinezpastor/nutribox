@@ -28,7 +28,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Evaluar Alimento (IA)',
-        href: '/ds_evaluar',
+        href: '/ds-evaluar',
         icon: Sandwich,
     },
     {

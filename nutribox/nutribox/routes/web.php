@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\OFFController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\DeepSeekController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -19,7 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('OFF_buscar');
     })->name('off-buscar');
     Route::get('/off_buscar_a_controller', [OFFController::class, 'buscarOFF'])->name('off_buscar_a_controller');
-
+    // datos de pag a pag
     Route::get('/off-resultados', function (Request $request) {
         return Inertia::render('OFF_buscar_resultados', ['termino' => $request->query('termino')]);
     });
@@ -28,9 +29,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     // DEEPSEEK EVALUAR
-    Route::get('ds_evaluar', function () {
-        return Inertia::render('ds_evaluar');
-    })->name('ds_evaluar');
+    Route::get('ds-evaluar', function () {
+        return Inertia::render('DS_evaluar');
+    })->name('ds-evaluar');
+    Route::get('/ds-evaluar_a_controller', [DeepSeekController::class, 'evaluarDS'])->name('ds-evaluar_a_controller');
+
+
 
     // DIETAS IA
     Route::get('menu_crear', function () {
@@ -47,7 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/principal', function () {
         return view('principal');
     })->name('principal');
-});
+}); // Cierre Middleware
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
