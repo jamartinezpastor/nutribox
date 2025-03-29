@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DeepSeek\DeepSeekClient;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Http;
+
 class DeepSeekController extends Controller
 {
     public function evaluarDS(Request $formulario)
@@ -22,14 +24,12 @@ class DeepSeekController extends Controller
         Tómate tu tiempo, la precisión de la respuesta es muy importante.";
 
         try {
+            // Petición a la API de Pexels
             $response = DeepSeekClient::build(env('DEEPSEEK_API_KEY'))
                 ->query($prompt)
                 ->run();
-            // $resultado = json_decode($response->getBody(), true);
-            // $analisis = $response['choices'][0]['message']['content'];
-            // dd($response);
 
-            // Decodifica la respuesta JSON.. array asociativo con true!
+            // Decodifica la respuesta JSON.. con true array asociativo!
             $responseArray = json_decode($response, true);
 
             // Verifica si la decodificación fue exitosa
@@ -41,15 +41,32 @@ class DeepSeekController extends Controller
                 // $analisis = preg_replace('/\*\*\s/', '</b> ', $analisis);
 
                 // Eliminar cualquier "**" restante
-                $analisis = str_replace('**' | '*', '', $analisis);
+                $analisis = str_replace(["*","Respuesta:\n\n"], '', $analisis);
             } else {
                 return back()->with('error', 'Error al decodificar la respuesta del análisis mediante IA.');
             }
 
+            // Petición a la API de Pexels
+
+            $pexelsApiKey = env('PEXELS_API_KEY');
+            $responsePexels = Http::withHeaders([
+                'Authorization' => $pexelsApiKey
+            ])->get("https://api.pexels.com/v1/search", [
+                'query' => $producto,
+                'per_page' => 1,
+                'orientation' => 'landscape'
+            ]);
+            $imageUrl = null;
+            if ($responsePexels->successful()) {
+                $data = $responsePexels->json();
+                if (!empty($data['photos'])) {
+                    $imageUrl = $data['photos'][0]['src']['large']; // Tomar la primera imagen horizontal
+                }
+            }
 
             if (isset($analisis)) {
-                return Inertia::render('DS_evaluar_resultados', compact('producto', 'cantidad', 'patologia', 'analisis'));
-              //  return view('form_resultados', compact('analisis', 'patologia'));
+                return Inertia::render('DS_evaluar_resultados', compact('producto', 'cantidad', 'patologia', 'analisis', 'imageUrl'));
+                //  return view('form_resultados', compact('analisis', 'patologia'));
             } else {
                 return Inertia::render('DS_evaluar_resultados', ['error' => 'Error, no se pudo obtener un análisis mediante IA válido']);
             }
