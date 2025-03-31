@@ -51,6 +51,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/principal', function () {
         return view('principal');
     })->name('principal');
+
+
+    // Route::get('/{any}', function () {
+    //     return view('welcome'); // Aquí se sirve el archivo index.html de tu app React
+    // })->where('any', '.*');
+
 }); // Cierre Middleware
 
 require __DIR__ . '/settings.php';

@@ -26,12 +26,11 @@ export default function DS_evaluar_resultados() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Resultados de la búsqueda" />
 
-               <div className="relative flex min-h-screen flex-col gap-4 rounded-xl p-4">
-
+            <div className="bg-linear-to-tr from-white/100 to-white/00 relative flex min-h-screen flex-col gap-4 rounded-xl p-4 dark:from-black/100 dark:to-black/00">
                 {/* Imagen de fondo con opacidad */}
                 {props.imageUrl && (
                     <div
-                        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10 -z1"
+                        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10 -z1 dark:opacity-10"
                         style={{
                             backgroundImage: `url(${props.imageUrl})`,
                             backgroundSize: "cover",
@@ -46,12 +45,13 @@ export default function DS_evaluar_resultados() {
 
                 {!props.error && props.analisis ? (
                     <div className="relative z-10">
-                        <h2 className="text-2xl font-semibold uppercase">{props.producto}</h2>
-                        <p>Cantidad: <strong>{props.cantidad}</strong> <small><i>(g / ml / pieza / vaso / etc...)</i></small></p>
-                        <p>Patología: <strong>{props.patologia}</strong></p>
-
-                        <h3 className="text-xl font-semibold mt-4">Detalles:</h3>
-                        <pre className="whitespace-pre-line">{props.analisis}</pre>
+                        <h2 className="text-3xl font-bold uppercase">{props.producto}</h2><br/>
+                        <h2 className="text-xl font-semibold uppercase">Cantidad:</h2>
+                        <p> <strong>{props.cantidad}</strong> <small><i>(g / ml / pieza / vaso / etc...)</i></small></p> <br/>
+                        <h2 className="text-xl font-semibold uppercase">Patología:</h2>
+                        <p> <strong>{props.patologia}</strong></p> <br/>
+                        <h2 className="text-xl font-semibold uppercase">Análisis:</h2>
+                                            <p className="whitespace-pre-line">{props.analisis}</p>
                     </div>
                 ) : (
                     <p>No se encontraron resultados.</p>

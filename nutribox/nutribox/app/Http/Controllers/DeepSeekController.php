@@ -14,14 +14,16 @@ class DeepSeekController extends Controller
     {
         $producto = $formulario->input('producto');
         $cantidad = $formulario->input('cantidad');
+        $unidad = $formulario->input('unidad');
         $patologia = $formulario->input('patologia');
-        $prompt = "Analiza el siguiente alimento (en la cantidad señalada) desde la perspectiva de un médico endocrino (especialista en nutrición y dietética) considerando que el paciente al que va destinado padece la patología $patologia :\n
-        Alimento: $producto\n
-        Cantidad: $cantidad g/ml\n
-        Indica si es adecuado para este tipo de pacientes y sus posibles riesgos para personas con $patologia .
-        La respuesta debe ser muy muy breve, concisa y enfocada a una persona que tiene $patologia, pero también debes tener en cuenta las posibles formas de cocinar el alimento, nutriente o plato.
+        $prompt = "Analiza el siguiente alimento (en la cantidad y unidades señaladas) desde la perspectiva de un médico endocrino (especialista en nutrición y dietética) considerando que el paciente al que va destinado padece la patología $patologia y el alimento es $producto en la cantidad de
+        $cantidad en $unidad (unidad de medida).
+        Indica si es adecuado para este tipo de pacientes y sus posibles riesgos para personas con $patologia.
+        La respuesta debe ser muy breve, concisa y enfocada a una persona que tiene $patologia (Ten en cuenta para el analisis que un mismo producto no es lo mismo que este frito que cocido (por ejemplo),
+        ten en cuenta las posibles formas de cocinar el alimento.
         La respuesta debe estar basada en evidencia, papers cientificos o estudios (lo más recientes posibles), si te has basado en algún estudio, bibliografia o evidencia, añádelo entre paréntesis al final.
-        Tómate tu tiempo, la precisión de la respuesta es muy importante.";
+        Tómate tu tiempo, la precisión de la respuesta es muy importante.        
+        (Comienza directamente con la respuesta, no con el nombre del alimento)";
 
         try {
             // Petición a la API de Pexels
@@ -41,7 +43,7 @@ class DeepSeekController extends Controller
                 // $analisis = preg_replace('/\*\*\s/', '</b> ', $analisis);
 
                 // Eliminar cualquier "**" restante
-                $analisis = str_replace(["*","Respuesta:\n\n"], '', $analisis);
+                $analisis = str_replace(["*"], '', $analisis);
             } else {
                 return back()->with('error', 'Error al decodificar la respuesta del análisis mediante IA.');
             }
@@ -65,7 +67,7 @@ class DeepSeekController extends Controller
             }
 
             if (isset($analisis)) {
-                return Inertia::render('DS_evaluar_resultados', compact('producto', 'cantidad', 'patologia', 'analisis', 'imageUrl'));
+                return Inertia::render('DS_evaluar_resultados', compact('producto', 'cantidad', 'unidad', 'patologia', 'analisis', 'imageUrl'));
                 //  return view('form_resultados', compact('analisis', 'patologia'));
             } else {
                 return Inertia::render('DS_evaluar_resultados', ['error' => 'Error, no se pudo obtener un análisis mediante IA válido']);

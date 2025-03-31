@@ -11,7 +11,7 @@ import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookAIcon, BookOpen, Folder, LayoutGrid, LucideAlbum, LucideCarrot, Menu, Sandwich, Search } from 'lucide-react';
+import { AlertTriangle, BookAIcon, BookMarkedIcon, BookOpen, Folder, ForkKnifeCrossed, ForkKnifeCrossedIcon, HeartCrack, HeartHandshake, HeartPulse, LayoutGrid, LucideAlbum, LucideCarrot, Menu, Sandwich, Search, ZapIcon, ZapOffIcon, ZoomIn } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 
@@ -29,30 +29,25 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Evaluar Alimento (IA)',
         href: '/ds-evaluar',
-        icon: Sandwich,
+        icon: HeartPulse,
     },
     {
         title: 'Diseñar Menú (IA)',
         href: '/menu_crear',
-        icon: BookAIcon,
+        icon: ForkKnifeCrossed,
     },
     {
         title: 'Menús guardados',
         href: '/menu_ver',
-        icon: LucideAlbum,
+        icon:BookMarkedIcon,
     },
   
 ];
 
 const rightNavItems: NavItem[] = [
     {
-        title: 'Buzón de Sugerencias',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
         title: 'Acerca de',
-        href: 'https://laravel.com/docs/starter-kits',
+        href: 'principal',
         icon: BookOpen,
     },
 ];

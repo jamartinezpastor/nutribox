@@ -27,12 +27,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function DS_evaluar() {
     const [producto, setProducto] = useState("");
     const [cantidad, setCantidad] = useState("");
+    const [unidad, setUnidad] = useState("");
     const [patologia, setPatologia] = useState("");
 
 
     const handleEvaluar = () => {
         if (producto.trim()) {
-            router.get("/ds-evaluar_a_controller", { producto, cantidad, patologia });
+            router.get("/ds-evaluar_a_controller", { producto, cantidad, unidad, patologia });
         }
     };
 
@@ -59,17 +60,40 @@ export default function DS_evaluar() {
                             required
                         />
                     </div>
-                    <div>
-                        <Label htmlFor="cantidad">Cantidad <small><i>( g / ml / pieza / vaso / etc ... )</i></small> :</Label>
-                        <Input
-                            id="cantidad"
-                            type="number"
-                            placeholder="Cantidad"
-                            value={cantidad}
-                            onChange={(e) => setCantidad(e.target.value)}
-                            required
-                        />
+                    <div className="flex h-full flex-row gap-4 rounded-xl p-4">
+                        <div>
+                            <Label htmlFor="cantidad">Cantidad: </Label>
+                            <Input
+                                id="cantidad"
+                                type="number"
+                                placeholder="Cantidad"
+                                value={cantidad}
+                                onChange={(e) => setCantidad(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="unidad">Unidad de medida:</Label>
+                            <Select onValueChange={(value) => setUnidad(value)} required> {/* Aquí se asigna `onValueChange` */}
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Selecciona una unidad" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Unidad</SelectLabel>
+                                        <SelectItem value="gr">Gramos (g)</SelectItem>
+                                        <SelectItem value="ml">Mililitros (ml)</SelectItem>
+                                        <SelectItem value="piezas">Porciones (unidad/pieza)</SelectItem>
+                                        <SelectItem value="tazas">Taza o Vaso</SelectItem>
+                                        <SelectItem value="cucharadas">Cucharadas (tbsp)</SelectItem>
+                                        <SelectItem value="kcal">Kilocalorías (kcal)</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
+
+
                     <div>
                         <Label>Patología:</Label>
                         <Select onValueChange={(value) => setPatologia(value)} required> {/* Aquí se asigna `onValueChange` */}

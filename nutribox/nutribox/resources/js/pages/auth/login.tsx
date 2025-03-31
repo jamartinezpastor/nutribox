@@ -36,7 +36,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
     };
 
     return (
-        <AuthLayout title="Inicia sesión en tu cuenta" description="Introduce tu email y tu contraseña para iniciar sesión.">
+        <AuthLayout title="Inicia sesión en NUTRIBOX" description="Introduce tu email y tu contraseña para iniciar sesión.">
             <Head title="Inicio de sesión" />
 
             <form className="flex flex-col gap-6" onSubmit={submit}>
@@ -99,7 +99,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                 <div className="text-muted-foreground text-center text-sm">
                     ¿No tienes todavía cuenta?{' '}
                     <TextLink href={route('register')} tabIndex={5}>
-                        Dar de alta
+                        Date de alta
                     </TextLink>
                 </div>
             </form>
