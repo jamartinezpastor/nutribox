@@ -81,12 +81,12 @@ export default function DS_evaluar() {
                                 <SelectContent>
                                     <SelectGroup>
                                         <SelectLabel>Unidad</SelectLabel>
-                                        <SelectItem value="gr">Gramos (g)</SelectItem>
-                                        <SelectItem value="ml">Mililitros (ml)</SelectItem>
-                                        <SelectItem value="piezas">Porciones (unidad/pieza)</SelectItem>
-                                        <SelectItem value="tazas">Taza o Vaso</SelectItem>
-                                        <SelectItem value="cucharadas">Cucharadas (tbsp)</SelectItem>
-                                        <SelectItem value="kcal">Kilocalorías (kcal)</SelectItem>
+                                        <SelectItem className='cursor-pointer' value="gr">Gramos (g)</SelectItem>
+                                        <SelectItem className='cursor-pointer' value="ml">Mililitros (ml)</SelectItem>
+                                        <SelectItem className='cursor-pointer' value="piezas">Porciones (unidad/pieza)</SelectItem>
+                                        <SelectItem className='cursor-pointer' value="tazas">Taza o Vaso</SelectItem>
+                                        <SelectItem className='cursor-pointer' value="cucharadas">Cucharadas (tbsp)</SelectItem>
+                                        <SelectItem className='cursor-pointer'value="kcal">Kilocalorías (kcal)</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
@@ -96,26 +96,26 @@ export default function DS_evaluar() {
 
                     <div>
                         <Label>Patología:</Label>
-                        <Select onValueChange={(value) => setPatologia(value)} required> {/* Aquí se asigna `onValueChange` */}
-                            <SelectTrigger>
-                                <SelectValue placeholder="Selecciona una patología" />
+                        <Select onValueChange={(value) => setPatologia(value)} required > {/* Aquí se asigna `onValueChange` */}
+                            <SelectTrigger >
+                                <SelectValue  placeholder="Selecciona una patología" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent >
                                 <SelectGroup>
                                     <SelectLabel>Patología</SelectLabel>
-                                    <SelectItem value="sin patologia conocida">Sin patología conocida</SelectItem>
-                                    <SelectItem value="obesidad">Obesidad</SelectItem>
-                                    <SelectItem value="diabetes">Diabetes</SelectItem>
-                                    <SelectItem value="hipercolesterolemia">Hipercolesterolemia</SelectItem>
-                                    <SelectItem value="hipertrigliceridemia">Hipertrigliceridemia</SelectItem>
-                                    <SelectItem value="enfermedad celiaca">Enfermedad celíaca</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="sin patologia conocida">Sin patología conocida</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="obesidad">Obesidad</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="diabetes">Diabetes</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="hipercolesterolemia">Hipercolesterolemia</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="hipertrigliceridemia">Hipertrigliceridemia</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="enfermedad celiaca">Enfermedad celíaca</SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
                     </div>
 
 
-                    <Button type="button" onClick={handleEvaluar}>
+                    <Button className='cursor-pointer' type="button" onClick={handleEvaluar}>
                         Evaluar
                     </Button>
                 </div>

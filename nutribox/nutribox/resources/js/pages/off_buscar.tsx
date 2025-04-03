@@ -46,7 +46,7 @@ export default function OFF_buscar() {
                             onChange={(e) => setTermino(e.target.value)}
                         />
                     </div>
-                    <Button type="button" onClick={handleSearch}>
+                    <Button className='cursor-pointer' type="button" onClick={handleSearch}>
                         Buscar
                     </Button>
                 </div>
