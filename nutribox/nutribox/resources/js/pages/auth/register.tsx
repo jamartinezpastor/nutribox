@@ -1,6 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -8,17 +8,41 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator"
 
 type RegisterForm = {
     name: string;
+    edad: number;
+    altura: number;
+    peso: number;
+    actividad: string;
+    objetivo: string;
+    info_extra: string;
     email: string;
     password: string;
     password_confirmation: string;
 };
 
 export default function Register() {
+    const [actividad, setActividad] = useState("");
+    const [objetivo, setObjetivo] = useState("");
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         name: '',
+        edad: 0,
+        altura: 0,
+        peso: 0,
+        actividad: '',
+        objetivo: '',
+        info_extra: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -31,6 +55,8 @@ export default function Register() {
         });
     };
 
+
+
     return (
         <AuthLayout title="Crear cuenta de usuario" description="Introduce tus datos y date de alta como usuario">
             <Head title="Alta de usuario" />
@@ -42,16 +68,130 @@ export default function Register() {
                             id="name"
                             type="text"
                             required
-                            autoFocus
-                            tabIndex={1}
+
                             autoComplete="name"
                             value={data.name}
                             onChange={(e) => setData('name', e.target.value)}
-                            disabled={processing}
+
                             placeholder="Nombre y apellidos"
                         />
                         <InputError message={errors.name} className="mt-2" />
                     </div>
+                    <Separator className="my-1" />
+
+                    <div className="flex h-full flex-row gap-4 rounded-xl p-1">
+                        <div>
+                            <Label htmlFor="edad">Edad</Label>
+                            <Input
+                                id="edad"
+                                type="number"
+                                required
+
+                                autoComplete="edad"
+                                value={data.edad}
+                                onChange={(e) => setData('edad', Number(e.target.value))}
+
+                                placeholder="Edad"
+                            />
+                            <InputError message={errors.edad} className="mt-2" />
+                        </div>
+                        <div>
+                            <Label htmlFor="altura">Altura <small>(cm)</small></Label>
+                            <Input
+                                id="altura"
+                                type="number"
+                                required
+
+
+                                autoComplete="altura"
+                                value={data.altura}
+                                onChange={(e) => setData('altura', Number(e.target.value))}
+
+                                placeholder="Altura"
+                            />
+                            <InputError message={errors.altura} className="mt-2" />
+                        </div>
+                        <div>
+                            <Label htmlFor="peso">Peso <small>(kg)</small></Label>
+                            <Input
+                                id="peso"
+                                type="number"
+                                required
+
+                                autoComplete="peso"
+                                value={data.peso}
+                                onChange={(e) => setData('peso', Number(e.target.value))}
+
+                                placeholder="Peso"
+                            />
+                            <InputError message={errors.peso} className="mt-2" />
+                        </div>
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label>Actividad física</Label>
+                        <Select
+                            value={data.actividad}
+                            onValueChange={(value) => {
+                                setActividad(value);
+                                setData("actividad", value);
+                            }}
+                            required
+                        >
+
+                            <SelectTrigger >
+                                <SelectValue placeholder="Selecciona tu nivel de actividad diaria" />
+                            </SelectTrigger>
+                            <SelectContent >
+                                <SelectGroup>
+                                    <SelectLabel>Nivel</SelectLabel>
+                                    <SelectItem className='cursor-pointer' value="completamente-sedentario">Completamente sedentario</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="poco-movimiento">Poco movimiento</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="actividad-normal">En la media</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="persona-activa">Persona activa</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="actividad-intensa">Actividad intensa</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="grid gap-2">
+                        <Label>Objetivo nutricional</Label>
+                        <Select
+                            value={data.objetivo}
+                            onValueChange={(value) => {
+                                setObjetivo(value);
+                                setData("objetivo", value);
+                            }}
+                            required
+                        >
+                            <SelectTrigger >
+                                <SelectValue placeholder="Selecciona tu objetivo" />
+                            </SelectTrigger>
+                            <SelectContent >
+                                <SelectGroup>
+                                    <SelectLabel>Objetivo</SelectLabel>
+                                    <SelectItem className='cursor-pointer' value="disminuir-ingesta-calorica-reduciendo-en-menor-medida-las-proteinas-diarias">Bajar de peso</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="aumentar-ingesta-calorica">Aumentar de peso</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="disminuir-ingesta-carbohidratos-manteniendo-calorias">Diminuir la ingesta de Carbohidratos <small>(Manteniendo las Calorías diarias)</small></SelectItem>
+                                    <SelectItem className='cursor-pointer' value="aumentar-ingesta-proteinas-manteniendo-calorias">Aumentar la ingesta de Proteínas <small>(Manteniendo las Calorías diarias)</small></SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="info_extra">¿Padeces algún problema de salud?</Label>
+                        <Input
+                            id="info_extra"
+                            type="text"
+                            required
+                            autoComplete="info_extra"
+                            value={data.info_extra}
+                            onChange={(e) => setData('info_extra', e.target.value)}
+                            placeholder="Información adicional"
+                        />
+                        <InputError message={errors.info_extra} className="mt-2" />
+                    </div>
+                    <Separator className="my-1" />
 
                     <div className="grid gap-2">
                         <Label htmlFor="email">Correo electrónico</Label>
@@ -70,7 +210,7 @@ export default function Register() {
                     </div>
 
                     <div className="grid gap-2">
-                        <Label htmlFor="password">Correo electrónico</Label>
+                        <Label htmlFor="password">Contraseña</Label>
                         <Input
                             id="password"
                             type="password"
@@ -80,7 +220,7 @@ export default function Register() {
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
                             disabled={processing}
-                            placeholder="Correo electrónico"
+                            placeholder="Contraseña"
                         />
                         <InputError message={errors.password} />
                     </div>
@@ -96,7 +236,7 @@ export default function Register() {
                             value={data.password_confirmation}
                             onChange={(e) => setData('password_confirmation', e.target.value)}
                             disabled={processing}
-                            placeholder="Contraseña"
+                            placeholder="Repite tu Contraseña"
                         />
                         <InputError message={errors.password_confirmation} />
                     </div>

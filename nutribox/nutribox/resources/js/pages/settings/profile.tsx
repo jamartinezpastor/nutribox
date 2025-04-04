@@ -1,7 +1,7 @@
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Transition } from '@headlessui/react';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState } from 'react';
 
 import DeleteUser from '@/components/delete-user';
 import HeadingSmall from '@/components/heading-small';
@@ -11,6 +11,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,14 +30,28 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 type ProfileForm = {
     name: string;
+    edad: number;
+    altura: number;
+    peso: number;
+    actividad: string;
+    objetivo: string;
+    info_extra: string;
     email: string;
 }
 
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
     const { auth } = usePage<SharedData>().props;
+    //  const [actividad, setActividad] = useState("");
+    // const [objetivo, setObjetivo] = useState("");
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm<Required<ProfileForm>>({
         name: auth.user.name,
+        edad: auth.user.edad,
+        altura: auth.user.altura,
+        peso: auth.user.peso,
+        actividad: auth.user.actividad,
+        objetivo: auth.user.objetivo,
+        info_extra: auth.user.info_extra,
         email: auth.user.email,
     });
 
@@ -51,7 +74,6 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="grid gap-2">
                             <Label htmlFor="name">Nombre y apellidos</Label>
-
                             <Input
                                 id="name"
                                 className="mt-1 block w-full"
@@ -64,6 +86,109 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
                             <InputError className="mt-2" message={errors.name} />
                         </div>
+
+
+                        <div className="flex h-full flex-row gap-4 rounded-xl p-1">
+                            <div>
+                                <Label htmlFor="edad">Edad</Label>
+                                <Input
+                                    id="edad"
+                                    type="number"
+                                    required
+                                    autoComplete="edad"
+                                    value={data.edad}
+                                    onChange={(e) => setData('edad', Number(e.target.value))}
+                                    placeholder="Edad"
+                                />
+                                <InputError message={errors.edad} className="mt-2" />
+                            </div>
+                            <div>
+                                <Label htmlFor="altura">Altura <small>(cm)</small></Label>
+                                <Input
+                                    id="altura"
+                                    type="number"
+                                    required
+                                    autoComplete="altura"
+                                    value={data.altura}
+                                    onChange={(e) => setData('altura', Number(e.target.value))}
+                                    placeholder="Altura"
+                                />
+                                <InputError message={errors.altura} className="mt-2" />
+                            </div>
+                            <div>
+                                <Label htmlFor="peso">Peso <small>(kg)</small></Label>
+                                <Input
+                                    id="peso"
+                                    type="number"
+                                    required
+                                    autoComplete="peso"
+                                    value={data.peso}
+                                    onChange={(e) => setData('peso', Number(e.target.value))}
+                                    placeholder="Peso"
+                                />
+                                <InputError message={errors.peso} className="mt-2" />
+                            </div>
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label>Actividad física</Label>
+                            <Select
+                                value={data.actividad}
+                                onValueChange={(value) => setData('actividad', value)}
+                                required
+                            >
+                                <SelectTrigger >
+                                    <SelectValue placeholder="Selecciona tu nivel de actividad diaria" />
+                                </SelectTrigger>
+                                <SelectContent >
+                                    <SelectGroup>
+                                        <SelectLabel>Nivel</SelectLabel>
+                                        <SelectItem className='cursor-pointer' value="completamente-sedentario">Completamente sedentario</SelectItem>
+                                        <SelectItem className='cursor-pointer' value="poco-movimiento">Poco movimiento</SelectItem>
+                                        <SelectItem className='cursor-pointer' value="actividad-normal">En la media</SelectItem>
+                                        <SelectItem className='cursor-pointer' value="persona-activa">Persona activa</SelectItem>
+                                        <SelectItem className='cursor-pointer' value="actividad-intensa">Actividad intensa</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="grid gap-2">
+                            <Label>Objetivo nutricional</Label>
+                            <Select
+                                value={data.objetivo}
+                                onValueChange={(value) => setData('objetivo', value)}
+                                required
+                            >
+                                <SelectTrigger >
+                                    <SelectValue placeholder="Selecciona tu objetivo" />
+                                </SelectTrigger>
+                                <SelectContent >
+                                    <SelectGroup>
+                                        <SelectLabel>Objetivo</SelectLabel>
+                                        <SelectItem className='cursor-pointer' value="disminuir-ingesta-calorica-reduciendo-en-menor-medida-las-proteinas-diarias">Bajar de peso</SelectItem>
+                                        <SelectItem className='cursor-pointer' value="aumentar-ingesta-calorica">Aumentar de peso</SelectItem>
+                                        <SelectItem className='cursor-pointer' value="disminuir-ingesta-carbohidratos-manteniendo-calorias">Diminuir la ingesta de Carbohidratos <small>(Manteniendo las Calorías diarias)</small></SelectItem>
+                                        <SelectItem className='cursor-pointer' value="aumentar-ingesta-proteinas-manteniendo-calorias">Aumentar la ingesta de Proteínas <small>(Manteniendo las Calorías diarias)</small></SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="info_extra">¿Padeces algún problema de salud?</Label>
+                            <Input
+                                id="info_extra"
+                                type="text"
+                                required
+                                autoFocus
+                                autoComplete="info_extra"
+                                value={data.info_extra}
+                                onChange={(e) => setData('info_extra', e.target.value)}
+                                disabled={processing}
+                                placeholder="Información adicional"
+                            />
+                            <InputError message={errors.info_extra} className="mt-2" />
+                        </div>
+
 
                         <div className="grid gap-2">
                             <Label htmlFor="email">Correo electrónico</Label>
@@ -98,7 +223,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
                                 {status === 'verification-link-sent' && (
                                     <div className="mt-2 text-sm font-medium text-green-600">
-                                       Un nuevo enlace de verificación de cuenta ha sido enviado a tu dirección de correo electrónico
+                                        Un nuevo enlace de verificación de cuenta ha sido enviado a tu dirección de correo electrónico
                                     </div>
                                 )}
                             </div>
