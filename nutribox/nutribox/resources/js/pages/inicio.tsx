@@ -1,3 +1,4 @@
+import GridMotion from '@/components/blocks/backgrounds/GridMotion/GridMotion';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
@@ -15,12 +16,28 @@ const breadcrumbs: BreadcrumbItem[] = [
      
 ];
 
+  
+//import GridMotion from './GridMotion';
+  
+
+
+
+
 export default function Dashboard() {
+    
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Inicio" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+            
+            <GridMotion gradientColor="#00bc7d" />
+
+
+
+
+
+             {/*
+               <div className="grid auto-rows-min gap-4 md:grid-cols-3">
                     <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
                     <h1 className="text-4xl mb-4">Bienvenido/a a Nutribox</h1>
                         <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
@@ -40,6 +57,7 @@ export default function Dashboard() {
                         Ir a Principal
                     </Link>
                 </div>
+                */}
             </div>
         </AppLayout>
     );
