@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\OFFController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DeepSeekController;
+use App\Http\Controllers\MenusController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -36,13 +37,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-    // DIETAS IA
+    // MENÚS CREAR
     Route::get('menu_crear', function () {
         return Inertia::render('menu_crear');
     })->name('menu_crear');
     Route::get('menu_ver', function () {
         return Inertia::render('menu_ver');
     })->name('menu_ver');
+
+
+        // MENÚS VER
+    Route::get('/menus_ver', [MenusController::class, 'index'])->name('menus_ver');
 
 
 

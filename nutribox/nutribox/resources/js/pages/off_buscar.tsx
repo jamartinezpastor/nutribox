@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from '@/components/ui/separator';
 import { Label } from '@/components/ui/label';
 
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Base de datos de alimentos',
@@ -29,6 +30,7 @@ export default function OFF_buscar() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Base de datos de alimentos" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+
                 <p className="text-4xl">Buscar un producto en nuestra Base de datos</p>
                 <p className="text-sm text-muted-foreground">
                     Introduzca un alimento o producto, y realice una búsqueda en nuestra base de datos <br />para obtener los resultados encontrados junto con su información nutricional.    </p>
@@ -36,6 +38,7 @@ export default function OFF_buscar() {
                 {/* Flex, columna de arriba a abajo, 4 unidades de separación,
                  max-w-sm limita el ancho, mx-auto margen automatico a ambos lados.. centra horizontal */}
                 <div className="flex flex-col space-y-4 max-w-md mx-auto">
+
                     <div>
                         <Label htmlFor="termino">Alimento o producto:</Label>
                         <Input

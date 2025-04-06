@@ -38,7 +38,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Menús guardados',
-        href: '/menu_ver',
+        href: '/menus_ver',
         icon:BookMarkedIcon,
     },
   

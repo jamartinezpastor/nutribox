@@ -34,3 +34,6 @@ npx jsrepo init https://reactbits.dev/ts/tailwind
 
 Para el componente Grid-Motion
 npm i gsap
+https://images.pexels.com/photos/1305063/pexels-photo-1305063.jpeg?auto=compress&cs=tinysrgb&w=800
+
+
