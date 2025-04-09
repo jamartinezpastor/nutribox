@@ -13,23 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-        
-        
-        User::factory()->create([
-
-            'name' => 'Usuario Demo',
-            'edad' => 60,
-            'altura' => 170,
-            'peso'=> 77,
-            'actividad'=> "poco-movimiento",
-            'objetivo'=> 'disminuir-ingesta-calorica-reduciendo-en-menor-medida-las-proteinas-diarias',
-            'info_extra' => 'Operado de rotura de ligamentos rodilla izquierda hace 3 años',
-            'email' => 'correo@ejemplo.es',
-            'password' => 'Contraseña',
+          $this->call([
+            UserSeeder::class,
+            MenuSeeder::class,
+            ProductoSeeder::class,
         ]);
-        
-
-        User::factory()->create();
     }
 }
