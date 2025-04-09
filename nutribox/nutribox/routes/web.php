@@ -17,43 +17,43 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('inicio');
 
     // OPEN FOOD FACTS BUSCAR
-    Route::get('off-buscar', function () {
-        return Inertia::render('OFF_buscar');
+    Route::get('offbuscar', function () {
+        return Inertia::render('off-buscar');
     })->name('off-buscar');
-    Route::get('/off_buscar_a_controller', [OFFController::class, 'buscarOFF'])->name('off_buscar_a_controller');
+    Route::get('offbuscaracontroller', [OFFController::class, 'buscarOFF'])->name('off_buscar_a_controller');
     // datos de pag a pag
-    Route::get('/off-resultados', function (Request $request) {
-        return Inertia::render('OFF_buscar_resultados', ['termino' => $request->query('termino')]);
+    Route::get('offresultados', function (Request $request) {
+        return Inertia::render('off-buscar-resultados', ['termino' => $request->query('termino')]);
     });
 
 
 
 
     // DEEPSEEK EVALUAR
-    Route::get('ds-evaluar', function () {
-        return Inertia::render('DS_evaluar');
-    })->name('ds-evaluar');
-    Route::get('/ds-evaluar_a_controller', [DeepSeekController::class, 'evaluarDS'])->name('ds-evaluar_a_controller');
+    Route::get('dsevaluar', function () {
+        return Inertia::render('ds-evaluar');
+    })->name('dsevaluar');
+    Route::get('dsevaluaracontroller', [DeepSeekController::class, 'evaluarDS'])->name('ds-evaluar_a_controller');
 
 
 
     // MENÚS CREAR
-    Route::get('menu_crear', function () {
-        return Inertia::render('menu_crear');
-    })->name('menu_crear');
-    Route::get('menu_ver', function () {
-        return Inertia::render('menu_ver');
+    Route::get('menucrear', function () {
+        return Inertia::render('menu-crear');
+    })->name('menucrear');
+    Route::get('menuver', function () {
+        return Inertia::render('menu-ver');
     })->name('menu_ver');
 
 
         // MENÚS VER
-    Route::get('/menus_ver', [MenusController::class, 'index'])->name('menus_ver');
+    Route::get('menusver', [MenusController::class, 'index'])->name('menus_ver');
 
 
 
 
 
-    Route::get('/principal', function () {
+    Route::get('principal', function () {
         return view('principal');
     })->name('principal');
 

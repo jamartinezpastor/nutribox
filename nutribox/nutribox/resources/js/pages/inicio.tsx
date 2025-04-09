@@ -11,8 +11,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-
-
 // note: you'll need to make sure the parent container of this component is sized properly
 const huecos = [
     'https://images.pexels.com/photos/14089635/pexels-photo-14089635.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -44,12 +42,6 @@ const huecos = [
 
     // Add more items as needed
 ];
-
-
-
-
-
-
 
 export default function Dashboard() {
 

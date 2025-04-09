@@ -13,7 +13,6 @@ class MenusController extends Controller
         // CONSULTA A BASE DE DATOS AQUÍ
         // $menus = Menu::all();
 
-
         $menus = [
             [
                 'id' => '448ed52f',
@@ -29,6 +28,6 @@ class MenusController extends Controller
             ],
         ];
 
-        return Inertia::render('menu_ver', ['menus' => $menus]);
+        return Inertia::render('menu-ver', ['menus' => $menus]);
     }
 }

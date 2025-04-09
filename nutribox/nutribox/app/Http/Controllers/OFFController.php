@@ -9,8 +9,6 @@ use Inertia\Inertia;
 
 class OFFController extends Controller
 {
-
-
     public function buscarOFF(Request $formulario)
     {
         $termino = $formulario->input('termino');
@@ -21,9 +19,9 @@ class OFFController extends Controller
             $response = $client->get($url);
             $resultados = json_decode($response->getBody(), true); // Decodificar JSON a array
 
-            return Inertia::render('OFF_buscar_resultados', compact('termino', 'resultados'));
+            return Inertia::render('off-buscar-resultados', compact('termino', 'resultados'));
         } catch (\Exception $e) {
-            return Inertia::render('OFF_buscar_resultados', ['error' => 'Error al conectar con Open Food Facts']);
+            return Inertia::render('off-buscar-resultados', ['error' => 'Error al conectar con Open Food Facts']);
         }
     }
 
@@ -37,6 +35,6 @@ class OFFController extends Controller
 
         $resultados = ["Alimento 1", "Alimento 2", "Alimento 3"];
 
-        return Inertia::render('OFF_buscar_resultados', compact('termino', 'resultados'));
+        return Inertia::render('off-buscar-resultados', compact('termino', 'resultados'));
     }
 }

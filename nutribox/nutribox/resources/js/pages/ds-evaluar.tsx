@@ -33,7 +33,7 @@ export default function DS_evaluar() {
 
     const handleEvaluar = () => {
         if (producto.trim()) {
-            router.get("/ds-evaluar_a_controller", { producto, cantidad, unidad, patologia });
+            router.get("/dsevaluaracontroller", { producto, cantidad, unidad, patologia });
         }
     };
 
@@ -109,6 +109,7 @@ export default function DS_evaluar() {
                                     <SelectItem className='cursor-pointer' value="hipercolesterolemia">Hipercolesterolemia</SelectItem>
                                     <SelectItem className='cursor-pointer' value="hipertrigliceridemia">Hipertrigliceridemia</SelectItem>
                                     <SelectItem className='cursor-pointer' value="enfermedad celiaca">Enfermedad celíaca</SelectItem>
+                                    <SelectItem className='cursor-pointer' value="enfermedad-renal-cronica-con-restriccion-de-potasio">Enfermedad renal crónica <small>(Con altos niveles de Potasio)</small></SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>

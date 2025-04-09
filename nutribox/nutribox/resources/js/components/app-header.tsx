@@ -23,22 +23,22 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Base de Datos',
-        href: '/off-buscar',
+        href: '/offbuscar',
         icon: LucideCarrot,
     },
     {
         title: 'Evaluar Alimento (IA)',
-        href: '/ds-evaluar',
+        href: '/dsevaluar',
         icon: HeartPulse,
     },
     {
         title: 'Diseñar Menú (IA)',
-        href: '/menu_crear',
+        href: '/menucrear',
         icon: ForkKnifeCrossed,
     },
     {
         title: 'Menús guardados',
-        href: '/menus_ver',
+        href: '/menusver',
         icon:BookMarkedIcon,
     },
   

@@ -67,13 +67,13 @@ class DeepSeekController extends Controller
             }
 
             if (isset($analisis)) {
-                return Inertia::render('DS_evaluar_resultados', compact('producto', 'cantidad', 'unidad', 'patologia', 'analisis', 'imageUrl'));
+                return Inertia::render('ds-evaluar-resultados', compact('producto', 'cantidad', 'unidad', 'patologia', 'analisis', 'imageUrl'));
                 //  return view('form_resultados', compact('analisis', 'patologia'));
             } else {
-                return Inertia::render('DS_evaluar_resultados', ['error' => 'Error, no se pudo obtener un análisis mediante IA válido']);
+                return Inertia::render('ds-evaluar-resultados', ['error' => 'Error, no se pudo obtener un análisis mediante IA válido']);
             }
         } catch (\Exception $e) {
-            return Inertia::render('DS_evaluar_resultados', ['error' => 'Error de conexión con la plataforma de IA: ' . $e->getMessage()]);
+            return Inertia::render('ds-evaluar-resultados', ['error' => 'Error de conexión con la plataforma de IA: ' . $e->getMessage()]);
         }
     }
 }

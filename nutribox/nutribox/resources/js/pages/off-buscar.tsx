@@ -21,7 +21,7 @@ export default function OFF_buscar() {
 
     const handleSearch = () => {
         if (termino.trim()) {
-            router.get("/off_buscar_a_controller", { termino });
+            router.get("/offbuscaracontroller", { termino });
         }
     };
 
