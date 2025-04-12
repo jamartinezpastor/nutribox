@@ -46,8 +46,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('menu_ver');
 
 
-        // MENÚS VER
-    Route::get('menusver', [MenusController::class, 'index'])->name('menus_ver');
+    // MENÚS VER
+    Route::get('menusver', [MenusController::class, 'listar'])->name('menus_ver');
+    Route::get('/menus/{menuSeleccionado}', [MenusController::class, 'verDetalles']);
 
 
 

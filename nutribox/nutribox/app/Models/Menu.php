@@ -23,7 +23,7 @@ class Menu extends Model
     }
 
     // Para saber que comidas tiene el menu
-    public function productos()
+    public function comidas()
     {
         return $this->hasMany(Comida::class);
     }

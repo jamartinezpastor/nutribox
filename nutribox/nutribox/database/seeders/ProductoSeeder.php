@@ -155,5 +155,15 @@ class ProductoSeeder extends Seeder
             'ch' => 4,
             'gr' => 0,
         ]);
+        Producto::create([
+            'comida_id' => 4,
+            'nombre' => 'Espárragos Carretilla',
+            'cantidad' => 100,
+            'unidad' => 'g',
+            'kcal' => 20,
+            'pr' => 2,
+            'ch' => 4,
+            'gr' => 0,
+        ]);
     }
 }

@@ -19,6 +19,9 @@
 - node.js: v22.9.0
 - npm: 11.0.0
 
+- Gestión de tareas: Trello https://trello.com/b/7zppc0Na/%F0%9F%A5%95%F0%9F%A5%97-nutriboxes
+  - Link de colaboración: https://trello.com/invite/67fa1d40e1e950f46ccb44b6/ATTI8810e61a1882ceb5582740a87b816cf5E4185F15
+
 
 
 

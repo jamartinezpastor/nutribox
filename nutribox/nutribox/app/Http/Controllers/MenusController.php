@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Menu;
 
 class MenusController extends Controller
 {
-    public function index()
+    public function listar()
     {
-        // CONSULTA A BASE DE DATOS AQUÍ
-        // $menus = Menu::all();
-
+        $menus = Menu::all();
+        
+        /*
         $menus = [
             [
                 'id' => '448ed52f',
@@ -27,7 +28,17 @@ class MenusController extends Controller
                 'email' => 'm@example.com',
             ],
         ];
+*/
+        //$menus = Menu::where('user_id', auth()->id())->get();
+        return Inertia::render('menu-ver',  compact('menus'));
+    }
 
-        return Inertia::render('menu-ver', ['menus' => $menus]);
+
+    public function verDetalles(Menu $menuSeleccionado)
+    {
+        //dd($menuSeleccionado->nombre);
+        $menuSeleccionado->load('comidas.productos');
+
+        return Inertia::render('menus/menu-detalle', compact('menuSeleccionado'));
     }
 }
