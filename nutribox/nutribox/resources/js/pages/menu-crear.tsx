@@ -1,36 +1,189 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Slider } from '@/components/ui/slider';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Diseñar Menú',
-        href: '/plantilla',
+        title: 'Crear menú',
+        href: '/inicio',
     },
-    // {
-    //     title: 'Principal',
-    //     href: '/principal',
-    // },
-
 ];
 
-export default function Dashboard() {
-    return (
-        <AppLayout breadcrumbs={breadcrumbs}>            
-            <Head title="Diseñar Menú" />
-            <h2>2222222222222 Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, aperiam quis!</h2>
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <h2>3333333333333 Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, aperiam quis!</h2>
-                <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    <p>444444444444 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique illo sit quibusdam quis quo, eveniet qui ab ipsum ducimus nemo sed vitae dolorem. Suscipit laboriosam nostrum rerum sapiente voluptate fugit.
-                        Eius, voluptatibus tempora expedita minus sit nam ipsam quis sequi ab sed autem, modi magnam ea vitae ex eveniet animi asperiores fugit a, architecto ullam nemo! Minima perferendis minus adipisci.
-                        Accusamus, repellendus consequuntur voluptatum, tempora aliquid delectus beatae quas aut totam quod possimus nostrum ratione incidunt, soluta quasi nihil fugit quia ipsum consectetur dolores asperiores odit. Sequi mollitia labore asperiores.
-                        Cum fugiat neque odio accusantium minima temporibus id facere illum. Reiciendis vel voluptatibus, in asperiores atque voluptas minima minus excepturi hic! Aliquam officia minima temporibus, eaque dolorem quas porro mollitia.
-                    </p>
-                </div>
+export default function dsMenuCrear() {
+    const [unidad, setUnidad] = useState('');
+    const [productosAEvitar, setProductosAEvitar] = useState('');
+    const [productosAPriorizar, setProductosAPriorizar] = useState('');
+    const [numComidas, setNumComidas] = useState<number>(3);
+    const [tiempoPreparacion, setTiempoPreparacion] = useState<number>(25);
+    const [nombre, setNombre] = useState('');
+    const [info_extra, setInfoExtra] = useState('');
 
+    const handleEvaluar = () => {
+        // if (producto.trim()) {
+        router.get('/menucrearacontroller', { productosAEvitar,productosAPriorizar });
+        //  }
+    };
+
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Crear Menú" />
+            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+                <p className="text-4xl">Crear Menú</p>
+                <p className="text-muted-foreground text-sm">
+                    Genere menús diarios personalizados mediante inteligencia artificial, adaptados a sus requerimientos nutricionales y preferencias,
+                    en base a criterios científicos y evidencia actualizada.
+                </p>
+                <Separator className="my-4" />
+                {/* Flex, columna de arriba a abajo, 4 unidades de separación,
+                 max-w-sm limita el ancho, mx-auto margen automatico a ambos lados.. centra horizontal */}
+                <div className="mx-auto flex max-w-md flex-col space-y-4">
+                    <div>
+                        <Label htmlFor="unidad">1. Objetivo principal:</Label>
+                        <Select onValueChange={(value) => setUnidad(value)} required>
+                            {/* Aquí se asigna `onValueChange` */}
+                            <SelectTrigger>
+                                <SelectValue placeholder="Selecciona tu objetivo principal" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>¿Cuál es tu objetivo con esta alimentación?</SelectLabel>
+                                    <SelectItem
+                                        className="cursor-pointer"
+                                        value="disminuir-ingesta-calorica-reduciendo-en-menor-medida-las-proteinas-diarias"
+                                    >
+                                        Bajar peso
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="mantener-ingesta-calorica">
+                                        Mantener peso
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="ganar-masa-muscular">
+                                        Ganar masa muscular
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="disminuir-ingesta-carbohidratos-manteniendo-calorias">
+                                        Diminuir la ingesta de Carbohidratos <small>(Manteniendo las Calorías diarias)</small>
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="aumentar-ingesta-proteinas-manteniendo-calorias">
+                                        Aumentar la ingesta de Proteínas <small>(Manteniendo las Calorías diarias)</small>
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="mejorar-salud-general">
+                                        Mejorar salud general
+                                    </SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div>
+                        <Label htmlFor="numComidas">
+                            2. Número de comidas al día (<b>{numComidas}</b>):
+                        </Label>
+
+                        <Slider
+                            className="my-4"
+                            id="numComidas"
+                            defaultValue={[3]}
+                            max={6}
+                            min={1}
+                            step={1}
+                            onValueChange={(value) => setNumComidas(value[0])}
+                        />
+                    </div>
+
+                    <div>
+                        <Label>3. Restricciones alimentarias:</Label> <br />
+                        <div className="flex items-center">
+                            <Checkbox id="sin-gluten" />
+                            <Label htmlFor="sin-gluten" className="ms-1">Sin&nbsp;gluten
+                            </Label>
+                            <br />
+                            <Checkbox id="sin-lactosa" className="ms-5" />
+                            <Label htmlFor="sin-lactosa" className="ms-1">Sin&nbsp;lactosa
+                            </Label>
+                            <br />
+                            <Checkbox id="vegetariana" className="ms-5" />
+                            <Label htmlFor="vegetariana" className="ms-1">Vegetariano/a
+                            </Label>
+                            <br />
+                            <Checkbox id="vegana" className="ms-5" />
+                            <Label htmlFor="vegana" className="ms-1">Vegano/a
+                            </Label>
+                            <br />
+                            <Checkbox id="keto" className="ms-5" />
+                            <Label htmlFor="keto" className="ms-1">Keto / Baja en carbohidratos
+                            </Label>
+                            <br />
+                        </div>
+                    </div>
+
+                    <div>
+                        <Label htmlFor="productosAEvitar">4. Alimentos a evitar <small><i>(Opcional)</i></small> :</Label>
+                        <Input
+                            id="productosAEvitar"
+                            type="text"
+                            placeholder="Ejemplo: huevo, picante, frutos secos..."
+                            value={productosAEvitar}
+                            onChange={(e) => setProductosAEvitar(e.target.value)}                          
+                        />
+                    </div>
+                    <div>
+                        <Label htmlFor="productosAPriorizar">5. Alimentos a priorizar <small><i>(Opcional)</i></small> :</Label>
+                        <Input
+                            id="productosAPriorizar"
+                            type="text"
+                            placeholder="Priorizaremos estos productos si es posible"
+                            value={productosAPriorizar}
+                            onChange={(e) => setProductosAPriorizar(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <Label htmlFor="tiempo-para-cocinar">
+                            6. Tiempo disponible para cocinar (<b>{tiempoPreparacion}</b> minutos):
+                        </Label>
+
+                        <Slider
+                            className="my-4"
+                            id="tiempo-para-cocinar"
+                            defaultValue={[25]}
+                            max={55}
+                            min={5}
+                            step={10}
+                            onValueChange={(value) => setTiempoPreparacion(value[0])}
+                        />
+                    </div>
+
+                    <div>
+                        <Label htmlFor="nombre">7. Nombre del menú:</Label>
+                        <Input
+                            id="nombre"
+                            type="text"
+                            placeholder="Introduce un título"
+                            value={nombre}
+                            onChange={(e) => setNombre(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <Label htmlFor="info_extra">8. Notas adicionales:</Label>
+                        <Input
+                            id="info_extra"
+                            type="text"
+                            placeholder="Añade información extra a tu menú"
+                            value={info_extra}
+                            onChange={(e) => setInfoExtra(e.target.value)}
+                        />
+                    </div>
+                
+
+                    <Button className="cursor-pointer" type="button" onClick={handleEvaluar}>
+                        Crear Menú
+                    </Button>
+                </div>
             </div>
         </AppLayout>
     );

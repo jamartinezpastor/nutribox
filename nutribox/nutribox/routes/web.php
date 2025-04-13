@@ -28,7 +28,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-
     // DEEPSEEK EVALUAR
     Route::get('dsevaluar', function () {
         return Inertia::render('ds-evaluar');
@@ -41,6 +40,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('menucrear', function () {
         return Inertia::render('menu-crear');
     })->name('menucrear');
+    Route::get('menucrearacontroller', [DeepSeekController::class, 'crearMenuDiario'])->name('menucrearacontroller');
     Route::get('menuver', function () {
         return Inertia::render('menu-ver');
     })->name('menu_ver');
