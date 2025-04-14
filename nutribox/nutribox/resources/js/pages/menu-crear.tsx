@@ -17,19 +17,27 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function dsMenuCrear() {
-    const [unidad, setUnidad] = useState('');
+export default function DS_MenuCrear() {
+    const [objetivo, setObjetivo] = useState('');
+    const [numComidas, setNumComidas] = useState<number>(3);
+    const [restricciones, setRestricciones] = useState<string[]>([]);
     const [productosAEvitar, setProductosAEvitar] = useState('');
     const [productosAPriorizar, setProductosAPriorizar] = useState('');
-    const [numComidas, setNumComidas] = useState<number>(3);
     const [tiempoPreparacion, setTiempoPreparacion] = useState<number>(25);
     const [nombre, setNombre] = useState('');
     const [info_extra, setInfoExtra] = useState('');
 
-    const handleEvaluar = () => {
-        // if (producto.trim()) {
-        router.get('/menucrearacontroller', { productosAEvitar,productosAPriorizar });
-        //  }
+    const handleCrearMenu = () => {
+        router.post('/menucrearacontroller', {
+            objetivo,
+            numComidas,
+            restricciones,
+            productosAEvitar,
+            productosAPriorizar,
+            tiempoPreparacion,
+            nombre,
+            info_extra,
+        });     
     };
 
     return (
@@ -47,7 +55,7 @@ export default function dsMenuCrear() {
                 <div className="mx-auto flex max-w-md flex-col space-y-4">
                     <div>
                         <Label htmlFor="unidad">1. Objetivo principal:</Label>
-                        <Select onValueChange={(value) => setUnidad(value)} required>
+                        <Select onValueChange={(value) => setObjetivo(value)} required>
                             {/* Aquí se asigna `onValueChange` */}
                             <SelectTrigger>
                                 <SelectValue placeholder="Selecciona tu objetivo principal" />
@@ -99,41 +107,87 @@ export default function dsMenuCrear() {
                     <div>
                         <Label>3. Restricciones alimentarias:</Label> <br />
                         <div className="flex items-center">
-                            <Checkbox id="sin-gluten" />
-                            <Label htmlFor="sin-gluten" className="ms-1">Sin&nbsp;gluten
+                            <Checkbox
+                                id="sin-gluten"
+                                onCheckedChange={(checked) =>
+                                    setRestricciones((prev) => (checked ? [...prev, 'sin-gluten'] : prev.filter((item) => item !== 'sin-gluten')))
+                                }
+                            />
+                            <Label htmlFor="sin-gluten" className="ms-1">
+                                Sin&nbsp;gluten
                             </Label>
                             <br />
-                            <Checkbox id="sin-lactosa" className="ms-5" />
-                            <Label htmlFor="sin-lactosa" className="ms-1">Sin&nbsp;lactosa
+                            <Checkbox
+                                id="sin-lactosa"
+                                className="ms-5"
+                                onCheckedChange={(checked) =>
+                                    setRestricciones((prev) => (checked ? [...prev, 'sin-lactosa'] : prev.filter((item) => item !== 'sin-lactosa')))
+                                }
+                            />
+                            <Label htmlFor="sin-lactosa" className="ms-1">
+                                Sin&nbsp;lactosa
                             </Label>
                             <br />
-                            <Checkbox id="vegetariana" className="ms-5" />
-                            <Label htmlFor="vegetariana" className="ms-1">Vegetariano/a
+                            <Checkbox
+                                id="vegetariana"
+                                className="ms-5"
+                                onCheckedChange={(checked) =>
+                                    setRestricciones((prev) => (checked ? [...prev, 'vegetariana'] : prev.filter((item) => item !== 'vegetariana')))
+                                }
+                            />
+                            <Label htmlFor="vegetariana" className="ms-1">
+                                Vegetariano/a
                             </Label>
                             <br />
-                            <Checkbox id="vegana" className="ms-5" />
-                            <Label htmlFor="vegana" className="ms-1">Vegano/a
+                            <Checkbox
+                                id="vegana"
+                                className="ms-5"
+                                onCheckedChange={(checked) =>
+                                    setRestricciones((prev) => (checked ? [...prev, 'vegana'] : prev.filter((item) => item !== 'vegana')))
+                                }
+                            />
+                            <Label htmlFor="vegana" className="ms-1">
+                                Vegano/a
                             </Label>
                             <br />
-                            <Checkbox id="keto" className="ms-5" />
-                            <Label htmlFor="keto" className="ms-1">Keto / Baja en carbohidratos
+                            <Checkbox
+                                id="keto"
+                                className="ms-5"
+                                onCheckedChange={(checked) =>
+                                    setRestricciones((prev) => (checked ? [...prev, 'keyo'] : prev.filter((item) => item !== 'keto')))
+                                }
+                            />
+                            <Label htmlFor="keto" className="ms-1">
+                                Keto / Baja en carbohidratos
                             </Label>
                             <br />
                         </div>
                     </div>
 
                     <div>
-                        <Label htmlFor="productosAEvitar">4. Alimentos a evitar <small><i>(Opcional)</i></small> :</Label>
+                        <Label htmlFor="productosAEvitar">
+                            4. Alimentos a evitar{' '}
+                            <small>
+                                <i>(Opcional)</i>
+                            </small>{' '}
+                            :
+                        </Label>
                         <Input
                             id="productosAEvitar"
                             type="text"
                             placeholder="Ejemplo: huevo, picante, frutos secos..."
                             value={productosAEvitar}
-                            onChange={(e) => setProductosAEvitar(e.target.value)}                          
+                            onChange={(e) => setProductosAEvitar(e.target.value)}
                         />
                     </div>
                     <div>
-                        <Label htmlFor="productosAPriorizar">5. Alimentos a priorizar <small><i>(Opcional)</i></small> :</Label>
+                        <Label htmlFor="productosAPriorizar">
+                            5. Alimentos a priorizar{' '}
+                            <small>
+                                <i>(Opcional)</i>
+                            </small>{' '}
+                            :
+                        </Label>
                         <Input
                             id="productosAPriorizar"
                             type="text"
@@ -166,6 +220,7 @@ export default function dsMenuCrear() {
                             placeholder="Introduce un título"
                             value={nombre}
                             onChange={(e) => setNombre(e.target.value)}
+                            required
                         />
                     </div>
                     <div>
@@ -178,9 +233,8 @@ export default function dsMenuCrear() {
                             onChange={(e) => setInfoExtra(e.target.value)}
                         />
                     </div>
-                
 
-                    <Button className="cursor-pointer" type="button" onClick={handleEvaluar}>
+                    <Button className="cursor-pointer" type="button" onClick={handleCrearMenu}>
                         Crear Menú
                     </Button>
                 </div>

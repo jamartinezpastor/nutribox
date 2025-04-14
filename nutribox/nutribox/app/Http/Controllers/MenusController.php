@@ -14,6 +14,7 @@ class MenusController extends Controller
         $menus = Menu::all();
         
         /*
+        // DATOS MOCK-DATA
         $menus = [
             [
                 'id' => '448ed52f',
@@ -28,9 +29,11 @@ class MenusController extends Controller
                 'email' => 'm@example.com',
             ],
         ];
-*/
+
         //$menus = Menu::where('user_id', auth()->id())->get();
-        return Inertia::render('menu-ver',  compact('menus'));
+
+        */
+        return Inertia::render('menus-listar',  compact('menus'));
     }
 
 

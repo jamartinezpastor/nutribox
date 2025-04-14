@@ -85,7 +85,7 @@ export default function DS_evaluar() {
                                         <SelectItem className='cursor-pointer' value="piezas">Porciones (unidad/pieza)</SelectItem>
                                         <SelectItem className='cursor-pointer' value="tazas">Taza o Vaso</SelectItem>
                                         <SelectItem className='cursor-pointer' value="cucharadas">Cucharadas (tbsp)</SelectItem>
-                                        <SelectItem className='cursor-pointer'value="kcal">Kilocalorías (kcal)</SelectItem>
+                                        <SelectItem className='cursor-pointer' value="kcal">Kilocalorías (kcal)</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>

@@ -11,7 +11,7 @@ import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { AlertTriangle, BookAIcon, BookMarkedIcon, BookOpen, Folder, ForkKnifeCrossed, ForkKnifeCrossedIcon, HeartCrack, HeartHandshake, HeartPulse, LayoutGrid, LucideAlbum, LucideCarrot, Menu, Sandwich, Search, ZapIcon, ZapOffIcon, ZoomIn } from 'lucide-react';
+import { BookMarkedIcon, BookOpen, ForkKnifeCrossed, HeartPulse, LayoutGrid, LucideCarrot, Menu } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 
@@ -38,10 +38,9 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Menús guardados',
-        href: '/menusver',
-        icon:BookMarkedIcon,
+        href: '/menuslistar',
+        icon: BookMarkedIcon,
     },
-  
 ];
 
 const rightNavItems: NavItem[] = [
@@ -172,7 +171,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                         </div>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant='ghost' className="size-10 rounded-full p-1">
+                                <Button variant="ghost" className="size-10 rounded-full p-1">
                                     <Avatar className="size-8 overflow-hidden rounded-full">
                                         <AvatarImage src={auth.user.avatar} alt={auth.user.name} />
                                         <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">

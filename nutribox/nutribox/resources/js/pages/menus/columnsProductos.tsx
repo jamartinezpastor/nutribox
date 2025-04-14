@@ -3,7 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 export type ProductoTipo = {
-    id: number;
+    id?: number;
     nombre: string;
     cantidad: number;
     unidad: string;

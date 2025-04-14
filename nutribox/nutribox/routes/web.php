@@ -40,14 +40,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('menucrear', function () {
         return Inertia::render('menu-crear');
     })->name('menucrear');
-    Route::get('menucrearacontroller', [DeepSeekController::class, 'crearMenuDiario'])->name('menucrearacontroller');
-    Route::get('menuver', function () {
-        return Inertia::render('menu-ver');
-    })->name('menu_ver');
+    Route::post('menucrearacontroller', [DeepSeekController::class, 'crearMenuDiario']);
+    Route::get('controlleraprevisualizar', function () {
+        return Inertia::render('menu-crear-previsualizar');
+    })->name('controlleraprevisualizar');
 
 
     // MENÚS VER
-    Route::get('menusver', [MenusController::class, 'listar'])->name('menus_ver');
+    Route::get('menuslistar', [MenusController::class, 'listar'])->name('menus_listar');
     Route::get('/menus/{menuSeleccionado}', [MenusController::class, 'verDetalles']);
 
 
