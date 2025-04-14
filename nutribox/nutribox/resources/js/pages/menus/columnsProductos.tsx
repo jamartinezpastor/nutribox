@@ -29,14 +29,14 @@ export const columnsProductos: ColumnDef<ProductoTipo>[] = [
     },
     {
         accessorKey: 'pr',
-        header: 'Proteínas',
+        header: 'Proteínas (g)',
     },
     {
         accessorKey: 'ch',
-        header: 'Hidratos de Carbono',
+        header: 'Hidratos de Carbono (g)',
     },
     {
         accessorKey: 'gr',
-        header: 'Grasas',
+        header: 'Grasas (g)',
     },
 ];

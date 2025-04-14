@@ -47,7 +47,7 @@ export default function DS_evaluar() {
                 <Separator className="my-4" />
                 {/* Flex, columna de arriba a abajo, 4 unidades de separación,
                  max-w-sm limita el ancho, mx-auto margen automatico a ambos lados.. centra horizontal */}
-                <div className="flex flex-col space-y-4 max-w-md mx-auto">
+                <div className="flex flex-col space-y-4 max-w-xl mx-auto">
                     <div>
                         <Label htmlFor="producto">Alimento o producto:</Label>
                         <Input

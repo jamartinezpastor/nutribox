@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
@@ -12,24 +13,26 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 interface PageProps {
-    error?: string;
+    nombre: string;
+    infoExtra: string;
     menu: Menu;
-    // aqui el resto
+    error?: string;
     [key: string]: any; // Para inertia
 }
 
 type Comida = {
     // id: number
     grupo: string;
-    // info_extra: string
+    info_extra: string;
     productos: ProductoTipo[];
 };
 
 type Menu = {
     //  id: number
-    fecha: string;
+    error?: string;
     nombre: string;
     info_extra?: string;
+    fecha: string;
     comidas: Comida[];
 };
 const handleGuardarMenu = () => {
@@ -44,6 +47,19 @@ const handleGuardarMenu = () => {
 export default function DS_MenuCrear_Previsualizar() {
     const { props } = usePage<PageProps>();
     console.log(props);
+
+    // Mensaje de error
+    if (!props.menu || props.menu.error) {
+        return (
+            <AppLayout>
+                <div className="p-4">
+                    <h1 className="text-xl font-bold">No se pudo generar el menú</h1>
+                    <p className="text-red-500">{props.error ?? 'Error desconocido'}</p>
+                </div>
+            </AppLayout>
+        );
+    }
+
     return (
         <AppLayout>
             <Head /*title={`Menú del ${props.menu.fecha}`} */ />
@@ -54,12 +70,18 @@ export default function DS_MenuCrear_Previsualizar() {
                         Guardar Menú
                     </Button>
                 </h1>
+                <Separator className="my-4" />
                 <p className="text-gray-600">Fecha: {props.menu.fecha}</p>
                 {props.menu.info_extra && <p className="italic">{props.menu.info_extra}</p>}
 
-                {props.menu.comidas.map((comida, indiceManual) => (
-                    <div key={indiceManual} className="rounded-xl border p-4">
-                        <h2 className="mb-4 text-2xl capitalize">{comida.grupo}</h2>
+                {props.menu.comidas.map((comida: Comida, indiceManual: number) => (
+                    <div
+                        key={indiceManual}
+                        className="hover:shadow-primary-foreground hover:ring-primary-foreground/60 rounded rounded-xl border p-4 px-4 py-2 transition-all duration-600 hover:shadow-[0_0_20px_8px] hover:ring-4"
+                    >
+                        <h2 className="bg-secondary dark:bg-card text-foreground mb-4 rounded-md px-4 py-2 text-2xl tracking-wide capitalize">
+                            {comida.grupo}
+                        </h2>
                         <DataTable columns={columnsProductos} data={comida.productos} />
                     </div>
                 ))}

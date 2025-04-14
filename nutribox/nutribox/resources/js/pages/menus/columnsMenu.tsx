@@ -28,9 +28,9 @@ export const columns: ColumnDef<MenusTipo>[] = [
             const id = row.original.id;
             const nombre = row.getValue('nombre');
             return (
-                <Link href={`/menus/${id}`} className="relative inline-block">
-                    <span className="before:bg-primary before:dark:bg-primary before:absolute before:-inset-0.5 before:duration-200 hover:before:-inset-1">
-                        <span className="relative font-bold text-white dark:text-white">{nombre}</span>
+                <Link href={`/menus/${id}`} className="relative inline-block rounded-xl">
+                    <span className="before:bg-primary before:dark:bg-primary before:absolute before:-inset-1 before:duration-600 hover:before:-inset-2  before:rounded-xl hover:before:rounded-xl ">
+                        <span className="relative font-bold text-white dark:text-white rounded-md">{nombre}</span>
                     </span>
                 </Link>
             );

@@ -19,11 +19,12 @@ class UserSeeder extends Seeder
         // Para crear 1 usuario de prueba manualmente
         User::create([
             'name' => 'Usuario Demo',
+            'sexo' => 'Femenino',
             'edad' => 60,
             'altura' => 170,
             'peso' => 77,
             'actividad' => "poco-movimiento",
-            'objetivo' => 'disminuir-ingesta-calorica-reduciendo-en-menor-medida-las-proteinas-diarias',
+            // 'objetivo' => 'disminuir-ingesta-calorica-reduciendo-en-menor-medida-las-proteinas-diarias',
             'info_extra' => 'Operado de rotura de ligamentos rodilla izquierda hace 3 años',
             'email' => 'correo@ejemplo.es',
             'password' => 'Contraseña',

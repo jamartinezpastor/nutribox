@@ -7,25 +7,19 @@ import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import AuthLayout from '@/layouts/auth-layout';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator"
 
 type RegisterForm = {
     name: string;
+    sexo: string;
     edad: number;
     altura: number;
     peso: number;
     actividad: string;
-    objetivo: string;
+    // objetivo: string;
     info_extra: string;
     email: string;
     password: string;
@@ -33,15 +27,16 @@ type RegisterForm = {
 };
 
 export default function Register() {
-    const [actividad, setActividad] = useState("");
-    const [objetivo, setObjetivo] = useState("");
+    const [actividad, setActividad] = useState('');
+    // const [objetivo, setObjetivo] = useState("");
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         name: '',
+        sexo: '',
         edad: 0,
         altura: 0,
         peso: 0,
         actividad: '',
-        objetivo: '',
+        // objetivo: '',
         info_extra: '',
         email: '',
         password: '',
@@ -55,8 +50,6 @@ export default function Register() {
         });
     };
 
-
-
     return (
         <AuthLayout title="Crear cuenta de usuario" description="Introduce tus datos y date de alta como usuario">
             <Head title="Alta de usuario" />
@@ -68,11 +61,9 @@ export default function Register() {
                             id="name"
                             type="text"
                             required
-
                             autoComplete="name"
                             value={data.name}
                             onChange={(e) => setData('name', e.target.value)}
-
                             placeholder="Nombre y apellidos"
                         />
                         <InputError message={errors.name} className="mt-2" />
@@ -81,47 +72,57 @@ export default function Register() {
 
                     <div className="flex h-full flex-row gap-4 rounded-xl p-1">
                         <div>
+                            <Label htmlFor="sexo">Sexo</Label>
+                            <RadioGroup id="sexo" value={data.sexo} onValueChange={(value) => setData('sexo', value)} defaultValue="masculino">
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="Masculino" id="masculino" />
+                                    <Label htmlFor="masculino">Hombre</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="Femenino" id="femenino" />
+                                    <Label htmlFor="femenino">Mujer</Label>
+                                </div>
+                            </RadioGroup>
+                        </div>
+                        <div>
                             <Label htmlFor="edad">Edad</Label>
                             <Input
                                 id="edad"
                                 type="number"
                                 required
-
                                 autoComplete="edad"
                                 value={data.edad}
                                 onChange={(e) => setData('edad', Number(e.target.value))}
-
                                 placeholder="Edad"
                             />
                             <InputError message={errors.edad} className="mt-2" />
                         </div>
                         <div>
-                            <Label htmlFor="altura">Altura <small>(cm)</small></Label>
+                            <Label htmlFor="altura">
+                                Altura <small>(cm)</small>
+                            </Label>
                             <Input
                                 id="altura"
                                 type="number"
                                 required
-
-
                                 autoComplete="altura"
                                 value={data.altura}
                                 onChange={(e) => setData('altura', Number(e.target.value))}
-
                                 placeholder="Altura"
                             />
                             <InputError message={errors.altura} className="mt-2" />
                         </div>
                         <div>
-                            <Label htmlFor="peso">Peso <small>(kg)</small></Label>
+                            <Label htmlFor="peso">
+                                Peso <small>(kg)</small>
+                            </Label>
                             <Input
                                 id="peso"
                                 type="number"
                                 required
-
                                 autoComplete="peso"
                                 value={data.peso}
                                 onChange={(e) => setData('peso', Number(e.target.value))}
-
                                 placeholder="Peso"
                             />
                             <InputError message={errors.peso} className="mt-2" />
@@ -134,50 +135,72 @@ export default function Register() {
                             value={data.actividad}
                             onValueChange={(value) => {
                                 setActividad(value);
-                                setData("actividad", value);
+                                setData('actividad', value);
                             }}
                             required
                         >
-
-                            <SelectTrigger >
+                            <SelectTrigger>
                                 <SelectValue placeholder="Selecciona tu nivel de actividad diaria" />
                             </SelectTrigger>
-                            <SelectContent >
+                            <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Nivel</SelectLabel>
-                                    <SelectItem className='cursor-pointer' value="completamente-sedentario">Completamente sedentario</SelectItem>
-                                    <SelectItem className='cursor-pointer' value="poco-movimiento">Poco movimiento</SelectItem>
-                                    <SelectItem className='cursor-pointer' value="actividad-normal">En la media</SelectItem>
-                                    <SelectItem className='cursor-pointer' value="persona-activa">Persona activa</SelectItem>
-                                    <SelectItem className='cursor-pointer' value="actividad-intensa">Actividad intensa</SelectItem>
+                                    <SelectItem className="cursor-pointer" value="completamente-sedentario">
+                                        Completamente sedentario
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="poco-movimiento">
+                                        Poco movimiento
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="actividad-normal">
+                                        En la media
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="persona-activa">
+                                        Persona activa
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="actividad-intensa">
+                                        Actividad intensa
+                                    </SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
                     </div>
+                    {/* 
                     <div className="grid gap-2">
                         <Label>Objetivo nutricional</Label>
                         <Select
                             value={data.objetivo}
                             onValueChange={(value) => {
                                 setObjetivo(value);
-                                setData("objetivo", value);
+                                setData('objetivo', value);
                             }}
                             required
                         >
-                            <SelectTrigger >
+                            <SelectTrigger>
                                 <SelectValue placeholder="Selecciona tu objetivo" />
                             </SelectTrigger>
-                            <SelectContent >
+                            <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Objetivo</SelectLabel>
-                                    <SelectItem className='cursor-pointer' value="disminuir-ingesta-calorica-reduciendo-en-menor-medida-las-proteinas-diarias">Bajar de peso</SelectItem>
-                                    <SelectItem className='cursor-pointer' value="aumentar-ingesta-calorica">Aumentar de peso</SelectItem>
-                                    <SelectItem className='cursor-pointer' value="disminuir-ingesta-carbohidratos-manteniendo-calorias">Diminuir la ingesta de Carbohidratos <small>(Manteniendo las Calorías diarias)</small></SelectItem>
-                                    <SelectItem className='cursor-pointer' value="aumentar-ingesta-proteinas-manteniendo-calorias">Aumentar la ingesta de Proteínas <small>(Manteniendo las Calorías diarias)</small></SelectItem>
+                                    <SelectItem
+                                        className="cursor-pointer"
+                                        value="disminuir-ingesta-calorica-reduciendo-en-menor-medida-las-proteinas-diarias"
+                                    >
+                                        Bajar de peso
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="aumentar-ingesta-calorica">
+                                        Aumentar de peso
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="disminuir-ingesta-carbohidratos-manteniendo-calorias">
+                                        Diminuir la ingesta de Carbohidratos <small>(Manteniendo las Calorías diarias)</small>
+                                    </SelectItem>
+                                    <SelectItem className="cursor-pointer" value="aumentar-ingesta-proteinas-manteniendo-calorias">
+                                        Aumentar la ingesta de Proteínas <small>(Manteniendo las Calorías diarias)</small>
+                                    </SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
                     </div>
+                    */}
                     <div className="grid gap-2">
                         <Label htmlFor="info_extra">¿Padeces algún problema de salud?</Label>
                         <Input

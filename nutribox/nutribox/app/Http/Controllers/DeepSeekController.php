@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Menu;
 use App\Models\Comida;
 use App\Models\Producto;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
+use DeepSeek\Enums\Models;
 
 class DeepSeekController extends Controller
 {
@@ -88,6 +92,14 @@ class DeepSeekController extends Controller
             'info_extra' => 'nullable|string',
         ]);
 
+        $usuario = Auth::user();
+        $u_sexo = $usuario->sexo;
+        $u_edad = $usuario->edad;
+        $u_altura = $usuario->altura;
+        $u_peso = $usuario->peso;
+        $u_actividad = $usuario->actividad;
+        $u_infoextra = $usuario->info_extra;
+
         $objetivo = $datos['objetivo'];
         $numComidas = $datos['numComidas'];
         $restricciones = $datos['restricciones'];
@@ -97,111 +109,159 @@ class DeepSeekController extends Controller
         $nombre = $datos['nombre'];
         $infoExtra = $datos['info_extra'] ?? null;
 
-        $prompt = "Analiza el siguiente alimento BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA BLA ";
-
-        try {
-            $menu = '{
-  "nombre": "Menú saludable 1800 kcal",
-  "info_extra": "Ideal para pérdida de peso",
-  "fecha": "2025-04-14",
-  "comidas": [
+        /*
+        $menu_estructura_json = '{
+"nombre": "Menú saludable 1800 kcal",
+"info_extra": "Ideal para pérdida de peso",
+"fecha": "dd-mm-aaaa",
+"comidas": [
+{
+  "grupo": "Desayuno",
+   "info_extra": "Recomendamos Avena Overnight o similar y que el platano no esté muy maduro.",
+  "productos": [
     {
-      "grupo": "Desayuno",
-      "productos": [
-        {
-          "nombre": "Avena",
-          "cantidad": 50,
-          "unidad": "g",
-          "kcal": 180,
-          "pr": 5,
-          "ch": 30,
-          "gr": 4
-        },
-        {
-          "nombre": "Plátano",
-          "cantidad": 1,
-          "unidad": "unidad",
-          "kcal": 89,
-          "pr": 1.1,
-          "ch": 23,
-          "gr": 0.3
-        }
-      ]
+      "nombre": "Avena",
+      "cantidad": 50,
+      "unidad": "g",
+      "kcal": 180,
+      "pr": 5,
+      "ch": 30,
+      "gr": 4
     },
     {
-      "grupo": "Comida",
-      "productos": [
-        {
-          "nombre": "Pechuga de pollo",
-          "cantidad": 150,
-          "unidad": "g",
-          "kcal": 165,
-          "pr": 31,
-          "ch": 0,
-          "gr": 3.6
-        },
-        {
-          "nombre": "Arroz integral",
-          "cantidad": 60,
-          "unidad": "g",
-          "kcal": 210,
-          "pr": 5,
-          "ch": 44,
-          "gr": 2
-        }
-      ]
+      "nombre": "Plátano",
+      "cantidad": 1,
+      "unidad": "unidad",
+      "kcal": 89,
+      "pr": 1.1,
+      "ch": 23,
+      "gr": 0.3
+    }
+  ]
+},
+{
+  "grupo": "Comida",
+  "info_extra": "Atención a la preparación de la Pechuga, que sea a la placha o al vapor, evitar aceites refinados.",
+  "productos": [
+    {
+      "nombre": "Pechuga de pollo",
+      "cantidad": 150,
+      "unidad": "g",
+      "kcal": 165,
+      "pr": 31,
+      "ch": 0,
+      "gr": 3.6
+    },
+    {
+      "nombre": "Arroz integral",
+      "cantidad": 60,
+      "unidad": "g",
+      "kcal": 210,
+      "pr": 5,
+      "ch": 44,
+      "gr": 2
     }
   ]
 }
+]
+}
 ';
-            $menu = json_decode($menu, true); // convierte el JSON string a array asociativo
+        // $menu_estructura_json = json_decode($menu_estructura_json, true); // convierte el JSON string a array asociativo       
+        $estructuraEjemplo = json_encode(json_decode($menu_estructura_json, true), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+      
+*/
+        $restriccionesTexto = implode(', ', $restricciones);
+        try {
+            $prompt = "Desde la perspectiva de un médico endocrino (especialista en nutrición y dietética) y para un usuario con el siguiente perfil:
+            Sexo: $u_sexo,
+            Edad: $u_edad,
+            Altura: $u_altura,
+            Peso: $u_peso,
+            Nivel de actividad diaria: $u_actividad,
+            Información adicional: $u_infoextra,
 
+            Crea un menú diario con el nombre $nombre con las siguientes características:
+            Objetivo: $objetivo,
+            Dividido en $numComidas grupos de comidas,
+            Restricciones alimentarias: $restriccionesTexto ,
+            Productos a evitar: $productosAEvitar,
+            Productos a priorizar (si es posible): $productosAPriorizar,
+            Con un tiempo de preparación aproximado de: $tiempoPreparacion minutos,
+            y con una información adicional: $infoExtra.
 
-            /*
+            Ten en cuenta que es un menú diario (Para cuadrar calorias, macronutrientes, etc..), que la mayoria de los usuarios son de España (Murcia) y que puedes tomarte tu tiempo para realizarlo (es preferible obtener un resultado veraz antes que rápido e inexacto).
+
+            La respuesta debe estar en formato JSON, basado en esta estructura:
+                - Un Menu está formado por los atributos: nombre ($nombre), info_extra ($infoExtra), fecha (Añade la fecha actual en formato dd-mm-aaaa) y comidas (un conjunto de tipo Comida).
+                - Una Comida está formada por los atributos: grupo (Por ejemplo: 'Desayuno', 'Almuerzo', 'Comida', 'Merienda', 'Cena', etc..), info_extra (Por ejemplo: 'Recomendamos Avena Overnight o similar y que el platano no esté muy maduro') y productos (un conjunto de tipo Producto).
+                - Un Producto está formado: nombre, cantidad, unidad (Por ejemplo: 'g', 'ml', 'taza', 'unidad', etc..), kcal, pr (proteinas), ch (carbohidratos) y gr (grasas).
+                - Un Menu puede contener 1 o muchas comidas, una Comida puede contener 1 o muchos productos.
+            ";
             // Petición a la API de Deepseek
-            $response = DeepSeekClient::build(env('DEEPSEEK_API_KEY'))
+
+
+            $client = DeepSeekClient::build(apiKey: "sk-ed3ad3e46b7447c1a9a8a21f560cec25", baseUrl: 'https://api.deepseek.com/v3', timeout: 90, clientType: 'guzzle');
+
+            $response = $client
+                ->withModel(Models::CODER->value)
                 ->query($prompt)
                 ->run();
 
-            // Decodifica la respuesta JSON.. con true array asociativo!
-            $responseArray = json_decode($response, true);
+            //   echo 'API Response: ' . $response;
 
+            //     dd($response);
+
+
+
+            /*
+            $response = DeepSeekClient::build(env('DEEPSEEK_API_KEY'))
+                ->query($prompt)
+                ->run();
+            Log::info('Prompt enviado a DeepSeek', ['prompt' => $prompt]);
+            Log::info('Respuesta de DeepSeek:', ['respuesta_bruta' => $response]);
+            dd($response);
+*/
+            // Decodifica la respuesta JSON.. con true array asociativo!
+            // $responseArray = json_decode($response, true);
+
+            /*
             // Verifica si la decodificación fue exitosa
             if (json_last_error() === JSON_ERROR_NONE) {
-                $analisis = $responseArray['choices'][0]['message']['content'];          
-
+                $analisis = $responseArray['choices'][0]['message']['content'];
                 // Eliminar cualquier "**" restante
-                $analisis = str_replace(["*"], '', $analisis);
+                //$analisis = str_replace(["*"], '', $analisis);
             } else {
-                return back()->with('error', 'Error al decodificar la respuesta del análisis mediante IA.');
+                return Inertia::render('menu-crear-previsualizar', ['error' => 'Error al decodificar la respuesta del análisis mediante IA.']);
+                // return back()->with('error', 'Error al decodificar la respuesta del análisis mediante IA.');
             }
+                */
 
-            // Petición a la API de Pexels
-            $pexelsApiKey = env('PEXELS_API_KEY');
-            $responsePexels = Http::withHeaders([
-                'Authorization' => $pexelsApiKey
-            ])->get("https://api.pexels.com/v1/search", [
-                'query' => $producto,
-                'per_page' => 1,
-                'orientation' => 'landscape'
-            ]);
-            $imageUrl = null;
-            if ($responsePexels->successful()) {
-                $data = $responsePexels->json();
-                if (!empty($data['photos'])) {
-                    $imageUrl = $data['photos'][0]['src']['large']; // Tomar la primera imagen horizontal
+            $responseArray = json_decode($response, true);
+            // dd($responseArray);
+            if (
+                isset($responseArray['choices'][0]['message']['content']) &&
+                is_string($responseArray['choices'][0]['message']['content'])
+            ) {
+                $analisis = $responseArray['choices'][0]['message']['content'];
+
+                // Extraer bloque JSON en caso de que DeepSeek lo devuelva rodeado de texto
+                preg_match('/\{.*\}/s', $analisis, $coincidencias);
+                $jsonLimpio = $coincidencias[0] ?? '{}';
+                $menu = json_decode($jsonLimpio, true);
+
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    return Inertia::render('menu-crear-previsualizar', ['error' => 'El modelo ha devuelto un JSON inválido']);
                 }
-                               }
-*/
 
-            //dd($menu);
-
-            if (isset($menu)) {
-                return Inertia::render('menu-crear-previsualizar', compact('menu', 'nombre', 'prompt'));
-
-                //  return view('form_resultados', compact('analisis', 'patologia'));
+                return Inertia::render('menu-crear-previsualizar', [
+                    'nombre' => $nombre,
+                    'info_extra' => $infoExtra,
+                    'menu' => $menu,
+                ]);
             } else {
-                return Inertia::render('menu-crear-previsualizar', ['error' => 'Error, no se pudo obtener un análisis mediante IA válido']);
+                return Inertia::render('menu-crear-previsualizar', [
+                    'error' => 'La IA no devolvió una respuesta válida. Inténtalo de nuevo más tarde.',
+                ]);
             }
         } catch (\Exception $e) {
             return Inertia::render('menu-crear-previsualizar', ['error' => 'Error de conexión con la plataforma de IA: ' . $e->getMessage()]);

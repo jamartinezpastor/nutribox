@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -16,6 +16,11 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/inicio',
     },
 ];
+
+interface PageProps {
+    error?: string;
+    [key: string]: any; // Para inertia
+}
 
 export default function DS_MenuCrear() {
     const [objetivo, setObjetivo] = useState('');
@@ -27,6 +32,8 @@ export default function DS_MenuCrear() {
     const [nombre, setNombre] = useState('');
     const [info_extra, setInfoExtra] = useState('');
 
+    const { props } = usePage<PageProps>();
+
     const handleCrearMenu = () => {
         router.post('/menucrearacontroller', {
             objetivo,
@@ -37,7 +44,7 @@ export default function DS_MenuCrear() {
             tiempoPreparacion,
             nombre,
             info_extra,
-        });     
+        });
     };
 
     return (
@@ -50,9 +57,10 @@ export default function DS_MenuCrear() {
                     en base a criterios científicos y evidencia actualizada.
                 </p>
                 <Separator className="my-4" />
+                {props.error && <p className="text-red-500">{props.error}</p>}
                 {/* Flex, columna de arriba a abajo, 4 unidades de separación,
                  max-w-sm limita el ancho, mx-auto margen automatico a ambos lados.. centra horizontal */}
-                <div className="mx-auto flex max-w-md flex-col space-y-4">
+                <div className="mx-auto flex max-w-xl flex-col space-y-4">
                     <div>
                         <Label htmlFor="unidad">1. Objetivo principal:</Label>
                         <Select onValueChange={(value) => setObjetivo(value)} required>

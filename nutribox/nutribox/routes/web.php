@@ -52,8 +52,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-
-
     Route::get('principal', function () {
         return view('principal');
     })->name('principal');

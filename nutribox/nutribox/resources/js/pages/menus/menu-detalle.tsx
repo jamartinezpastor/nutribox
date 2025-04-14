@@ -32,8 +32,8 @@ export default function VerDetalles({ menuSeleccionado }: Props) {
                 {menuSeleccionado.info_extra && <p className="italic">{menuSeleccionado.info_extra}</p>}
 
                 {menuSeleccionado.comidas.map((comida) => (
-                    <div key={comida.id} className="rounded-xl border p-4">
-                        <h2 className="mb-4 text-2xl capitalize">{comida.grupo}</h2>
+                    <div key={comida.id} className="rounded-xl border p-4 px-4 py-2 rounded transition-all duration-600 hover:shadow-[0_0_20px_4px] hover:shadow-primary hover:ring-2 hover:ring-primary/60">
+                        <h2 className="mb-4 text-2xl capitalize font-bold ">{comida.grupo}</h2>
                         <DataTable columns={columnsProductos} data={comida.productos} />
                     </div>
                 ))}
