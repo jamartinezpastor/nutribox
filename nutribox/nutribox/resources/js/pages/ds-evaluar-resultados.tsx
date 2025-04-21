@@ -13,6 +13,7 @@ interface PageProps {
     error?: string;
     producto?: string;
     cantidad?: string;
+    unidad?: string;
     patologia?: string;
     analisis?: string;
     imageUrl?: string;
@@ -47,7 +48,7 @@ export default function DS_evaluar_resultados() {
                     <div className="relative z-10">
                         <h2 className="text-3xl font-bold uppercase">{props.producto}</h2><br/>
                         <h2 className="text-xl font-semibold uppercase">Cantidad:</h2>
-                        <p> <strong>{props.cantidad}</strong> <small><i>(g / ml / pieza / vaso / etc...)</i></small></p> <br/>
+                        <p> <strong>{props.cantidad}</strong><i> {props.unidad}</i></p> <br/>
                         <h2 className="text-xl font-semibold uppercase">Patología:</h2>
                         <p> <strong>{props.patologia}</strong></p> <br/>
                         <h2 className="text-xl font-semibold uppercase">Análisis:</h2>

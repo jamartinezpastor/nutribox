@@ -44,7 +44,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('controlleraprevisualizar', function () {
         return Inertia::render('menu-crear-previsualizar');
     })->name('controlleraprevisualizar');
-
+    Route::post('/menus/guardar', [DeepSeekController::class, 'guardarMenuDiario'])->name('previsualizaracontroller');
 
     // MENÚS VER
     Route::get('menuslistar', [MenusController::class, 'listar'])->name('menus_listar');

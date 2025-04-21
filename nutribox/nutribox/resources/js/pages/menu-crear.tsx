@@ -25,6 +25,7 @@ interface PageProps {
 export default function DS_MenuCrear() {
     const [objetivo, setObjetivo] = useState('');
     const [numComidas, setNumComidas] = useState<number>(3);
+    const [numSnacks, setNumSnacks] = useState<number>(2);
     const [restricciones, setRestricciones] = useState<string[]>([]);
     const [productosAEvitar, setProductosAEvitar] = useState('');
     const [productosAPriorizar, setProductosAPriorizar] = useState('');
@@ -38,6 +39,7 @@ export default function DS_MenuCrear() {
         router.post('/menucrearacontroller', {
             objetivo,
             numComidas,
+            numSnacks,
             restricciones,
             productosAEvitar,
             productosAPriorizar,
@@ -52,7 +54,7 @@ export default function DS_MenuCrear() {
             <Head title="Crear Menú" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <p className="text-4xl">Crear Menú</p>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-sm text-muted-foreground">
                     Genere menús diarios personalizados mediante inteligencia artificial, adaptados a sus requerimientos nutricionales y preferencias,
                     en base a criterios científicos y evidencia actualizada.
                 </p>
@@ -61,8 +63,8 @@ export default function DS_MenuCrear() {
                 {/* Flex, columna de arriba a abajo, 4 unidades de separación,
                  max-w-sm limita el ancho, mx-auto margen automatico a ambos lados.. centra horizontal */}
                 <div className="mx-auto flex max-w-xl flex-col space-y-4">
-                    <div>
-                        <Label htmlFor="unidad">1. Objetivo principal:</Label>
+                    <div className="pt-4">
+                        <Label htmlFor="unidad">Objetivo principal:</Label>
                         <Select onValueChange={(value) => setObjetivo(value)} required>
                             {/* Aquí se asigna `onValueChange` */}
                             <SelectTrigger>
@@ -96,24 +98,41 @@ export default function DS_MenuCrear() {
                             </SelectContent>
                         </Select>
                     </div>
-                    <div>
-                        <Label htmlFor="numComidas">
-                            2. Número de comidas al día (<b>{numComidas}</b>):
-                        </Label>
+                    <div className="flex max-w-xl gap-8 pt-4">
+                        <div>
+                            <Label htmlFor="numComidas">
+                                Número de comidas al día (<b>{numComidas}</b>):
+                            </Label>
 
-                        <Slider
-                            className="my-4"
-                            id="numComidas"
-                            defaultValue={[3]}
-                            max={6}
-                            min={1}
-                            step={1}
-                            onValueChange={(value) => setNumComidas(value[0])}
-                        />
+                            <Slider
+                                className="my-4"
+                                id="numComidas"
+                                defaultValue={[3]}
+                                max={5}
+                                min={1}
+                                step={1}
+                                onValueChange={(value) => setNumComidas(value[0])}
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="numSnacks">
+                                Número de snacks al día (<b>{numSnacks}</b>):
+                            </Label>
+
+                            <Slider
+                                className="my-4"
+                                id="numSnacks"
+                                defaultValue={[2]}
+                                max={4}
+                                min={0}
+                                step={1}
+                                onValueChange={(value) => setNumSnacks(value[0])}
+                            />
+                        </div>
                     </div>
 
-                    <div>
-                        <Label>3. Restricciones alimentarias:</Label> <br />
+                    <div className="pt-4">
+                        <Label>Restricciones alimentarias:</Label> <br />
                         <div className="flex items-center">
                             <Checkbox
                                 id="sin-gluten"
@@ -171,42 +190,43 @@ export default function DS_MenuCrear() {
                             <br />
                         </div>
                     </div>
-
-                    <div>
-                        <Label htmlFor="productosAEvitar">
-                            4. Alimentos a evitar{' '}
-                            <small>
-                                <i>(Opcional)</i>
-                            </small>{' '}
-                            :
-                        </Label>
-                        <Input
-                            id="productosAEvitar"
-                            type="text"
-                            placeholder="Ejemplo: huevo, picante, frutos secos..."
-                            value={productosAEvitar}
-                            onChange={(e) => setProductosAEvitar(e.target.value)}
-                        />
+                    <div className="flex max-w-xl gap-8 pt-4">
+                        <div>
+                            <Label htmlFor="productosAEvitar">
+                                Alimentos a evitar
+                                <small>
+                                    <i>(Opcional)</i>
+                                </small>
+                                :
+                            </Label>
+                            <Input
+                                id="productosAEvitar"
+                                type="text"
+                                placeholder="Huevo, picante, marisco ..."
+                                value={productosAEvitar}
+                                onChange={(e) => setProductosAEvitar(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <Label htmlFor="productosAPriorizar">
+                                Alimentos a priorizar
+                                <small>
+                                    <i>(Opcional)</i>
+                                </small>
+                                :
+                            </Label>
+                            <Input
+                                id="productosAPriorizar"
+                                type="text"
+                                placeholder="En caso de ser posible"
+                                value={productosAPriorizar}
+                                onChange={(e) => setProductosAPriorizar(e.target.value)}
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <Label htmlFor="productosAPriorizar">
-                            5. Alimentos a priorizar{' '}
-                            <small>
-                                <i>(Opcional)</i>
-                            </small>{' '}
-                            :
-                        </Label>
-                        <Input
-                            id="productosAPriorizar"
-                            type="text"
-                            placeholder="Priorizaremos estos productos si es posible"
-                            value={productosAPriorizar}
-                            onChange={(e) => setProductosAPriorizar(e.target.value)}
-                        />
-                    </div>
-                    <div>
+                    <div className="gap-8 pt-4">
                         <Label htmlFor="tiempo-para-cocinar">
-                            6. Tiempo disponible para cocinar (<b>{tiempoPreparacion}</b> minutos):
+                            Tiempo disponible para cocinar (<b>{tiempoPreparacion}</b> minutos):
                         </Label>
 
                         <Slider
@@ -220,8 +240,8 @@ export default function DS_MenuCrear() {
                         />
                     </div>
 
-                    <div>
-                        <Label htmlFor="nombre">7. Nombre del menú:</Label>
+                    <div className="gap-8 pt-4">
+                        <Label htmlFor="nombre">Nombre del menú:</Label>
                         <Input
                             id="nombre"
                             type="text"
@@ -231,8 +251,8 @@ export default function DS_MenuCrear() {
                             required
                         />
                     </div>
-                    <div>
-                        <Label htmlFor="info_extra">8. Notas adicionales:</Label>
+                    <div className="gap-8 pt-4">
+                        <Label htmlFor="info_extra">Notas adicionales:</Label>
                         <Input
                             id="info_extra"
                             type="text"
@@ -241,10 +261,11 @@ export default function DS_MenuCrear() {
                             onChange={(e) => setInfoExtra(e.target.value)}
                         />
                     </div>
-
+                    <div className="gap-8 pt-8">
                     <Button className="cursor-pointer" type="button" onClick={handleCrearMenu}>
                         Crear Menú
                     </Button>
+                    </div>
                 </div>
             </div>
         </AppLayout>

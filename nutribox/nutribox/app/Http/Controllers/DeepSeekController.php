@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 use DeepSeek\Enums\Models;
+use Carbon\Carbon;
 
 class DeepSeekController extends Controller
 {
@@ -84,6 +85,7 @@ class DeepSeekController extends Controller
         $datos = $formulario->validate([
             'objetivo' => 'required|string',
             'numComidas' => 'required|integer',
+            'numSnacks' => 'required|integer',
             'restricciones' => 'array',
             'productosAEvitar' => 'nullable|string',
             'productosAPriorizar' => 'nullable|string',
@@ -102,6 +104,7 @@ class DeepSeekController extends Controller
 
         $objetivo = $datos['objetivo'];
         $numComidas = $datos['numComidas'];
+        $numSnacks = $datos['numSnacks'];
         $restricciones = $datos['restricciones'];
         $productosAEvitar = $datos['productosAEvitar'] ?? null;
         $productosAPriorizar = $datos['productosAPriorizar'] ?? null;
@@ -180,27 +183,27 @@ class DeepSeekController extends Controller
             Nivel de actividad diaria: $u_actividad,
             Información adicional: $u_infoextra,
 
-            Crea un menú diario con el nombre $nombre con las siguientes características:
+            Crea un menú diario con el nombre '$nombre' con las siguientes características:
             Objetivo: $objetivo,
-            Dividido en $numComidas grupos de comidas,
+            Dividido en $numComidas grupos de comidas principales y $numSnacks snacks intercalados entre ellas,
             Restricciones alimentarias: $restriccionesTexto ,
             Productos a evitar: $productosAEvitar,
             Productos a priorizar (si es posible): $productosAPriorizar,
             Con un tiempo de preparación aproximado de: $tiempoPreparacion minutos,
-            y con una información adicional: $infoExtra.
+            y también valora esta información adicional: $infoExtra.
 
-            Ten en cuenta que es un menú diario (Para cuadrar calorias, macronutrientes, etc..), que la mayoria de los usuarios son de España (Murcia) y que puedes tomarte tu tiempo para realizarlo (es preferible obtener un resultado veraz antes que rápido e inexacto).
+            Ten en cuenta que es un menú diario (Para cuadrar calorias, macronutrientes, etc..), las comidas diarias deben ajustarse inversamente en su contenido calórico y de macronutrientes según su frecuencia (Cuando una persona realiza menos comidas al día, cada una debe contener mayor cantidad de calorías y macronutrientes para cumplir con los requerimientos diarios totales establecidos según el perfil individual del usuario), que la mayoria de los usuarios son de España (Murcia) y que puedes tomarte tu tiempo para realizarlo (es preferible obtener un resultado veraz antes que rápido e inexacto).
 
             La respuesta debe estar en formato JSON, basado en esta estructura:
                 - Un Menu está formado por los atributos: nombre ($nombre), info_extra ($infoExtra), fecha (Añade la fecha actual en formato dd-mm-aaaa) y comidas (un conjunto de tipo Comida).
-                - Una Comida está formada por los atributos: grupo (Por ejemplo: 'Desayuno', 'Almuerzo', 'Comida', 'Merienda', 'Cena', etc..), info_extra (Por ejemplo: 'Recomendamos Avena Overnight o similar y que el platano no esté muy maduro') y productos (un conjunto de tipo Producto).
+                - Una Comida está formada por los atributos: grupo (Por ejemplo: 'Desayuno', 'Almuerzo', 'Comida', 'Merienda', 'Cena', etc.. a los grupos que sean Snacks añádeselo, como por ejemplo: 'Almuerzo (Snack)'), info_extra (Por ejemplo: 'Recomendamos Avena Overnight o similar y que el platano no esté muy maduro') y productos (un conjunto de tipo Producto).
                 - Un Producto está formado: nombre, cantidad, unidad (Por ejemplo: 'g', 'ml', 'taza', 'unidad', etc..), kcal, pr (proteinas), ch (carbohidratos) y gr (grasas).
                 - Un Menu puede contener 1 o muchas comidas, una Comida puede contener 1 o muchos productos.
             ";
             // Petición a la API de Deepseek
 
-
-            $client = DeepSeekClient::build(apiKey: "sk-ed3ad3e46b7447c1a9a8a21f560cec25", baseUrl: 'https://api.deepseek.com/v3', timeout: 90, clientType: 'guzzle');
+            set_time_limit(120);  
+            $client = DeepSeekClient::build(apiKey: env('DEEPSEEK_API_KEY'), baseUrl: 'https://api.deepseek.com/v3', timeout: 120, clientType: 'guzzle');
 
             $response = $client
                 ->withModel(Models::CODER->value)
@@ -267,4 +270,48 @@ class DeepSeekController extends Controller
             return Inertia::render('menu-crear-previsualizar', ['error' => 'Error de conexión con la plataforma de IA: ' . $e->getMessage()]);
         }
     }
+    public function guardarMenuDiario(Request $formulario)
+{
+    $datos = $formulario->validate([
+        'menu' => 'required|array',
+        'menu.nombre' => 'required|string',
+        'menu.info_extra' => 'nullable|string',
+        'menu.fecha' => 'required|string',
+        'menu.comidas' => 'required|array',
+    ]);
+
+    $usuario = Auth::user();
+
+    // Crear menú
+    $menu = new Menu();
+    $menu->nombre = $datos['menu']['nombre'];
+    $menu->info_extra = $datos['menu']['info_extra'];
+    $menu->fecha = Carbon::createFromFormat('d-m-Y', $datos['menu']['fecha']);
+    $menu->user_id = $usuario->id;
+    $menu->save();
+
+    // Crear comidas y productos
+    foreach ($datos['menu']['comidas'] as $comidaData) {
+        $comida = new Comida();
+        $comida->menu_id = $menu->id;
+        $comida->grupo = $comidaData['grupo'];
+        $comida->info_extra = $comidaData['info_extra'] ?? null;
+        $comida->save();
+
+        foreach ($comidaData['productos'] as $productoData) {
+            $producto = new Producto();
+            $producto->comida_id = $comida->id;
+            $producto->nombre = $productoData['nombre'];
+            $producto->cantidad = $productoData['cantidad'];
+            $producto->unidad = $productoData['unidad'];
+            $producto->kcal = $productoData['kcal'];
+            $producto->pr = $productoData['pr'];
+            $producto->ch = $productoData['ch'];
+            $producto->gr = $productoData['gr'];
+            $producto->save();
+        }
+    }
+
+    return redirect()->route('menus_listar')->with('flash', 'Menú guardado correctamente.');
+}
 }

@@ -59,7 +59,7 @@ export default function DS_evaluar() {
                             required
                         />
                     </div>
-                    <div className="flex h-full flex-row gap-4 rounded-xl p-4">
+                    <div className="flex h-full flex-row gap-4 rounded-xl pt-4">
                         <div>
                             <Label htmlFor="cantidad">Cantidad: </Label>
                             <Input
@@ -92,6 +92,7 @@ export default function DS_evaluar() {
                         </div>
                     </div>
 
+                    <div className="flex h-full flex-row gap-4 rounded-xl pt-4">
 
                     <div>
                         <Label>Patología:</Label>
@@ -112,13 +113,13 @@ export default function DS_evaluar() {
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
-                    </div>
+                        </div> </div>
 
-
+                    <div className="gap-8 pt-8">
                     <Button className='cursor-pointer' type="button" onClick={handleEvaluar}>
                         Evaluar
                     </Button>
-                </div>
+                    </div> </div>
             </div>
         </AppLayout>
     );

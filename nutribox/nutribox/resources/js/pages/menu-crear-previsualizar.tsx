@@ -1,10 +1,12 @@
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { ProductoTipo, columnsProductos } from './menus/columnsProductos';
 import { DataTable } from './menus/data-table';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -35,18 +37,33 @@ type Menu = {
     fecha: string;
     comidas: Comida[];
 };
-const handleGuardarMenu = () => {
-    /* router.post('/menucrearacontroller', {
-        objetivo,
-        numComidas,
-  
-    }); 
-    */
-};
+
 
 export default function DS_MenuCrear_Previsualizar() {
     const { props } = usePage<PageProps>();
     console.log(props);
+
+    const handleGuardarMenu = () => {
+        // Mostramos el toast inmediatamente
+        toast.success('Guardando el menú...');
+    
+        router.post(
+            '/menus/guardar',
+            { menu: props.menu },
+            {
+                onSuccess: () => {
+                    toast.success('Menú guardado correctamente');
+                    setTimeout(() => {
+                        router.visit('/menuslistar');
+                    }, 3000);
+                },
+                onError: () => {
+                    toast.error('Hubo un error al guardar el menú');
+                },
+            }
+        );
+    };
+    
 
     // Mensaje de error
     if (!props.menu || props.menu.error) {
@@ -69,6 +86,8 @@ export default function DS_MenuCrear_Previsualizar() {
                     <Button className="cursor-pointer" type="button" onClick={handleGuardarMenu}>
                         Guardar Menú
                     </Button>
+                    <Button onClick={() => toast.success('Funciona el toast')}>Probar Toast</Button>
+
                 </h1>
                 <Separator className="my-4" />
                 <p className="text-gray-600">Fecha: {props.menu.fecha}</p>
