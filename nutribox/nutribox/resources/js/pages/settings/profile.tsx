@@ -1,8 +1,3 @@
-import { type BreadcrumbItem, type SharedData } from '@/types';
-import { Transition } from '@headlessui/react';
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
-
 import DeleteUser from '@/components/delete-user';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
@@ -11,8 +6,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
+import { type BreadcrumbItem, type SharedData } from '@/types';
+import { Transition } from '@headlessui/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -178,7 +178,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             />
                             <InputError message={errors.info_extra} className="mt-2" />
                         </div>
-
+                        <Separator className="my-12" />
                         <div className="grid gap-2">
                             <Label htmlFor="email">Correo electrónico</Label>
 
@@ -218,7 +218,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             </div>
                         )}
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center mt-12 gap-4">
                             <Button disabled={processing}>Guardar cambios</Button>
 
                             <Transition
@@ -231,6 +231,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                 <p className="text-sm text-neutral-600">Cambios guardados</p>
                             </Transition>
                         </div>
+                        <Separator className="my-12" />
                     </form>
                 </div>
 

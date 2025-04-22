@@ -2,7 +2,8 @@ import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
 import { ProductoTipo, columnsProductos } from './columnsProductos';
 import { DataTable } from './data-table';
-
+import { router } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
 type Comida = {
     id: number
     grupo: string
@@ -37,6 +38,11 @@ export default function VerDetalles({ menuSeleccionado }: Props) {
                         <DataTable columns={columnsProductos} data={comida.productos} />
                     </div>
                 ))}
+            </div>
+            <div className="gap-8 p-8">
+                <Button className="cursor-pointer" variant="secondary" onClick={() => router.visit('/menuslistar')}>
+                    ← Volver
+                </Button>
             </div>
         </AppLayout>
     );

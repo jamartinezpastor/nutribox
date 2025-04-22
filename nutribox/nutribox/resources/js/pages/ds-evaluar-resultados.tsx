@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
-
+import { Head, usePage,router } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Evaluar alimentos',
@@ -41,7 +41,7 @@ export default function DS_evaluar_resultados() {
                 )}
 
                 <h1 className="text-4xl mb-4">Resultados evaluador nutricional</h1>
-
+            
                 {props.error && <p className="text-red-500">{props.error}</p>}
 
                 {!props.error && props.analisis ? (
@@ -57,8 +57,13 @@ export default function DS_evaluar_resultados() {
                 ) : (
                     <p>No se encontraron resultados.</p>
                 )}
-
+   <div className="gap-8 pt-8">
+                    <Button className="cursor-pointer" variant="secondary" onClick={() => router.visit('dsevaluar')}>
+                        ← Volver
+                    </Button>
+                </div>
             </div>
+         
         </AppLayout>
     );
 }

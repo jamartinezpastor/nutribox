@@ -83,12 +83,13 @@ export default function DS_MenuCrear_Previsualizar() {
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <h1 className="text-4xl">
                     <small>Menú:</small> {props.menu.nombre}{' '}
-                    <Button className="cursor-pointer" type="button" onClick={handleGuardarMenu}>
+                    <div>  <Button className="cursor-pointer" type="button" onClick={handleGuardarMenu}>
                         Guardar Menú
                     </Button>
-                    <Button onClick={() => toast.success('Funciona el toast')}>Probar Toast</Button>
+                    {/*<Button onClick={() => toast.success('Funciona el toast')}>Probar Toast</Button>*/}</div>                  
 
                 </h1>
+               
                 <Separator className="my-4" />
                 <p className="text-gray-600">Fecha: {props.menu.fecha}</p>
                 {props.menu.info_extra && <p className="italic">{props.menu.info_extra}</p>}
@@ -104,6 +105,11 @@ export default function DS_MenuCrear_Previsualizar() {
                         <DataTable columns={columnsProductos} data={comida.productos} />
                     </div>
                 ))}
+                 <div className="gap-8 pt-8">
+                    <Button className="cursor-pointer" variant="secondary" onClick={() => router.visit('menucrear')}>
+                        ← Volver
+                    </Button>
+                </div>
             </div>
         </AppLayout>
     );

@@ -1,7 +1,7 @@
-
+import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -15,14 +15,14 @@ interface Producto {
     image_url?: string;
     brands?: string;
     nutriments?: {
-        "energy-kcal_100g"?: number;
-        "fat_100g"?: number;
-        "saturated-fat_100g"?: number;
-        "carbohydrates_100g"?: number;
-        "sugars_100g"?: number;
-        "fiber_100g"?: number;
-        "proteins_100g"?: number;
-        "salt_100g"?: number;
+        'energy-kcal_100g'?: number;
+        fat_100g?: number;
+        'saturated-fat_100g'?: number;
+        carbohydrates_100g?: number;
+        sugars_100g?: number;
+        fiber_100g?: number;
+        proteins_100g?: number;
+        salt_100g?: number;
     };
 }
 
@@ -41,72 +41,71 @@ export default function OFF_buscar_resultados() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Resultados búsqueda" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <p className="text-4xl">Resultados de la búsqueda de: <b>{props.termino}</b></p>
+                <p className="text-4xl">
+                    Resultados de la búsqueda de: <b>{props.termino}</b>
+                </p>
+                <div className="gap-8 pt-8">
+                    <Button className="cursor-pointer" variant="secondary" onClick={() => router.visit('offbuscar')}>
+                        ← Volver
+                    </Button>
+                </div>
 
                 {props.error ? (
                     <p className="text-red-500">{props.error}</p>
                 ) : productos.length === 0 ? (
                     <p>No se encontraron productos.</p>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {productos.map((p, index) => (
                             <div
                                 key={index}
-                                className="border p-4 rounded-lg shadow-lg transition-transform duration-700 ease-in-out transform hover:scale-103 hover:shadow-xl"
+                                className="rounded-lg border p-4 shadow-lg  hover:scale-103 rounded-xl border p-4 px-4 py-2 rounded transition-all duration-600 hover:shadow-[0_0_20px_4px] hover:shadow-primary hover:ring-2 hover:ring-primary/60"
                             >
                                 <div className="text-center">
                                     {p.image_url ? (
                                         <img
                                             src={p.image_url}
                                             alt={p.product_name}
-                                            className="w-full h-40 object-cover  transition-transform duration-700 ease-in-out transform hover:scale-110"
+                                            className="h-40 w-full transform rounded-xl object-cover transition-transform duration-700 ease-in-out hover:scale-110"
                                         />
                                     ) : (
-                                        <img
-                                            src={'\\img\\no-image-600x600.jpg'}
-                                            alt={p.product_name}
-                                            className="w-full h-40 object-cover"
-                                        />
-
+                                        <img src={'/img/no-image-600x600.jpg'} alt={p.product_name} className="h-40 w-full rounded-xl object-cover" />
                                     )}
                                 </div>
                                 <div className="mt-2 text-center">
                                     <strong className="block text-lg font-semibold text-gray-800 hover:text-blue-600 dark:text-white">
-                                        {p.product_name || "Nombre desconocido"}
+                                        {p.product_name || 'Nombre desconocido'}
                                     </strong>
-                                    <small className="text-gray-500 dark:text-gray-400">
-                                        {p.brands || "Marca desconocida"}
-                                    </small>
+                                    <small className="text-gray-500 dark:text-gray-400">{p.brands || 'Marca desconocida'}</small>
                                 </div>
 
-
                                 {p.nutriments && (
-                                    <table className="mt-2 w-full border-collapse border border-gray-300 text-sm">
-                                        <thead>
+                                    <table className="mt-2 w-full overflow-hidden rounded-xl border border-gray-300 text-sm">
+                                    <thead>
                                             <tr className="bg-gray-100">
-                                                <th className="border border-gray-300 px-2 py-1 dark:text-gray-800">Nutriente</th>
-                                                <th className="border border-gray-300 px-2 py-1 dark:text-gray-800">Por 100g</th>
+                                            <th className="border border-gray-200 bg-gray-100 px-2 py-1 text-left dark:text-gray-800">Nutriente</th>
+                                            <th className="border border-gray-300 px-2 py-1 dark:text-gray-800">Por 100g</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {Object.entries({
-                                                "energy-kcal_100g": "Energía (kcal)",
-                                                "fat_100g": "Grasas (g)",
-                                                "saturated-fat_100g": "Grasas Saturadas (g)",
-                                                "carbohydrates_100g": "Carbohidratos (g)",
-                                                "sugars_100g": "Azúcares (g)",
-                                                "fiber_100g": "Fibra (g)",
-                                                "proteins_100g": "Proteínas (g)",
-                                                "salt_100g": "Sal (g)",
+                                                'energy-kcal_100g': 'Energía (kcal)',
+                                                fat_100g: 'Grasas (g)',
+                                                'saturated-fat_100g': 'Grasas Saturadas (g)',
+                                                carbohydrates_100g: 'Carbohidratos (g)',
+                                                sugars_100g: 'Azúcares (g)',
+                                                fiber_100g: 'Fibra (g)',
+                                                proteins_100g: 'Proteínas (g)',
+                                                salt_100g: 'Sal (g)',
                                             }).map(([key, label]) =>
-                                                p.nutriments?.[key as keyof Producto["nutriments"]] !== undefined ? (
+                                                p.nutriments?.[key as keyof Producto['nutriments']] !== undefined ? (
                                                     <tr key={key}>
-                                                        <td className="border border-gray-300 px-2 py-1">{label}</td>
+                                                        <td className="border border-gray-200 px-2 py-1">{label}</td>
                                                         <td className="border border-gray-300 px-2 py-1">
-                                                            {p.nutriments[key as keyof Producto["nutriments"]]}
+                                                            {p.nutriments[key as keyof Producto['nutriments']]}
                                                         </td>
                                                     </tr>
-                                                ) : null
+                                                ) : null,
                                             )}
                                         </tbody>
                                     </table>
