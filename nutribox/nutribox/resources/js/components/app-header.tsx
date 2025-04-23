@@ -11,16 +11,18 @@ import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookMarkedIcon, BookOpen, ForkKnifeCrossed, HeartPulse, LayoutGrid, LucideCarrot, Menu } from 'lucide-react';
+import { BookMarkedIcon, BookOpen, ForkKnifeCrossed, HeartPulse, LucideCarrot, Menu } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 
 const mainNavItems: NavItem[] = [
+    /*
     {
         title: 'Inicio',
         href: '/inicio',
         icon: LayoutGrid,
     },
+    */
     {
         title: 'Base de Datos',
         href: '/offbuscar',
@@ -109,7 +111,11 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                         </Sheet>
                     </div>
 
-                    <Link href="/" prefetch className="flex items-center space-x-2">
+                    <Link
+                        href="/inicio"
+                        prefetch
+                        className="hover:drop-shadow-[0_0_18px_#45c3bc] flex items-center space-x-2 transition duration-600 hover:brightness-125"
+                    >
                         <AppLogo />
                     </Link>
 

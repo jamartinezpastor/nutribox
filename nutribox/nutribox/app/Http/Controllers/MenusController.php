@@ -42,6 +42,29 @@ class MenusController extends Controller
         //dd($menuSeleccionado->nombre);
         $menuSeleccionado->load('comidas.productos');
 
-        return Inertia::render('menus/menu-detalle', compact('menuSeleccionado'));
+        $totalesComidas = $menuSeleccionado->comidas->map(function ($comida) {
+            return [
+                'id' => $comida->id,
+                'grupo' => $comida->grupo,
+                'info_extra' => $comida->info_extra,
+                'kcal' => $comida->getKcal(),
+                'gr' => $comida->getGr(),
+                'ch' => $comida->getCh(),
+                'pr' => $comida->getPr(),
+                'productos' => $comida->productos, // Mantener los productos de cada comida
+            ];
+        });
+
+        return Inertia::render('menus/menu-detalle', compact('menuSeleccionado','totalesComidas'));
     }
+
+    // app/Http/Controllers/MenuController.php
+public function borrarMenuDiario($id)
+{
+    $menu = Menu::findOrFail($id);
+    $menu->delete();
+
+    return redirect()->route('menus_listar')->with('success', 'Menú eliminado correctamente');
+}
+ 
 }

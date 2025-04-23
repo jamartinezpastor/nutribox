@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
@@ -35,6 +36,36 @@ export default function DS_MenuCrear() {
 
     const { props } = usePage<PageProps>();
 
+    const [progreso, setProgreso] = useState(0); // Estado del progreso
+    const [isCreando, setIsCreando] = useState(false); // Estado para saber si el proceso está en curso
+
+    // Simula el progreso
+    const simularProgreso = () => {
+        let valor = 0;
+        setIsCreando(true); // Establece que el proceso está en curso
+        const intervalo = setInterval(() => {
+            valor += 4;
+            setProgreso(valor);
+            if (valor >= 100) {
+                /*
+                clearInterval(intervalo);
+                setIsCreando(false); // El proceso ha terminado
+                router.post('/menucrearacontroller', {
+                    objetivo,
+                    numComidas,
+                    numSnacks,
+                    restricciones,
+                    productosAEvitar,
+                    productosAPriorizar,
+                    tiempoPreparacion,
+                    nombre,
+                    info_extra,
+                });
+                */
+            }
+        }, 2000);
+    };
+
     const handleCrearMenu = () => {
         router.post('/menucrearacontroller', {
             objetivo,
@@ -47,14 +78,17 @@ export default function DS_MenuCrear() {
             nombre,
             info_extra,
         });
+
+        simularProgreso();
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Crear Menú" />
+
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <p className="text-4xl">Crear Menú</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-4xl">Crear Menú </p>
+                <p className="text-muted-foreground text-sm">
                     Genere menús diarios personalizados mediante inteligencia artificial, adaptados a sus requerimientos nutricionales y preferencias,
                     en base a criterios científicos y evidencia actualizada.
                 </p>
@@ -261,11 +295,17 @@ export default function DS_MenuCrear() {
                             onChange={(e) => setInfoExtra(e.target.value)}
                         />
                     </div>
-                    <div className="gap-8 pt-8">
-                    <Button className="cursor-pointer" type="button" onClick={handleCrearMenu}>
-                        Crear Menú
-                    </Button>
+                    {isCreando && (
+                    <div className="my-4">
+                        <Progress value={progreso} />
                     </div>
+                )}
+                    <div className="gap-8 pt-2 mb-12">
+                        <Button className="cursor-pointer" type="button" onClick={handleCrearMenu}>
+                            Crear Menú
+                        </Button>
+                    </div>
+               
                 </div>
             </div>
         </AppLayout>

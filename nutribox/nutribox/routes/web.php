@@ -50,6 +50,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('menuslistar', [MenusController::class, 'listar'])->name('menus_listar');
     Route::get('/menus/{menuSeleccionado}', [MenusController::class, 'verDetalles']);
 
+    // MENÚS ELIMINAR 
+    Route::delete('/menus/{id}', [MenusController::class, 'borrarMenuDiario'])->name('borrarMenuDiario');
+
 
 
     Route::get('principal', function () {

@@ -1,25 +1,14 @@
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
-import { Head, usePage} from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { MenusTipo, columns } from './menus/columnsMenu';
 import { DataTable } from './menus/data-table';
-import { useEffect } from 'react';
-import { toast } from 'sonner';
 
 type Props = {
     menus: MenusTipo[];
 };
+
 export default function VerMenus({ menus }: Props) {
-/*
-    const { props } = usePage();
-
-    useEffect(() => {
-        if (props.flash?.success) {
-            toast.success(props.flash.success);
-        }
-    }, [props.flash]);
-    */
-
     return (
         <AppLayout>
             <Head title="Menús guardados" />

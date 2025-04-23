@@ -7,7 +7,7 @@ import { ColumnDef } from '@tanstack/react-table';
 // You can use a Zod schema here if you want.
 export type MenusTipo = {
     id: number;
-    fecha: Date; // o Date si lo parseas
+    fecha: Date;
     nombre: string;
     info_extra?: string;
 };

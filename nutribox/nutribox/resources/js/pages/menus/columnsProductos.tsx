@@ -20,7 +20,7 @@ export const columnsProductos: ColumnDef<ProductoTipo>[] = [
     },
     {
         accessorFn: (row) => `${row.cantidad} ${row.unidad}`,
-        id: 'cantidad_unidad', // Un identificador único para la columna combinada
+        id: 'cantidad_unidad', // ID único para la columna combinada
         header: 'Cantidad',
     },
     {
@@ -28,15 +28,15 @@ export const columnsProductos: ColumnDef<ProductoTipo>[] = [
         header: 'Calorías (kcal)',
     },
     {
-        accessorKey: 'pr',
-        header: 'Proteínas (g)',
+        accessorKey: 'gr',
+        header: 'Grasas (g)',
     },
     {
         accessorKey: 'ch',
         header: 'Hidratos de Carbono (g)',
     },
     {
-        accessorKey: 'gr',
-        header: 'Grasas (g)',
+        accessorKey: 'pr',
+        header: 'Proteínas (g)',
     },
 ];

@@ -115,7 +115,7 @@ export default function DS_evaluar() {
                         </Select>
                         </div> </div>
 
-                    <div className="gap-8 pt-8">
+                    <div className="gap-8 pt-2">
                     <Button className='cursor-pointer' type="button" onClick={handleEvaluar}>
                         Evaluar
                     </Button>
