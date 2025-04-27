@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { ProductoTipo, columnsProductos } from './columnsProductos';
 import { DataTable } from './data-table';
+import { getIconoPorTipo } from './iconosMenu';
+import { getIconoPorTipo2 } from './iconosMenu2';
 
 type ComidaConTotales = {
     id: number;
@@ -20,6 +22,7 @@ type ComidaConTotales = {
 type Menu = {
     id: number;
     fecha: string;
+    tipo: string;
     nombre: string;
     info_extra?: string;
     comidas: ComidaConTotales[];
@@ -108,7 +111,12 @@ export default function VerDetalles({ menuSeleccionado, totalesComidas }: Props)
     return (
         <AppLayout>
             <Head /*title={`Menú del ${menuSeleccionado.fecha}`}*/ />
-            <div className="flex h-full flex-1 flex-col gap-8 rounded-xl p-4">
+           
+            <div className="relative flex h-full flex-1 flex-col gap-8 rounded-xl p-4">
+                 {/* Fondo */}
+                 <div className="absolute right-0 top-0 h-[100vh] w-[100vw] opacity-100 z-[0] pointer-events-none">
+        {getIconoPorTipo2(menuSeleccionado.tipo)}
+    </div>
                 {/* Modificacion nombre + Botón Eliminar menú */}
                 {/* Disparador de la función al salir del input con onBlur o la tecla Enter */}
                 <div className="flex items-center justify-between">
@@ -126,7 +134,10 @@ export default function VerDetalles({ menuSeleccionado, totalesComidas }: Props)
                     ) : (
                         <div className="group relative">
                             <h1 className="cursor-pointer text-4xl hover:underline" onClick={() => setEditando(true)}>
-                                <small>Menú:</small> <span className="uppercase">{nombre}</span>
+                                <div className="flex items-center gap-2">
+                                    {getIconoPorTipo(menuSeleccionado.tipo)} <small>Menú:</small>
+                                </div>{' '}
+                                <span className="uppercase">{nombre}</span>
                             </h1>
                             {/* Tooltip */}
                             <span className="bg-muted-foreground absolute top-full left-0 mt-2 hidden w-max rounded px-2 py-1 text-xs text-white group-hover:block">
@@ -141,9 +152,11 @@ export default function VerDetalles({ menuSeleccionado, totalesComidas }: Props)
                 </div>
 
                 <p className="-mt-6 mb-0 pl-0">
-                    Energía {totalesMenu.kcal}kcal &nbsp;&nbsp;|&nbsp;&nbsp; Grasas {totalesMenu.gr}g &nbsp;&nbsp;|&nbsp;&nbsp; Hidratos de Carbono{' '}
-                    {totalesMenu.ch}g &nbsp;&nbsp;|&nbsp;&nbsp; Proteínas {totalesMenu.pr}g
+                    Energía {Math.round(totalesMenu.kcal)} kcal &nbsp;&nbsp;|&nbsp;&nbsp; Grasas {Math.round(totalesMenu.gr)} g
+                    &nbsp;&nbsp;|&nbsp;&nbsp; Hidratos de Carbono {Math.round(totalesMenu.ch)} g &nbsp;&nbsp;|&nbsp;&nbsp; Proteínas{' '}
+                    {Math.round(totalesMenu.pr)} g
                 </p>
+
                 <p className="-mt-6 text-gray-600">Fecha: {menuSeleccionado.fecha}</p>
 
                 {/* Modificación info_extra */}
@@ -194,8 +207,9 @@ export default function VerDetalles({ menuSeleccionado, totalesComidas }: Props)
                         <h2>
                             <span className="bg-secondary rounded-xl pr-4 pl-4 text-2xl font-bold capitalize uppercase">{comida.grupo}</span>{' '}
                             <p className="mt-2 mb-1 pl-4">
-                                Energía {comida.kcal}kcal &nbsp;&nbsp;|&nbsp;&nbsp; Grasas {comida.gr}g &nbsp;&nbsp;|&nbsp;&nbsp; Hidratos de Carbono{' '}
-                                {comida.ch}g &nbsp;&nbsp;|&nbsp;&nbsp; Proteínas {comida.pr}g
+                                Energía {Math.round(comida.kcal)} kcal &nbsp;&nbsp;|&nbsp;&nbsp; Grasas {Math.round(comida.gr)} g
+                                &nbsp;&nbsp;|&nbsp;&nbsp; Hidratos de Carbono {Math.round(comida.ch)} g &nbsp;&nbsp;|&nbsp;&nbsp; Proteínas{' '}
+                                {Math.round(comida.pr)} g
                             </p>
                         </h2>
                         <p className="mb-4 pl-4 text-gray-600 italic">

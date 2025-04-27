@@ -98,7 +98,7 @@ export default function DS_MenuCrear() {
                  max-w-sm limita el ancho, mx-auto margen automatico a ambos lados.. centra horizontal */}
                 <div className="mx-auto flex max-w-xl flex-col space-y-4">
                     <div className="pt-4">
-                        <Label htmlFor="unidad">Objetivo principal:</Label>
+                        <Label>Objetivo principal:</Label>
                         <Select onValueChange={(value) => setObjetivo(value)} required>
                             {/* Aquí se asigna `onValueChange` */}
                             <SelectTrigger>
@@ -296,16 +296,15 @@ export default function DS_MenuCrear() {
                         />
                     </div>
                     {isCreando && (
-                    <div className="my-4">
-                        <Progress value={progreso} />
-                    </div>
-                )}
-                    <div className="gap-8 pt-2 mb-12">
+                        <div className="my-4">
+                            <Progress value={progreso} />
+                        </div>
+                    )}
+                    <div className="mb-12 gap-8 pt-2">
                         <Button className="cursor-pointer" type="button" onClick={handleCrearMenu}>
                             Crear Menú
                         </Button>
                     </div>
-               
                 </div>
             </div>
         </AppLayout>

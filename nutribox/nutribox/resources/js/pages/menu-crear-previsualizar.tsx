@@ -6,6 +6,17 @@ import { Head, router, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
 import { ProductoTipo, columnsProductos } from './menus/columnsProductos';
 import { DataTable } from './menus/data-table';
+import { ArrowUpToLine, BicepsFlexed, ChevronsUp, CookingPot, PersonStanding, UserCheck, UserMinus } from 'lucide-react';
+
+const iconosPorTipo = {
+    UserMinus: <UserMinus />,
+    UserCheck: <UserCheck />,
+    BicepsFlexed: <BicepsFlexed />,
+    ArrowUpToLine: <ArrowUpToLine />,
+    ChevronsUp: <ChevronsUp />,
+    PersonStanding: <PersonStanding />,
+    CookingPot: <CookingPot />,
+};
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,6 +25,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 interface PageProps {
+    tipo: string;
     nombre: string;
     infoExtra: string;
     menu: Menu;
@@ -31,6 +43,7 @@ type Comida = {
 type Menu = {
     //  id: number
     error?: string;
+    tipo?: string;
     nombre: string;
     info_extra?: string;
     fecha: string;
@@ -78,16 +91,17 @@ export default function DS_MenuCrear_Previsualizar() {
         <AppLayout>
             <Head /*title={`Menú del ${props.menu.fecha}`} */ />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <h1 className="text-4xl">
-                    <small>Menú:</small> <span className="uppercase">{props.menu.nombre}</span>{' '}
-                    <div>
-                        {' '}
-                        <Button className="cursor-pointer" type="button" onClick={handleGuardarMenu}>
-                            Guardar Menú
-                        </Button>
-                        {/*<Button onClick={() => toast.success('Funciona el toast')}>Probar Toast</Button>*/}
-                    </div>
-                </h1>
+                <div className="flex items-center justify-between">
+                    <h1 className="flex items-center gap-2 text-4xl">
+                        <small>Menú:</small>
+                        <span className="uppercase">{props.menu.nombre}</span>
+                        <span>{iconosPorTipo[props.menu.tipo as keyof typeof iconosPorTipo] ?? <CookingPot />}</span>
+                    </h1>
+
+                    <Button className="cursor-pointer" type="button" onClick={handleGuardarMenu}>
+                        Guardar Menú
+                    </Button>
+                </div>
 
                 <Separator className="my-4" />
                 <p className="text-gray-600">Fecha: {props.menu.fecha}</p>
@@ -96,7 +110,7 @@ export default function DS_MenuCrear_Previsualizar() {
                 {props.menu.comidas.map((comida: Comida, indiceManual: number) => (
                     <div
                         key={indiceManual}
-                        className="mb-8 hover:shadow-primary-foreground hover:ring-primary-foreground/60 rounded rounded-xl border p-4 px-4 py-2 transition-all duration-600 hover:shadow-[0_0_20px_8px] hover:ring-4"
+                        className="hover:shadow-primary-foreground hover:ring-primary-foreground/60 mb-8 rounded rounded-xl border p-4 px-4 py-2 transition-all duration-600 hover:shadow-[0_0_20px_8px] hover:ring-4"
                     >
                         <h2>
                             <span className="bg-secondary rounded-xl pr-4 pl-4 text-2xl font-bold capitalize uppercase">{comida.grupo}</span>

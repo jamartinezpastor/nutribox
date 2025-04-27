@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nombre'); 
             $table->text('info_extra')->nullable();  
             $table->timestamps();
+            $table->string('tipo')->nullable();
         });
     }
 

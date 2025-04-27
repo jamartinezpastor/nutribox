@@ -2,12 +2,24 @@
 
 import { Link } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpToLine, BicepsFlexed, ChevronsUp, CookingPot, PersonStanding, UserCheck, UserMinus } from 'lucide-react';
+
+const iconosPorTipo = {
+    UserMinus: <UserMinus />,
+    UserCheck: <UserCheck />,
+    BicepsFlexed: <BicepsFlexed />,
+    ArrowUpToLine: <ArrowUpToLine />,
+    ChevronsUp: <ChevronsUp />,
+    PersonStanding: <PersonStanding />,
+    CookingPot: <CookingPot />,
+};
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type MenusTipo = {
     id: number;
     fecha: Date;
+    tipo: string;
     nombre: string;
     info_extra?: string;
 };
@@ -20,6 +32,18 @@ export const columns: ColumnDef<MenusTipo>[] = [
     {
         accessorKey: 'fecha',
         header: 'Fecha',
+    },
+    {
+        accessorKey: 'tipo',
+        header: 'Tipo',
+        cell: ({ row }) => {
+            const tipo = row.getValue('tipo');  // Accedemos al valor del tipo desde la fila
+            return (
+                <div className="flex items-center gap-2">
+                   <span >{iconosPorTipo[tipo as keyof typeof iconosPorTipo] ?? <CookingPot className='text-primary'/>}</span>                
+                </div>
+            );
+        },
     },
     {
         accessorKey: 'nombre',

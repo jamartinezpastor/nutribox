@@ -17,6 +17,7 @@ class MenuSeeder extends Seeder
         Menu::create([
             'user_id' => 1,
             'fecha' => Carbon::now(),
+            'tipo' => 'HeartPulse',
             'nombre' => 'Menú déficit calórico 1',
             'info_extra' => 'Para perder peso los dias sin GYM',
         ]);
@@ -25,6 +26,7 @@ class MenuSeeder extends Seeder
             'user_id' => 1,
             // 'fecha' => Carbon::now()->addDays(1),
             'fecha' => Carbon::now(),
+            'tipo' => 'LucideCarrot',
             'nombre' => 'Menú Martes',
             'info_extra' => 'Mantenimiento de peso',
         ]);
@@ -32,6 +34,7 @@ class MenuSeeder extends Seeder
         Menu::create([
             'user_id' => 2,
             'fecha' => Carbon::now(),
+            'tipo' => 'LucideCarrot',
             'nombre' => 'Menú pre carrera Trail',
             'info_extra' => 'Carga de HC, baja en fibra y grasas',
         ]);

@@ -80,6 +80,20 @@ class DeepSeekController extends Controller
         }
     }
 
+    private function mapearObjetivoATipo(string $objetivo): string
+    {
+        return match ($objetivo) {
+            'disminuir-ingesta-calorica-reduciendo-en-menor-medida-las-proteinas-diarias' => 'UserMinus',
+            'mantener-ingesta-calorica' => 'UserCheck',
+            'ganar-masa-muscular' => 'BicepsFlexed',
+            'disminuir-ingesta-carbohidratos-manteniendo-calorias' => 'ArrowUpToLine',
+            'aumentar-ingesta-proteinas-manteniendo-calorias' => 'ChevronsUp',
+            'mejorar-salud-general' => 'PersonStanding',
+            default => 'CookingPot', 
+        };
+    }
+    
+
     public function crearMenuDiario(Request $formulario)
     {
         $datos = $formulario->validate([
@@ -101,6 +115,8 @@ class DeepSeekController extends Controller
         $u_peso = $usuario->peso;
         $u_actividad = $usuario->actividad;
         $u_infoextra = $usuario->info_extra;
+
+        $tipo = $this->mapearObjetivoATipo($formulario->objetivo);
 
         $objetivo = $datos['objetivo'];
         $numComidas = $datos['numComidas'];
@@ -192,7 +208,7 @@ class DeepSeekController extends Controller
             Con un tiempo de preparación aproximado de: $tiempoPreparacion minutos,
             y también valora esta información adicional: $infoExtra.
 
-            Ten en cuenta que es un menú diario (Para cuadrar calorias, macronutrientes, etc..), las comidas diarias deben ajustarse inversamente en su contenido calórico y de macronutrientes según su frecuencia (Cuando una persona realiza menos comidas al día, cada una debe contener mayor cantidad de calorías y macronutrientes para cumplir con los requerimientos diarios totales establecidos según el perfil individual del usuario), que la mayoria de los usuarios son de España (Murcia) y que puedes tomarte tu tiempo para realizarlo (es preferible obtener un resultado veraz antes que rápido e inexacto).
+            Ten en cuenta que es un menú diario (Son las calorias de un dia entero, ten esto presenta para calcular calorias, macronutrientes, etc..), las comidas diarias deben ajustarse inversamente en su contenido calórico y de macronutrientes según su frecuencia (Por ejemplo, cuando una persona realiza menos comidas al día, cada una debe contener mayor cantidad de calorías y macronutrientes para cumplir con los requerimientos diarios totales establecidos según el perfil individual del usuario), que la mayoria de los usuarios son de España (Murcia) y que puedes tomarte tu tiempo para realizarlo (es preferible obtener un resultado veraz antes que rápido e inexacto).
 
             La respuesta debe estar en formato JSON, basado en esta estructura:
                 - Un Menu está formado por los atributos: nombre ($nombre), info_extra ($infoExtra), fecha (Añade la fecha actual en formato dd-mm-aaaa) y comidas (un conjunto de tipo Comida).
@@ -258,6 +274,7 @@ class DeepSeekController extends Controller
 
                 return Inertia::render('menu-crear-previsualizar', [
                     'nombre' => $nombre,
+                    'tipo' => $tipo,
                     'info_extra' => $infoExtra,
                     'menu' => $menu,
                 ]);
@@ -284,6 +301,7 @@ class DeepSeekController extends Controller
 
     // Crear menú
     $menu = new Menu();
+    $menu->tipo = $datos['menu']['tipo'];
     $menu->nombre = $datos['menu']['nombre'];
     $menu->info_extra = $datos['menu']['info_extra'];
     $menu->fecha = Carbon::createFromFormat('d-m-Y', $datos['menu']['fecha']);
