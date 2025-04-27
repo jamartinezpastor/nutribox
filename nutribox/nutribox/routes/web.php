@@ -53,6 +53,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // MENÚS ELIMINAR 
     Route::delete('/menus/{id}', [MenusController::class, 'borrarMenuDiario'])->name('borrarMenuDiario');
 
+    // MENUS EDITAR (CAMBIAR NOMBRE)
+    Route::put('/menus/{id}', [MenusController::class, 'actualizarMenuDiario'])->name('actualizarMenuDiario');
+
 
 
     Route::get('principal', function () {

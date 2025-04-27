@@ -40,7 +40,7 @@ export default function DS_evaluar_resultados() {
                     ></div>
                 )}
 
-                <h1 className="text-4xl mb-4">Resultados evaluador nutricional</h1>
+                <h1 className="text-4xl mb-4">Resultados Evaluador Alimento-Patología (IA)</h1>
             
                 {props.error && <p className="text-red-500">{props.error}</p>}
 

@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { ProductoTipo, columnsProductos } from './columnsProductos';
 import { DataTable } from './data-table';
@@ -45,7 +46,49 @@ export default function VerDetalles({ menuSeleccionado, totalesComidas }: Props)
 
     const totalesMenu = calcularTotalesMenu();
 
-    // Revisar para que aparezca el toast ok?
+    // useState para nombre e info_extra
+    const [nombre, setNombre] = useState(menuSeleccionado.nombre);
+    const [editando, setEditando] = useState(false);
+    const [infoExtra, setInfoExtra] = useState(menuSeleccionado.info_extra || '');
+    const [editandoInfoExtra, setEditandoInfoExtra] = useState(false);
+
+    const handleActualizarNombre = () => {
+        if (nombre.trim() === '') {
+            toast.error('El nombre no puede estar vacío');
+            return;
+        }
+
+        router.put(
+            `/menus/${menuSeleccionado.id}`,
+            { nombre },
+            {
+                onSuccess: () => {
+                    toast.success('Nombre actualizado correctamente');
+                    setEditando(false); // Salir del modo edición
+                },
+                onError: () => {
+                    toast.error('No se pudo actualizar el nombre');
+                },
+            },
+        );
+    };
+
+    const handleActualizarInfoExtra = () => {
+        router.put(
+            `/menus/${menuSeleccionado.id}`,
+            { info_extra: infoExtra },
+            {
+                onSuccess: () => {
+                    toast.success('Información adicional actualizada correctamente');
+                    setEditandoInfoExtra(false);
+                },
+                onError: () => {
+                    toast.error('No se pudo actualizar la información adicional');
+                },
+            },
+        );
+    };
+
     const handleEliminar = (id: number) => {
         if (confirm('¿Estás seguro de que quieres eliminar este menú?')) {
             router.delete(`/menus/${id}`, {
@@ -66,10 +109,32 @@ export default function VerDetalles({ menuSeleccionado, totalesComidas }: Props)
         <AppLayout>
             <Head /*title={`Menú del ${menuSeleccionado.fecha}`}*/ />
             <div className="flex h-full flex-1 flex-col gap-8 rounded-xl p-4">
+                {/* Modificacion nombre + Botón Eliminar menú */}
+                {/* Disparador de la función al salir del input con onBlur o la tecla Enter */}
                 <div className="flex items-center justify-between">
-                    <h1 className="text-4xl">
-                        <small>Menú:</small> <span className="uppercase">{menuSeleccionado.nombre}</span>
-                    </h1>
+                    {editando ? (
+                        <input
+                            className="w-full rounded border px-2 py-1 text-3xl uppercase"
+                            value={nombre}
+                            onChange={(e) => setNombre(e.target.value)}
+                            autoFocus
+                            onBlur={handleActualizarNombre}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') handleActualizarNombre();
+                            }}
+                        />
+                    ) : (
+                        <div className="group relative">
+                            <h1 className="cursor-pointer text-4xl hover:underline" onClick={() => setEditando(true)}>
+                                <small>Menú:</small> <span className="uppercase">{nombre}</span>
+                            </h1>
+                            {/* Tooltip */}
+                            <span className="bg-muted-foreground absolute top-full left-0 mt-2 hidden w-max rounded px-2 py-1 text-xs text-white group-hover:block">
+                                Haz click aquí para renombrar el menú
+                            </span>
+                        </div>
+                    )}
+
                     <Button className="cursor-pointer" variant="destructive" onClick={() => handleEliminar(menuSeleccionado.id)}>
                         Eliminar
                     </Button>
@@ -80,8 +145,47 @@ export default function VerDetalles({ menuSeleccionado, totalesComidas }: Props)
                     {totalesMenu.ch}g &nbsp;&nbsp;|&nbsp;&nbsp; Proteínas {totalesMenu.pr}g
                 </p>
                 <p className="-mt-6 text-gray-600">Fecha: {menuSeleccionado.fecha}</p>
-                {menuSeleccionado.info_extra && <p className="-mt-6 italic">{menuSeleccionado.info_extra}</p>}
 
+                {/* Modificación info_extra */}
+                <div className="-mt-6">
+                    {editandoInfoExtra ? (
+                        <textarea
+                            className="mt-2 w-full rounded border px-2 py-1 italic"
+                            value={infoExtra}
+                            onChange={(e) => setInfoExtra(e.target.value)}
+                            autoFocus
+                            onBlur={handleActualizarInfoExtra}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault(); // evitar salto de línea
+                                    handleActualizarInfoExtra();
+                                }
+                            }}
+                        />
+                    ) : menuSeleccionado.info_extra ? (
+                        <div className="group relative mt-2">
+                            <p className="cursor-pointer pl-0 text-gray-600 italic hover:underline" onClick={() => setEditandoInfoExtra(true)}>
+                                {infoExtra}
+                            </p>
+                            {/* Tooltip */}
+                            <span className="bg-muted-foreground absolute top-full left-0 mt-2 hidden w-max rounded px-2 py-1 text-xs text-white group-hover:block">
+                                Haz click aquí para editar la información adicional
+                            </span>
+                        </div>
+                    ) : (
+                        <div className="group relative mt-2">
+                            <p className="cursor-pointer pl-0 text-gray-600 italic hover:underline" onClick={() => setEditandoInfoExtra(true)}>
+                                Sin información adicional
+                            </p>
+                            {/* Tooltip */}
+                            <span className="bg-muted-foreground absolute top-full left-0 mt-2 hidden w-max rounded px-2 py-1 text-xs text-white group-hover:block">
+                                Haz click aquí para añadir información adicional
+                            </span>
+                        </div>
+                    )}
+                </div>
+
+                {/* Mostrar los totales calculados del menu */}
                 {totalesComidas.map((comida) => (
                     <div
                         key={comida.id}
@@ -98,7 +202,6 @@ export default function VerDetalles({ menuSeleccionado, totalesComidas }: Props)
                             {/*Información adicional: */}
                             {comida.info_extra}
                         </p>
-                        {/* Mostrar los totales calculados */}
 
                         <DataTable columns={columnsProductos} data={comida.productos} />
                     </div>

@@ -41,7 +41,7 @@ export default function DS_evaluar() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Evaluar alimentos" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <p className="text-4xl">Evaluar la relación entre un alimento y una patología</p>
+                <p className="text-4xl">Evaluador Alimento-Patología (IA)</p>
                 <p className="text-sm text-muted-foreground">
                     Analice la relación existente entre un alimento o producto, su cantidad y una patología, con el fin de comprender sus interacciones y la evidencia científica que respalda nuestra evaluación.        </p>
                 <Separator className="my-4" />

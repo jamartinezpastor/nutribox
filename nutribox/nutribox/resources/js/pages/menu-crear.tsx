@@ -87,7 +87,7 @@ export default function DS_MenuCrear() {
             <Head title="Crear Menú" />
 
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <p className="text-4xl">Crear Menú </p>
+                <p className="text-4xl">Diseño de Menús Diarios (IA)</p>
                 <p className="text-muted-foreground text-sm">
                     Genere menús diarios personalizados mediante inteligencia artificial, adaptados a sus requerimientos nutricionales y preferencias,
                     en base a criterios científicos y evidencia actualizada.

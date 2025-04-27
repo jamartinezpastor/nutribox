@@ -27,7 +27,7 @@ export default function OFF_buscar() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Base de datos de alimentos" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-                <p className="text-4xl">Buscar un producto o alimento</p>
+                <p className="text-4xl">Buscador Información Nutricional</p>
                 <p className="text-sm text-muted-foreground">
                     Introduzca un alimento o producto, y realice una búsqueda en nuestra base de datos para obtener los resultados encontrados junto
                     con su información nutricional.{' '}

@@ -66,5 +66,31 @@ public function borrarMenuDiario($id)
 
     return redirect()->route('menus_listar')->with('success', 'Menú eliminado correctamente');
 }
+
+public function actualizarMenuDiario(Request $handleActualizarDeMenuDetalle, $id)
+{
+    $menu = Menu::findOrFail($id);
+
+    $handleActualizarDeMenuDetalle->validate([
+        'nombre' => 'nullable|string|max:255',
+        'info_extra' => 'nullable|string|max:1000',
+    ]);
+
+    // Cada isset() por separado
+    if (isset($handleActualizarDeMenuDetalle['nombre'])) {
+        $menu->nombre = $handleActualizarDeMenuDetalle['nombre'];
+    }
+
+    if (isset($handleActualizarDeMenuDetalle['info_extra'])) {
+        $menu->info_extra = $handleActualizarDeMenuDetalle['info_extra'];
+    }
+
+    // Hay cambios? Entonces se actualiza
+    if ($menu->isDirty()) {
+        $menu->save();
+    }
+
+    return back()->with('success', 'Actualización correcta');
+}
  
 }
