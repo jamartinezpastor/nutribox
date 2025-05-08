@@ -1,4 +1,4 @@
-name: Deploy Nutribox V5
+name: Deploy Nutribox V7
 
 on:
   push:
@@ -13,12 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy to VPS via SSH
+      - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
             cd /var/www/nutribox/nutribox
             git pull origin main
@@ -30,6 +30,9 @@ jobs:
             php artisan route:cache
             php artisan view:cache
 
-            /root/.nvm/versions/node/v22.14.0/bin/npm install
-            /root/.nvm/versions/node/v22.14.0/bin/npm run build
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            nvm use 22
 
+            npm install
+            npm run build
