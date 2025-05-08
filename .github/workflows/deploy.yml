@@ -17,7 +17,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/nutribox
+            cd /var/www/nutribox/nutribox
             git pull origin main
 
             composer install --no-dev --optimize-autoloader
