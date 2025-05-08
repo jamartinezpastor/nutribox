@@ -1,0 +1,32 @@
+name: Despliegue Nutribox App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/nutribox
+            git pull origin main
+
+            composer install --no-dev --optimize-autoloader
+            php artisan migrate --force
+            php artisan db:seed --force
+
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+
+            npm install
+            npm run build
