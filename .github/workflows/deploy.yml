@@ -24,31 +24,36 @@ jobs:
           script: |
             cd /var/www/nutribox/nutribox
 
-            # Asegurar permisos
+            # Reset repo
+            sudo git config --global --add safe.directory /var/www/nutribox
+            sudo git reset --hard origin/main
+            sudo git clean -fd
+            sudo git pull origin main
+
+            # Asignar permisos al proyecto completo
             sudo chown -R $USER:www-data .
             sudo find . -type f -exec chmod 664 {} \;
             sudo find . -type d -exec chmod 775 {} \;
+
+            # Laravel requiere estos directorios escribibles
             sudo chown -R www-data:www-data storage bootstrap/cache
-            sudo chmod -R 775 storage bootstrap/cache
+            sudo chmod -R ug+rwx storage bootstrap/cache
 
-            # Directorio seguro para Git
-            git config --global --add safe.directory /var/www/nutribox
+            # Composer
+            composer install --optimize-autoloader --no-interaction --no-dev
 
-            # Pull de cambios
-            git reset --hard origin/main
-            git clean -fd
-            git pull origin main
-
-            # Backend
-            composer install --optimize-autoloader
+            # Migraciones y semillas
             php artisan migrate:fresh --seed --force
+
+            # Caches de Laravel
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
 
-            # Frontend
+            # Node y Vite
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             nvm use 22
             npm install --legacy-peer-deps
+            chmod +x ./node_modules/.bin/vite
             npm run build
