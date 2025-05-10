@@ -12,7 +12,7 @@ class MenusController extends Controller
     public function listar()
     {
         $menus = Menu::all();
-        
+
         /*
         // DATOS MOCK-DATA
         $menus = [
@@ -55,42 +55,40 @@ class MenusController extends Controller
             ];
         });
 
-        return Inertia::render('menus/menu-detalle', compact('menuSeleccionado','totalesComidas'));
+        return Inertia::render('menus/menu-detalle', compact('menuSeleccionado', 'totalesComidas'));
     }
 
-    // app/Http/Controllers/MenuController.php
-public function borrarMenuDiario($id)
-{
-    $menu = Menu::findOrFail($id);
-    $menu->delete();
+    public function borrarMenuDiario($id)
+    {
+        $menu = Menu::findOrFail($id);
+        $menu->delete();
 
-    return redirect()->route('menus_listar')->with('success', 'Menú eliminado correctamente');
-}
-
-public function actualizarMenuDiario(Request $handleActualizarDeMenuDetalle, $id)
-{
-    $menu = Menu::findOrFail($id);
-
-    $handleActualizarDeMenuDetalle->validate([
-        'nombre' => 'nullable|string|max:255',
-        'info_extra' => 'nullable|string|max:1000',
-    ]);
-
-    // Cada isset() por separado
-    if (isset($handleActualizarDeMenuDetalle['nombre'])) {
-        $menu->nombre = $handleActualizarDeMenuDetalle['nombre'];
+        return redirect()->route('menus_listar')->with('success', 'Menú eliminado correctamente');
     }
 
-    if (isset($handleActualizarDeMenuDetalle['info_extra'])) {
-        $menu->info_extra = $handleActualizarDeMenuDetalle['info_extra'];
-    }
+    public function actualizarMenuDiario(Request $handleActualizarDeMenuDetalle, $id)
+    {
+        $menu = Menu::findOrFail($id);
 
-    // Hay cambios? Entonces se actualiza
-    if ($menu->isDirty()) {
-        $menu->save();
-    }
+        $handleActualizarDeMenuDetalle->validate([
+            'nombre' => 'nullable|string|max:255',
+            'info_extra' => 'nullable|string|max:1000',
+        ]);
 
-    return back()->with('success', 'Actualización correcta');
-}
- 
+        // Cada isset() por separado
+        if (isset($handleActualizarDeMenuDetalle['nombre'])) {
+            $menu->nombre = $handleActualizarDeMenuDetalle['nombre'];
+        }
+
+        if (isset($handleActualizarDeMenuDetalle['info_extra'])) {
+            $menu->info_extra = $handleActualizarDeMenuDetalle['info_extra'];
+        }
+
+        // Hay cambios? Entonces se actualiza
+        if ($menu->isDirty()) {
+            $menu->save();
+        }
+
+        return back()->with('success', 'Actualización correcta');
+    }
 }

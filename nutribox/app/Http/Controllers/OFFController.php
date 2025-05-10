@@ -25,14 +25,13 @@ class OFFController extends Controller
         }
     }
 
+    // Primer método (de prueba) para recibir un formulario y devolver datos mockeados
     public function recibeForm_DevuelveVariable(Request $formulario)
     {
         $termino = $formulario->input('termino');
-
         ///////
         // LÓGICA !!
         ///////
-
         $resultados = ["Alimento 1", "Alimento 2", "Alimento 3"];
 
         return Inertia::render('off-buscar-resultados', compact('termino', 'resultados'));

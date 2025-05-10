@@ -57,13 +57,10 @@ export default function OFF_buscar_resultados() {
                 ) : (
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {productos.map((p, index) => (
-               <div
-               key={index}
-               className="rounded-xl border p-4 shadow-lg transition-all duration-500 hover:shadow-[0_0_30px_8px] hover:shadow-primary hover:ring-2 hover:ring-primary/60 transform-gpu [perspective:600px] hover:[transform:rotateX(8deg)_rotateY(12deg)_scale(1.05)]"
-             >
-             
-                 
-                       
+                            <div
+                                key={index}
+                                className="hover:shadow-primary hover:ring-primary/60 transform-gpu rounded-xl border p-4 shadow-lg transition-all duration-500 [perspective:600px] hover:[transform:rotateX(8deg)_rotateY(12deg)_scale(1.05)] hover:shadow-[0_0_30px_8px] hover:ring-2"
+                            >
                                 <div className="text-center">
                                     {p.image_url ? (
                                         <img
@@ -75,7 +72,7 @@ export default function OFF_buscar_resultados() {
                                         <img src={'/img/no-image-600x600.jpg'} alt={p.product_name} className="h-40 w-full rounded-xl object-cover" />
                                     )}
                                 </div>
-                                <div className="mt-2 text-center  transition-transform duration-700 ease-in-out hover:scale-105">
+                                <div className="mt-2 text-center transition-transform duration-700 ease-in-out hover:scale-105">
                                     <strong className="block text-lg font-semibold text-gray-800 hover:text-blue-600 dark:text-white">
                                         {p.product_name || 'Nombre desconocido'}
                                     </strong>
@@ -83,11 +80,13 @@ export default function OFF_buscar_resultados() {
                                 </div>
 
                                 {p.nutriments && (
-                                    <table className="mt-2 w-full overflow-hidden rounded-xl border border-gray-300 text-sm  transition-transform duration-700 ease-in-out hover:scale-105">
-                                    <thead>
+                                    <table className="mt-2 w-full overflow-hidden rounded-xl border border-gray-300 text-sm transition-transform duration-700 ease-in-out hover:scale-105">
+                                        <thead>
                                             <tr className="bg-gray-100">
-                                            <th className="border border-gray-200 bg-gray-100 px-2 py-1 text-left dark:text-gray-800">Nutriente</th>
-                                            <th className="border border-gray-300 px-2 py-1 dark:text-gray-800">Por 100g</th>
+                                                <th className="border border-gray-200 bg-gray-100 px-2 py-1 text-left dark:text-gray-800">
+                                                    Nutriente
+                                                </th>
+                                                <th className="border border-gray-300 px-2 py-1 dark:text-gray-800">Por 100g</th>
                                             </tr>
                                         </thead>
                                         <tbody>

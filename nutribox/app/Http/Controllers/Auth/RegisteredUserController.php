@@ -36,8 +36,8 @@ class RegisteredUserController extends Controller
             'altura' => 'required|integer|min:50|max:300',
             'peso' => 'required|numeric|min:20|max:500',
             'actividad' => 'required|string',
-            'objetivo' => 'required|string',
-            'info_extra' => 'required|string|max:255',
+            'objetivo' => 'nullable|string',
+            'info_extra' => 'nullable|string',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);

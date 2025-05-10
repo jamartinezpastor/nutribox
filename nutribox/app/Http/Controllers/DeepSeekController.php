@@ -18,6 +18,17 @@ use Carbon\Carbon;
 
 class DeepSeekController extends Controller
 {
+    private $deepseekApiKey;
+    private $openaiApiKey;
+    private $pexelsApiKey;
+
+    public function __construct()
+    {
+        $this->deepseekApiKey = config('services.deepseek.key');
+        $this->openaiApiKey = config('services.openai.key');
+        $this->pexelsApiKey = config('services.pexels.key');
+    }
+
     public function evaluarDS(Request $formulario)
     {
         $producto = $formulario->input('producto');
@@ -34,15 +45,13 @@ class DeepSeekController extends Controller
         (Comienza directamente con la respuesta, no con el nombre del alimento)";
 
         try {
-            // Petición a la API de Deepseek
-            $response = DeepSeekClient::build(env('DEEPSEEK_API_KEY'))
+            $response = DeepSeekClient::build($this->deepseekApiKey)
                 ->query($prompt)
                 ->run();
 
             // Decodifica la respuesta JSON.. con true array asociativo!
             $responseArray = json_decode($response, true);
 
-            // Verifica si la decodificación fue exitosa
             if (json_last_error() === JSON_ERROR_NONE) {
                 $analisis = $responseArray['choices'][0]['message']['content'];
 
@@ -52,10 +61,9 @@ class DeepSeekController extends Controller
                 return back()->with('error', 'Error al decodificar la respuesta del análisis mediante IA.');
             }
 
-            // Petición a la API de Pexels
-            $pexelsApiKey = env('PEXELS_API_KEY');
+            // Petición a la API de Pexels          
             $responsePexels = Http::withHeaders([
-                'Authorization' => $pexelsApiKey
+                'Authorization' => $this->pexelsApiKey
             ])->get("https://api.pexels.com/v1/search", [
                 'query' => $producto,
                 'per_page' => 1,
@@ -65,13 +73,12 @@ class DeepSeekController extends Controller
             if ($responsePexels->successful()) {
                 $data = $responsePexels->json();
                 if (!empty($data['photos'])) {
-                    $imageUrl = $data['photos'][0]['src']['large']; // Tomar la primera imagen horizontal
+                    $imageUrl = $data['photos'][0]['src']['large'];
                 }
             }
 
             if (isset($analisis)) {
                 return Inertia::render('ds-evaluar-resultados', compact('producto', 'cantidad', 'unidad', 'patologia', 'analisis', 'imageUrl'));
-                //  return view('form_resultados', compact('analisis', 'patologia'));
             } else {
                 return Inertia::render('ds-evaluar-resultados', ['error' => 'Error, no se pudo obtener un análisis mediante IA válido']);
             }
@@ -80,6 +87,7 @@ class DeepSeekController extends Controller
         }
     }
 
+    // Método para mapear el objetivo seleccionado en la creación de menús al nombre de un componente (tipo icono)
     private function mapearObjetivoATipo(string $objetivo): string
     {
         return match ($objetivo) {
@@ -89,13 +97,13 @@ class DeepSeekController extends Controller
             'disminuir-ingesta-carbohidratos-manteniendo-calorias' => 'ArrowUpToLine',
             'aumentar-ingesta-proteinas-manteniendo-calorias' => 'ChevronsUp',
             'mejorar-salud-general' => 'PersonStanding',
-            default => 'CookingPot', 
+            default => 'CookingPot',
         };
     }
-    
 
     public function crearMenuDiario(Request $formulario)
     {
+        // Validación formulario creacion
         $datos = $formulario->validate([
             'objetivo' => 'required|string',
             'numComidas' => 'required|integer',
@@ -108,6 +116,7 @@ class DeepSeekController extends Controller
             'info_extra' => 'nullable|string',
         ]);
 
+        // Preparación datos antes de la petición a API IA
         $usuario = Auth::user();
         $u_sexo = $usuario->sexo;
         $u_edad = $usuario->edad;
@@ -118,16 +127,18 @@ class DeepSeekController extends Controller
 
         $objetivo = $datos['objetivo'];
         $tipoIcono = $this->mapearObjetivoATipo($objetivo);
-        
+
         $numComidas = $datos['numComidas'];
         $numSnacks = $datos['numSnacks'];
         $restricciones = $datos['restricciones'];
+        $restriccionesTexto = implode(', ', $restricciones); // Al poder ser varias, se prepara para que se entendible en el prompt
         $productosAEvitar = $datos['productosAEvitar'] ?? null;
         $productosAPriorizar = $datos['productosAPriorizar'] ?? null;
         $tiempoPreparacion = $datos['tiempoPreparacion'];
         $nombre = $datos['nombre'];
         $infoExtra = $datos['info_extra'] ?? null;
 
+        // Datos mockeados de prueba
         /*
         $menu_estructura_json = '{
 "nombre": "Menú saludable 1800 kcal",
@@ -189,7 +200,7 @@ class DeepSeekController extends Controller
         $estructuraEjemplo = json_encode(json_decode($menu_estructura_json, true), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
       
 */
-        $restriccionesTexto = implode(', ', $restricciones);
+
         try {
             $prompt = "Desde la perspectiva de un médico endocrino (especialista en nutrición y dietética) y para un usuario con el siguiente perfil:
             Sexo: $u_sexo,
@@ -216,47 +227,28 @@ class DeepSeekController extends Controller
                 - Un Producto está formado: nombre, cantidad, unidad (Por ejemplo: 'g', 'ml', 'taza', 'unidad', etc..), kcal, pr (proteinas), ch (carbohidratos) y gr (grasas).
                 - Un Menu puede contener 1 o muchas comidas, una Comida puede contener 1 o muchos productos.
             ";
-            // Petición a la API de Deepseek
 
-            set_time_limit(120);  
-            $client = DeepSeekClient::build(apiKey: env('DEEPSEEK_API_KEY'), baseUrl: 'https://api.deepseek.com/v3', timeout: 120, clientType: 'guzzle');
-
+            // Petición Completa a la API IA
+            set_time_limit(120); // Ampliado de 30 a 120 por si la consulta es lenta evitar errores
+            $client = DeepSeekClient::build(apiKey: $this->deepseekApiKey, baseUrl: 'https://api.deepseek.com/v3', timeout: 120, clientType: 'guzzle');
             $response = $client
                 ->withModel(Models::CODER->value)
                 ->query($prompt)
                 ->run();
 
-            //   echo 'API Response: ' . $response;
-
-            //     dd($response);
-
-
-
             /*
+            // Petición Simple a la API IA
             $response = DeepSeekClient::build(env('DEEPSEEK_API_KEY'))
                 ->query($prompt)
                 ->run();
             Log::info('Prompt enviado a DeepSeek', ['prompt' => $prompt]);
             Log::info('Respuesta de DeepSeek:', ['respuesta_bruta' => $response]);
             dd($response);
-*/
-            // Decodifica la respuesta JSON.. con true array asociativo!
-            // $responseArray = json_decode($response, true);
-
-            /*
-            // Verifica si la decodificación fue exitosa
-            if (json_last_error() === JSON_ERROR_NONE) {
-                $analisis = $responseArray['choices'][0]['message']['content'];
-                // Eliminar cualquier "**" restante
-                //$analisis = str_replace(["*"], '', $analisis);
-            } else {
-                return Inertia::render('menu-crear-previsualizar', ['error' => 'Error al decodificar la respuesta del análisis mediante IA.']);
-                // return back()->with('error', 'Error al decodificar la respuesta del análisis mediante IA.');
-            }
-                */
+            */
 
             $responseArray = json_decode($response, true);
             // dd($responseArray);
+
             if (
                 isset($responseArray['choices'][0]['message']['content']) &&
                 is_string($responseArray['choices'][0]['message']['content'])
@@ -289,49 +281,49 @@ class DeepSeekController extends Controller
     }
 
     public function guardarMenuDiario(Request $formulario)
-{
-    $datos = $formulario->validate([
-        'menu' => 'required|array',
-        'menu.nombre' => 'required|string',
-        'tipoIcono' => 'nullable|string',
-        'menu.info_extra' => 'nullable|string',
-        'menu.fecha' => 'required|string',
-        'menu.comidas' => 'required|array',
-    ]);
+    {
+        // validación guardado
+        $datos = $formulario->validate([
+            'menu' => 'required|array',
+            'menu.nombre' => 'required|string',
+            'tipoIcono' => 'nullable|string',
+            'menu.info_extra' => 'nullable|string',
+            'menu.fecha' => 'required|string',
+            'menu.comidas' => 'required|array',
+        ]);
 
-    $usuario = Auth::user();
+        // Crear menú
+        $usuario = Auth::user();
+        $menu = new Menu();
+        $menu->nombre = $datos['menu']['nombre'];
+        $menu->tipo = $datos['tipoIcono'];
+        $menu->info_extra = $datos['menu']['info_extra'];
+        $menu->fecha = Carbon::createFromFormat('d-m-Y', $datos['menu']['fecha']);
+        $menu->user_id = $usuario->id;
+        $menu->save();
 
-    // Crear menú
-    $menu = new Menu();
-    $menu->nombre = $datos['menu']['nombre'];
-    $menu->tipo = $datos['tipoIcono'];
-    $menu->info_extra = $datos['menu']['info_extra'];
-    $menu->fecha = Carbon::createFromFormat('d-m-Y', $datos['menu']['fecha']);
-    $menu->user_id = $usuario->id;
-    $menu->save();
+        // Crear comidas y productos recorriendo arrays
+        foreach ($datos['menu']['comidas'] as $comidaData) {
+            $comida = new Comida();
+            $comida->menu_id = $menu->id;
+            $comida->grupo = $comidaData['grupo'];
+            $comida->info_extra = $comidaData['info_extra'] ?? null;
+            $comida->save();
 
-    // Crear comidas y productos
-    foreach ($datos['menu']['comidas'] as $comidaData) {
-        $comida = new Comida();
-        $comida->menu_id = $menu->id;
-        $comida->grupo = $comidaData['grupo'];
-        $comida->info_extra = $comidaData['info_extra'] ?? null;
-        $comida->save();
-
-        foreach ($comidaData['productos'] as $productoData) {
-            $producto = new Producto();
-            $producto->comida_id = $comida->id;
-            $producto->nombre = $productoData['nombre'];
-            $producto->cantidad = $productoData['cantidad'];
-            $producto->unidad = $productoData['unidad'];
-            $producto->kcal = $productoData['kcal'];
-            $producto->pr = $productoData['pr'];
-            $producto->ch = $productoData['ch'];
-            $producto->gr = $productoData['gr'];
-            $producto->save();
+            foreach ($comidaData['productos'] as $productoData) {
+                $producto = new Producto();
+                $producto->comida_id = $comida->id;
+                $producto->nombre = $productoData['nombre'];
+                $producto->cantidad = $productoData['cantidad'];
+                $producto->unidad = $productoData['unidad'];
+                $producto->kcal = $productoData['kcal'];
+                $producto->pr = $productoData['pr'];
+                $producto->ch = $productoData['ch'];
+                $producto->gr = $productoData['gr'];
+                $producto->save();
+            }
         }
-    }
 
-    return redirect()->route('menus_listar')->with('flash', 'Menú guardado correctamente.');
-}
+        return redirect()->route('menus_listar')->with('flash', 'Menú guardado correctamente.');
+    }
 }

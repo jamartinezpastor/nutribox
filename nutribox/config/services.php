@@ -14,6 +14,18 @@ return [
     |
     */
 
+'deepseek' => [
+    'key' => env('DEEPSEEK_API_KEY'),
+],
+
+'pexels' => [
+    'key' => env('PEXELS_API_KEY'),
+],
+
+'openai' => [
+    'key' => env('OPENAI_API_KEY'),
+],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],

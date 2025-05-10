@@ -58,7 +58,7 @@ export default function Register() {
                     <div className="grid gap-2">
                         <Label htmlFor="name">Nombre y apellidos</Label>
                         <Input
-                        autoFocus
+                            autoFocus
                             id="name"
                             type="text"
                             required
@@ -207,7 +207,6 @@ export default function Register() {
                         <Input
                             id="info_extra"
                             type="text"
-                            required
                             autoComplete="info_extra"
                             value={data.info_extra}
                             onChange={(e) => setData('info_extra', e.target.value)}
