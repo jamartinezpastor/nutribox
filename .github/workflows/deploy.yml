@@ -24,28 +24,27 @@ jobs:
           script: |
             cd /var/www/nutribox/nutribox
 
-            # Git safe config (evita warnings en algunos entornos)
-            git config --global --add safe.directory /var/www/nutribox
-
-            # Pull de cambios
+            echo "▶ Pulling latest code..."
             git pull origin main
 
-            # Composer sin interacción y sin dependencias de desarrollo
-            composer install --optimize-autoloader --no-interaction --no-dev
+            echo "▶ Installing PHP dependencies..."
+            composer install --optimize-autoloader --no-interaction --no-progress
 
-            # Asegurar permisos para Laravel
-            chmod -R ug+rw storage bootstrap/cache
-            chown -R www-data:www-data storage bootstrap/cache || true
-
-            # Laravel comandos
+            echo "▶ Running migrations and seeding..."
             php artisan migrate:fresh --seed --force
+
+            echo "▶ Caching config, routes, views..."
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
 
-            # Node y build frontend
+            echo "▶ Loading NVM and installing Node dependencies..."
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             nvm use 22
+
+            echo "▶ Installing Node packages..."
             npm install --legacy-peer-deps
+
+            echo "▶ Building frontend assets..."
             npm run build
