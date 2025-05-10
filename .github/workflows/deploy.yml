@@ -23,18 +23,31 @@ jobs:
           command_timeout: 10m
           script: |
             cd /var/www/nutribox/nutribox
+
+            # Marcar directorio como seguro para Git
+            git config --global --add safe.directory /var/www/nutribox
+
+            # Ajustar permisos
+            sudo chown -R $USER:www-data /var/www/nutribox
+            sudo find /var/www/nutribox -type f -exec chmod 664 {} \;
+            sudo find /var/www/nutribox -type d -exec chmod 775 {} \;
+            sudo chown -R www-data:www-data storage bootstrap/cache database/database.sqlite
+            sudo chmod -R 775 storage bootstrap/cache
+            sudo chmod 664 database/database.sqlite
+
+            # Actualización del código
             git pull origin main
 
+            # Backend
             composer install --optimize-autoloader
             php artisan migrate:fresh --seed --force
-
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
 
+            # Frontend
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             nvm use 22
-
             npm install --legacy-peer-deps
             npm run build
