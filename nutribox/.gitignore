@@ -22,3 +22,17 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+/storage/*.log
+/database/database.sqlite
+/storage/logs/*.log
+
+# Ignorar cachés y archivos generados
+/bootstrap/cache/*.php
+/storage/*.key
+/storage/framework/*
+!/storage/framework/.gitignore
+/storage/logs/*
+!/storage/logs/.gitignore
+/storage/app/*
+!/storage/app/.gitignore

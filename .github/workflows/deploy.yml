@@ -24,18 +24,19 @@ jobs:
           script: |
             cd /var/www/nutribox/nutribox
 
-            # Marcar directorio como seguro para Git
+            # Asegurar permisos
+            sudo chown -R $USER:www-data .
+            sudo find . -type f -exec chmod 664 {} \;
+            sudo find . -type d -exec chmod 775 {} \;
+            sudo chown -R www-data:www-data storage bootstrap/cache
+            sudo chmod -R 775 storage bootstrap/cache
+
+            # Directorio seguro para Git
             git config --global --add safe.directory /var/www/nutribox
 
-            # Ajustar permisos
-            sudo chown -R $USER:www-data /var/www/nutribox
-            sudo find /var/www/nutribox -type f -exec chmod 664 {} \;
-            sudo find /var/www/nutribox -type d -exec chmod 775 {} \;
-            sudo chown -R www-data:www-data storage bootstrap/cache database/database.sqlite
-            sudo chmod -R 775 storage bootstrap/cache
-            sudo chmod 664 database/database.sqlite
-
-            # Actualización del código
+            # Pull de cambios
+            git reset --hard origin/main
+            git clean -fd
             git pull origin main
 
             # Backend
