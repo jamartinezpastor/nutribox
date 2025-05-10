@@ -23,13 +23,27 @@ jobs:
           command_timeout: 10m
           script: |
             cd /var/www/nutribox/nutribox
+
+            # Git safe config (evita warnings en algunos entornos)
             git config --global --add safe.directory /var/www/nutribox
+
+            # Pull de cambios
             git pull origin main
-            composer install --optimize-autoloader
+
+            # Composer sin interacción y sin dependencias de desarrollo
+            composer install --optimize-autoloader --no-interaction --no-dev
+
+            # Asegurar permisos para Laravel
+            chmod -R ug+rw storage bootstrap/cache
+            chown -R www-data:www-data storage bootstrap/cache || true
+
+            # Laravel comandos
             php artisan migrate:fresh --seed --force
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
+
+            # Node y build frontend
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             nvm use 22
