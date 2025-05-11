@@ -25,7 +25,9 @@ jobs:
             cd /var/www/nutribox/nutribox
 
             echo "▶ Pulling latest code..."
-            git pull origin main
+            git fetch origin
+            git reset --hard origin/main
+            git clean -df
 
             echo "▶ Installing PHP dependencies..."
             composer install --optimize-autoloader --no-interaction --no-progress
@@ -48,3 +50,10 @@ jobs:
 
             echo "▶ Building frontend assets..."
             npm run build
+
+            echo "▶ Ajustando permisos de carpetas"
+            chown -R www-data:www-data storage bootstrap/cache
+            chmod -R 775 storage bootstrap/cache
+
+            echo "▶ Reloading Apache…"
+            systemctl reload apache2
