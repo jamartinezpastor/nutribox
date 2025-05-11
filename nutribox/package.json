@@ -24,6 +24,8 @@
     },
     "dependencies": {
         "@headlessui/react": "^2.2.0",
+        "@inertiajs/inertia": "^0.11.1",
+        "@inertiajs/progress": "^0.2.7",
         "@inertiajs/react": "^2.0.0",
         "@lottiefiles/react-lottie-player": "^3.6.0",
         "@radix-ui/react-avatar": "^1.1.3",

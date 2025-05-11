@@ -63,5 +63,10 @@ export const columns: ColumnDef<MenusTipo>[] = [
     {
         accessorKey: 'info_extra',
         header: 'Información adicional',
+        cell: ({ row }) => {
+            const text: string = row.getValue('info_extra') || '';
+            const truncated = text.split(' ').slice(0, 10).join(' ') + (text.split(' ').length > 10 ? '...' : '');
+            return <span title={text}>{truncated}</span>; // Tooltip para ver el contenido completo
+        },
     },
 ];

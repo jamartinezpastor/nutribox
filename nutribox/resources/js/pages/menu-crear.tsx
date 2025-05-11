@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
@@ -36,37 +35,12 @@ export default function DS_MenuCrear() {
 
     const { props } = usePage<PageProps>();
 
-    const [progreso, setProgreso] = useState(0); // Estado del progreso
-    const [isCreando, setIsCreando] = useState(false); // Estado para saber si el proceso está en curso
-
-    // Simula el progreso
-    const simularProgreso = () => {
-        let valor = 0;
-        setIsCreando(true); // Establece que el proceso está en curso
-        const intervalo = setInterval(() => {
-            valor += 4;
-            setProgreso(valor);
-            if (valor >= 100) {
-                /*
-                clearInterval(intervalo);
-                setIsCreando(false); // El proceso ha terminado
-                router.post('/menucrearacontroller', {
-                    objetivo,
-                    numComidas,
-                    numSnacks,
-                    restricciones,
-                    productosAEvitar,
-                    productosAPriorizar,
-                    tiempoPreparacion,
-                    nombre,
-                    info_extra,
-                });
-                */
-            }
-        }, 2000);
-    };
-
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const isValido = Boolean(objetivo.trim() !== '' && nombre.trim() !== '');    
     const handleCrearMenu = () => {
+        if (!isValido || isSubmitting) return;
+    
+        setIsSubmitting(true);
         router.post('/menucrearacontroller', {
             objetivo,
             numComidas,
@@ -77,10 +51,14 @@ export default function DS_MenuCrear() {
             tiempoPreparacion,
             nombre,
             info_extra,
-        });
+        }, {
+            onFinish: () => {
+              // Se dispara tanto en éxito como en error
+              setIsSubmitting(false);
+            }
+          });
+        };
 
-        simularProgreso();
-    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -119,10 +97,10 @@ export default function DS_MenuCrear() {
                                         Ganar masa muscular
                                     </SelectItem>
                                     <SelectItem className="cursor-pointer" value="disminuir-ingesta-carbohidratos-manteniendo-calorias">
-                                        Diminuir la ingesta de Carbohidratos <small>(Manteniendo las Calorías diarias)</small>
+                                        Diminuir Carbohidratos <small>(Manteniendo KCal)</small>
                                     </SelectItem>
                                     <SelectItem className="cursor-pointer" value="aumentar-ingesta-proteinas-manteniendo-calorias">
-                                        Aumentar la ingesta de Proteínas <small>(Manteniendo las Calorías diarias)</small>
+                                        Aumentar Proteínas <small>(Manteniendo KCal)</small>
                                     </SelectItem>
                                     <SelectItem className="cursor-pointer" value="mejorar-salud-general">
                                         Mejorar salud general
@@ -166,63 +144,73 @@ export default function DS_MenuCrear() {
 
                     <div className="pt-4">
                         <Label>Restricciones alimentarias:</Label> <br />
-                        <div className="flex items-center">
-                            <Checkbox
-                                id="sin-gluten"
-                                onCheckedChange={(checked) =>
-                                    setRestricciones((prev) => (checked ? [...prev, 'sin-gluten'] : prev.filter((item) => item !== 'sin-gluten')))
-                                }
-                            />
-                            <Label htmlFor="sin-gluten" className="ms-1">
-                                Sin&nbsp;gluten
-                            </Label>
-                            <br />
-                            <Checkbox
-                                id="sin-lactosa"
-                                className="ms-5"
-                                onCheckedChange={(checked) =>
-                                    setRestricciones((prev) => (checked ? [...prev, 'sin-lactosa'] : prev.filter((item) => item !== 'sin-lactosa')))
-                                }
-                            />
-                            <Label htmlFor="sin-lactosa" className="ms-1">
-                                Sin&nbsp;lactosa
-                            </Label>
-                            <br />
-                            <Checkbox
-                                id="vegetariana"
-                                className="ms-5"
-                                onCheckedChange={(checked) =>
-                                    setRestricciones((prev) => (checked ? [...prev, 'vegetariana'] : prev.filter((item) => item !== 'vegetariana')))
-                                }
-                            />
-                            <Label htmlFor="vegetariana" className="ms-1">
-                                Vegetariano/a
-                            </Label>
-                            <br />
-                            <Checkbox
-                                id="vegana"
-                                className="ms-5"
-                                onCheckedChange={(checked) =>
-                                    setRestricciones((prev) => (checked ? [...prev, 'vegana'] : prev.filter((item) => item !== 'vegana')))
-                                }
-                            />
-                            <Label htmlFor="vegana" className="ms-1">
-                                Vegano/a
-                            </Label>
-                            <br />
-                            <Checkbox
-                                id="keto"
-                                className="ms-5"
-                                onCheckedChange={(checked) =>
-                                    setRestricciones((prev) => (checked ? [...prev, 'keyo'] : prev.filter((item) => item !== 'keto')))
-                                }
-                            />
-                            <Label htmlFor="keto" className="ms-1">
-                                Keto / Baja en carbohidratos
-                            </Label>
-                            <br />
+                        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
+                            <div className="flex items-center">
+                                <Checkbox
+                                    id="sin-gluten"
+                                    onCheckedChange={(checked) =>
+                                        setRestricciones((prev) => (checked ? [...prev, 'sin-gluten'] : prev.filter((item) => item !== 'sin-gluten')))
+                                    }
+                                />
+                                <Label htmlFor="sin-gluten" className="ms-1">
+                                    Sin gluten
+                                </Label>
+                            </div>
+
+                            <div className="flex items-center">
+                                <Checkbox
+                                    id="sin-lactosa"
+                                    onCheckedChange={(checked) =>
+                                        setRestricciones((prev) =>
+                                            checked ? [...prev, 'sin-lactosa'] : prev.filter((item) => item !== 'sin-lactosa'),
+                                        )
+                                    }
+                                />
+                                <Label htmlFor="sin-lactosa" className="ms-1">
+                                    Sin lactosa
+                                </Label>
+                            </div>
+
+                            <div className="flex items-center">
+                                <Checkbox
+                                    id="vegetariana"
+                                    onCheckedChange={(checked) =>
+                                        setRestricciones((prev) =>
+                                            checked ? [...prev, 'vegetariana'] : prev.filter((item) => item !== 'vegetariana'),
+                                        )
+                                    }
+                                />
+                                <Label htmlFor="vegetariana" className="ms-1">
+                                    Vegetariano/a
+                                </Label>
+                            </div>
+
+                            <div className="flex items-center">
+                                <Checkbox
+                                    id="vegana"
+                                    onCheckedChange={(checked) =>
+                                        setRestricciones((prev) => (checked ? [...prev, 'vegana'] : prev.filter((item) => item !== 'vegana')))
+                                    }
+                                />
+                                <Label htmlFor="vegana" className="ms-1">
+                                    Vegano/a
+                                </Label>
+                            </div>
+
+                            <div className="flex items-center">
+                                <Checkbox
+                                    id="keto"
+                                    onCheckedChange={(checked) =>
+                                        setRestricciones((prev) => (checked ? [...prev, 'keto'] : prev.filter((item) => item !== 'keto')))
+                                    }
+                                />
+                                <Label htmlFor="keto" className="ms-1">
+                                    Keto
+                                </Label>
+                            </div>
                         </div>
                     </div>
+
                     <div className="flex max-w-xl gap-8 pt-4">
                         <div>
                             <Label htmlFor="productosAEvitar">
@@ -294,14 +282,14 @@ export default function DS_MenuCrear() {
                             onChange={(e) => setInfoExtra(e.target.value)}
                         />
                     </div>
-                    {isCreando && (
-                        <div className="my-4">
-                            <Progress value={progreso} />
-                        </div>
-                    )}
                     <div className="mb-12 gap-8 pt-2">
-                        <Button className="cursor-pointer" type="button" onClick={handleCrearMenu}>
-                            Crear Menú
+                        <Button
+                            type="button"
+                            onClick={handleCrearMenu}
+                            disabled={!isValido || isSubmitting}
+                            className={`cursor-pointer ${!isValido || isSubmitting ? 'cursor-not-allowed opacity-50' : ''}`}
+                        >
+                            {isSubmitting ? 'Guardando…' : 'Crear Menú'}
                         </Button>
                     </div>
                 </div>

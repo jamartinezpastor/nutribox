@@ -72,8 +72,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                 onChange={(e) => setData('name', e.target.value)}
                                 required
                                 autoComplete="name"
-                                placeholder="Nombre y apellidos"
-                                autoFocus
+                                placeholder="Nombre y apellidos"                         
                             />
 
                             <InputError className="mt-2" message={errors.name} />

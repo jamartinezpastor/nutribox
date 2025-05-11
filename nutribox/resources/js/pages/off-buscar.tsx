@@ -16,11 +16,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function OFF_buscar() {
     const [termino, setTermino] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
+    const isValido = termino.trim().length > 0;
 
     const handleSearch = () => {
-        if (termino.trim()) {
-            router.get('/offbuscaracontroller', { termino });
-        }
+        if (!isValido) return;
+        setIsSearching(true);
+
+        router.get('/offbuscaracontroller', { termino });
     };
 
     return (
@@ -39,17 +42,22 @@ export default function OFF_buscar() {
                     <div>
                         <Label htmlFor="termino">Alimento o producto:</Label>
                         <Input
-                            autoFocus
                             id="termino"
                             type="text"
                             placeholder="Yogurt, kiwi, etc..."
                             value={termino}
                             onChange={(e) => setTermino(e.target.value)}
+                            required
                         />
                     </div>
                     <div className="gap-8 pt-2">
-                        <Button className="cursor-pointer" type="button" onClick={handleSearch}>
-                            Buscar
+                        <Button
+                            type="button"
+                            onClick={handleSearch}
+                            disabled={!isValido || isSearching}
+                            className={`${!isValido || isSearching ? 'cursor-not-allowed opacity-50' : ''}`}
+                        >
+                            {isSearching ? 'Buscando...' : 'Buscar'}
                         </Button>
                     </div>
                 </div>

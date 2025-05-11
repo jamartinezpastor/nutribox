@@ -18,13 +18,24 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function DS_evaluar() {
     const [producto, setProducto] = useState('');
     const [cantidad, setCantidad] = useState('');
-    const [unidad, setUnidad] = useState('');
+    const [unidad, setUnidad] = useState('gr');
     const [patologia, setPatologia] = useState('');
+    const [isEvaluando, setIsEvaluando] = useState(false);
+
+    const isValido = producto.trim() !== '' && cantidad.trim() !== '' && unidad.trim() !== '' && patologia.trim() !== '';
 
     const handleEvaluar = () => {
-        if (producto.trim()) {
-            router.get('/dsevaluaracontroller', { producto, cantidad, unidad, patologia });
-        }
+        if (!isValido || isEvaluando) return;
+        setIsEvaluando(true);
+        router.get(
+            '/dsevaluaracontroller',
+            { producto, cantidad, unidad, patologia },
+            {
+                onFinish: () => {
+                    setIsEvaluando(false);
+                },
+            },
+        );
     };
 
     return (
@@ -43,7 +54,6 @@ export default function DS_evaluar() {
                     <div>
                         <Label htmlFor="producto">Alimento o producto:</Label>
                         <Input
-                        autoFocus
                             id="producto"
                             type="text"
                             placeholder="Huevos con jamón, plátano, etc.."
@@ -66,7 +76,7 @@ export default function DS_evaluar() {
                         </div>
                         <div>
                             <Label htmlFor="unidad">Unidad de medida:</Label>
-                            <Select onValueChange={(value) => setUnidad(value)} required>
+                            <Select value={unidad} onValueChange={(value) => setUnidad(value)} required>
                                 {' '}
                                 {/* Aquí se asigna `onValueChange` */}
                                 <SelectTrigger>
@@ -137,8 +147,13 @@ export default function DS_evaluar() {
                         </div>{' '}
                     </div>
                     <div className="gap-8 pt-2">
-                        <Button className="cursor-pointer" type="button" onClick={handleEvaluar}>
-                            Evaluar
+                        <Button
+                            type="button"
+                            onClick={handleEvaluar}
+                            disabled={!isValido || isEvaluando}
+                            className={`w-full ${!isValido || isEvaluando ? 'cursor-not-allowed opacity-50' : ''}`}
+                        >
+                            {isEvaluando ? 'Evaluando…' : 'Evaluar'}
                         </Button>
                     </div>{' '}
                 </div>

@@ -4,8 +4,9 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
+import { InertiaProgress } from '@inertiajs/progress';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Nutribox';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -16,9 +17,18 @@ createInertiaApp({
         root.render(<App {...props} />);
     },
     progress: {
-        color: '#4B5563',
+        color: '#00bc7d',
     },
+    
 });
+/*
+InertiaProgress.init({
+    delay: 0,          
+    showSpinner: false, 
+    includeCSS: false,  
+    color: '#00bc7d',   
+  })
+  */
 
 // This will set light / dark mode on load...
 initializeTheme();
