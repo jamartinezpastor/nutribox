@@ -49,11 +49,6 @@ jobs:
             npm install --legacy-peer-deps
 
             echo "▶ Building frontend assets..."
-            npm run build
+            npm run build       
 
-            echo "▶ Ajustando permisos de carpetas"
-            chown -R www-data:www-data storage bootstrap/cache
-            chmod -R 775 storage bootstrap/cache
-
-            echo "▶ Reloading Apache…"
-            systemctl reload apache2
+          
