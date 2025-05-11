@@ -27,13 +27,13 @@ jobs:
             echo "▶ Pulling latest code..."
             git fetch origin
             git reset --hard origin/main
-            git clean -df
+            git clean -fd -e database/database.sqlite
 
             echo "▶ Installing PHP dependencies..."
             composer install --optimize-autoloader --no-interaction --no-progress
 
-            echo "▶ Running migrations and seeding..."
-            php artisan migrate:fresh --seed --force
+            echo "▶ Running migrations and seeding..."            
+            php artisan migrate --force
 
             echo "▶ Caching config, routes, views..."
             php artisan config:cache
@@ -43,12 +43,8 @@ jobs:
             echo "▶ Loading NVM and installing Node dependencies..."
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            nvm use 22
-
-            echo "▶ Installing Node packages..."
-            npm install --legacy-peer-deps
-
-            echo "▶ Building frontend assets..."
+            nvm use 22            
+            npm install --legacy-peer-deps            
             npm run build       
 
           
