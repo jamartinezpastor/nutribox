@@ -27,17 +27,17 @@ jobs:
             # CAMBIOS CÓDIGO
             git fetch origin
             git reset --hard origin/main
-            # git clean -fd -e database/database.sqlite
-            git clean -fd
+            git clean -fd -e database/database.sqlite
+            # git clean -fd
 
             
             # DEPENDENCIAS
             composer install --optimize-autoloader --no-interaction --no-progress
 
             # BASE DE DATOS     
-            php artisan migrate --force
-            # php artisan migrate:fresh
-            # php artisan db:seed
+            # php artisan migrate --force
+            php artisan migrate:fresh
+            php artisan db:seed
 
             # CACHING
             php artisan config:cache
