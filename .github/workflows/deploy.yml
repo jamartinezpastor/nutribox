@@ -24,23 +24,27 @@ jobs:
           script: |
             cd /var/www/nutribox/nutribox
 
-            echo "▶ Pulling latest code..."
+            # CAMBIOS CÓDIGO
             git fetch origin
             git reset --hard origin/main
-            git clean -fd -e database/database.sqlite
+            # git clean -fd -e database/database.sqlite
+            git clean -fd
 
-            echo "▶ Installing PHP dependencies..."
+            
+            # DEPENDENCIAS
             composer install --optimize-autoloader --no-interaction --no-progress
 
-            echo "▶ Running migrations and seeding..."            
+            # BASE DE DATOS     
             php artisan migrate --force
+            # php artisan migrate:fresh
+            # php artisan db:seed
 
-            echo "▶ Caching config, routes, views..."
+            # CACHING
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
 
-            echo "▶ Loading NVM and installing Node dependencies..."
+            # NVM Y GESTOR DE DEPENDENCIAS
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             nvm use 22            

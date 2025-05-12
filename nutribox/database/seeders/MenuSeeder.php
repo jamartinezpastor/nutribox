@@ -15,7 +15,7 @@ class MenuSeeder extends Seeder
     public function run(): void
     {
         Menu::create([
-            'user_id' => 1,
+            'user_id' => 11,
             'fecha' => Carbon::now(),
             'tipo' => 'UserMinus',
             'nombre' => 'Menú déficit calórico 1',
@@ -23,7 +23,7 @@ class MenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            'user_id' => 1,
+            'user_id' => 11,
             // 'fecha' => Carbon::now()->addDays(1),
             'fecha' => Carbon::now(),
             'tipo' => 'UserCheck',
@@ -32,7 +32,7 @@ class MenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            'user_id' => 2,
+            'user_id' => 11,
             'fecha' => Carbon::now(),
             'tipo' => 'BicepsFlexed',
             'nombre' => 'Menú pre carrera Trail',
@@ -40,7 +40,7 @@ class MenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            'user_id' => 1,
+            'user_id' => 11,
             'fecha' => Carbon::now(),
             'tipo' => 'ChevronsUp',
             'nombre' => 'Menú déficit calórico 1',
@@ -48,7 +48,7 @@ class MenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            'user_id' => 1,
+            'user_id' => 11,
             // 'fecha' => Carbon::now()->addDays(1),
             'fecha' => Carbon::now(),
             'tipo' => 'ChevronsUp',
@@ -57,7 +57,7 @@ class MenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            'user_id' => 2,
+            'user_id' => 11,
             'fecha' => Carbon::now(),
             'tipo' => 'ArrowUpToLine',
             'nombre' => 'Menú pre carrera Trail',
@@ -65,7 +65,7 @@ class MenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            'user_id' => 1,
+            'user_id' => 11,
             'fecha' => Carbon::now(),
             'tipo' => 'UserMinus',
             'nombre' => 'Menú déficit calórico 1',
@@ -73,7 +73,7 @@ class MenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            'user_id' => 1,
+            'user_id' => 11,
             // 'fecha' => Carbon::now()->addDays(1),
             'fecha' => Carbon::now(),
             'tipo' => 'BicepsFlexed',
@@ -82,7 +82,7 @@ class MenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            'user_id' => 2,
+            'user_id' => 11,
             'fecha' => Carbon::now(),
             'tipo' => 'PersonStanding',
             'nombre' => 'Menú pre carrera Trail',

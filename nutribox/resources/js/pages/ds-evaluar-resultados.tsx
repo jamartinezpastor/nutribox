@@ -29,10 +29,10 @@ export default function DS_evaluar_resultados() {
             <Head title="Resultados de la búsqueda" />
 
             <div className="to-white/00 dark:to-black/00 relative flex min-h-screen flex-col gap-4 rounded-xl bg-linear-to-tr from-white/100 p-4 dark:from-black/100">
-                {/* Imagen de fondo con opacidad */}
+                {/* Imagen de fondo con poca opacidad */}
                 {props.imageUrl && (
                     <div
-                        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-10 pointer-events-none z-0"
+                        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15 pointer-events-none z-0"
                         style={{
                             backgroundImage: `url(${props.imageUrl})`,
                             backgroundSize: 'cover',
@@ -46,7 +46,7 @@ export default function DS_evaluar_resultados() {
                 {props.error && <p className="text-red-500">{props.error}</p>}
 
                 {!props.error && props.analisis ? (
-                    <div className="relative flex min-h-screen flex-col gap-4 rounded-xl bg-linear-to-tr from-white/100 to-white/00 p-4 dark:from-black/100 dark:to-black/00 z-10">
+                    <div className="relative flex min-h-screen flex-col gap-4 rounded-xl bg-linear-to-tr from-white/100 opacity-100 to-white/00 p-4 dark:from-black/100 dark:to-black/00 z-10">
                         <h2 className="text-3xl font-bold uppercase ">{props.producto}</h2>
                         <br />
                         <h2 className="text-xl font-semibold uppercase">Cantidad:</h2>

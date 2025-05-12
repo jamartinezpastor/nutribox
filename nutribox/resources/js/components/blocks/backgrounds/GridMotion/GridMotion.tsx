@@ -15,7 +15,7 @@ const GridMotion: FC<GridMotionProps> = ({
     const mouseXRef = useRef<number>(window.innerWidth / 2);
 
     // Ensure the grid has 28 items (4 rows x 7 columns) by default
-    const totalItems = 28;
+    const totalItems = 42;
     const defaultItems = Array.from(
         { length: totalItems },
         (_, index) => `Menú ${index + 1}`
@@ -32,7 +32,7 @@ const GridMotion: FC<GridMotionProps> = ({
 
         const updateMotion = (): void => {
             const maxMoveAmount = 300;
-            const baseDuration = 0.8; // Base duration for inertia
+            const baseDuration = 2; // Base duration for inertia
             const inertiaFactors = [0.6, 0.4, 0.3, 0.2]; // Different inertia for each row, outer rows slower
 
             rowRefs.current.forEach((row, index) => {
@@ -47,7 +47,7 @@ const GridMotion: FC<GridMotionProps> = ({
                         x: moveAmount,
                         duration:
                             baseDuration + inertiaFactors[index % inertiaFactors.length],
-                        ease: "circ.Out",
+                        ease: "sine",
                         overwrite: "auto",
                     });
                 }
@@ -73,8 +73,8 @@ const GridMotion: FC<GridMotionProps> = ({
             >
                 {/* Noise overlay */}
                 {/*<div className="absolute inset-0 pointer-events-none z-[4] bg-[url('../../../assets/noise.png')] bg-[length:250px]"></div> */}
-                <div className="gap-4 flex-none relative w-[150vw] h-[150vh] grid grid-rows-4 grid-cols-1 rotate-[-15deg] origin-center z-[2]">
-                    {Array.from({ length: 4 }, (_, rowIndex) => (
+                <div className="gap-4 flex-none relative w-[150vw] h-[150vh] grid grid-rows-5 grid-cols-1 rotate-[0deg] origin-center z-[2]">
+                    {Array.from({ length: 5 }, (_, rowIndex) => (
                         <div
                             key={rowIndex}
                             className="grid gap-4 grid-cols-7"
@@ -85,7 +85,7 @@ const GridMotion: FC<GridMotionProps> = ({
                                 const content = combinedItems[rowIndex * 7 + itemIndex];
                                 return (
                                     <div key={itemIndex} className="relative">
-                                        <div className="relative w-full h-full overflow-hidden rounded-[10px] bg-[#111] flex items-center justify-center text-white text-[1.5rem]">
+                                        <div className="relative w-full h-full overflow-hidden rounded-xl bg-[#111] flex items-center justify-center text-white text-[1.5rem]">
                                             {typeof content === "string" &&
                                                 content.startsWith("http") ? (
                                                 <div

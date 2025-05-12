@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 use DeepSeek\Enums\Models;
 use Carbon\Carbon;
 
-class DeepSeekController extends Controller
+class IAController extends Controller
 {
     private $deepseekApiKey;
     private $openaiApiKey;

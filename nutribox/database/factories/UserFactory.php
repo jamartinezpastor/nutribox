@@ -37,14 +37,6 @@ class UserFactory extends Factory
             'altura' => fake()->numberBetween(150, 200),
             'peso' => fake()->numberBetween(45, 120),
             'actividad' => fake()->randomElement(['completamente-sedentario', 'poco-movimiento', 'actividad-normal', 'persona-activa', 'actividad-intensa']),
-            /*
-            'objetivo' => fake()->randomElement([
-                'disminuir-ingesta-calorica-reduciendo-en-menor-medida-las-proteinas-diarias',
-                'aumentar-ingesta-calorica',
-                'disminuir-ingesta-carbohidratos-manteniendo-calorias',
-                'aumentar-ingesta-proteinas-manteniendo-calorias'
-            ]),
-            */
             'info_extra' => fake()->sentence(),
         ];
     }

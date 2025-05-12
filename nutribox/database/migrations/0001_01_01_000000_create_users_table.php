@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer('altura')->nullable();
             $table->float('peso')->nullable();
             $table->string('actividad')->nullable();
-            // $table->string('objetivo')->nullable();
             $table->string('info_extra')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

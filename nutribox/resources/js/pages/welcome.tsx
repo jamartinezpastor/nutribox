@@ -53,7 +53,7 @@ export default function Welcome() {
                                             <span className="h-1.5 w-1.5 rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A]" />
                                         </span>
                                     </span>
-                                    <span>Planes de alimentación mediante IA.</span>
+                                    <span>Diseño Inteligente de Menús Diarios (Mediante IA).</span>
                                 </li>
                                 <li className="relative flex items-center gap-4 py-2">
                                     <span className="relative bg-white py-1 dark:bg-[#161615]">
@@ -61,7 +61,7 @@ export default function Welcome() {
                                             <span className="h-1.5 w-1.5 rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A]" />
                                         </span>
                                     </span>
-                                    <span>Base de datos de alimentos.</span>
+                                    <span>Buscador de Información Nutricional de Productos.</span>
                                 </li>
                                 <li className="relative flex items-center gap-4 py-2">
                                     <span className="relative bg-white py-1 dark:bg-[#161615]">
@@ -69,7 +69,7 @@ export default function Welcome() {
                                             <span className="h-1.5 w-1.5 rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A]" />
                                         </span>
                                     </span>
-                                    <span>Análisis de alimentos y patologías por IA. </span>
+                                    <span>Evaluador de Alimentos y Patologías (Mediante IA).</span>
                                 </li>
                             </ul>
                         </div>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\OFFController;
 use Illuminate\Http\Request;
-use App\Http\Controllers\DeepSeekController;
+use App\Http\Controllers\IAController;
 use App\Http\Controllers\MenusController;
 
 Route::get('/', function () {
@@ -32,7 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dsevaluar', function () {
         return Inertia::render('ds-evaluar');
     })->name('dsevaluar');
-    Route::get('dsevaluaracontroller', [DeepSeekController::class, 'evaluarDS'])->name('ds-evaluar_a_controller');
+    Route::get('dsevaluaracontroller', [IAController::class, 'evaluarDS'])->name('ds-evaluar_a_controller');
 
 
 
@@ -40,11 +40,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('menucrear', function () {
         return Inertia::render('menu-crear');
     })->name('menucrear');
-    Route::post('menucrearacontroller', [DeepSeekController::class, 'crearMenuDiario']);
+    Route::post('menucrearacontroller', [IAController::class, 'crearMenuDiario']);
     Route::get('controlleraprevisualizar', function () {
         return Inertia::render('menu-crear-previsualizar');
     })->name('controlleraprevisualizar');
-    Route::post('/menus/guardar', [DeepSeekController::class, 'guardarMenuDiario'])->name('previsualizaracontroller');
+    Route::post('/menus/guardar', [IAController::class, 'guardarMenuDiario'])->name('previsualizaracontroller');
 
     // MENÚS VER
     Route::get('menuslistar', [MenusController::class, 'listar'])->name('menus_listar');

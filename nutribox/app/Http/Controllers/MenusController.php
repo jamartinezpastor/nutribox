@@ -6,16 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Menu;
+use Illuminate\Support\Facades\Auth;
 
 class MenusController extends Controller
 {
     public function listar()
     {
-        $menus = Menu::all();
+        $menus = Menu::where('user_id', Auth::id())->orderBy('fecha', 'desc')->get();
+        // TODOS los menus de la base de datos
+        // $menus = Menu::all();
 
+        // Datos MOCK-DATA de prueba
         /*
-        // DATOS MOCK-DATA
-        $menus = [
+           $menus = [
             [
                 'id' => '448ed52f',
                 'amount' => 235,
@@ -29,10 +32,9 @@ class MenusController extends Controller
                 'email' => 'm@example.com',
             ],
         ];
-
         //$menus = Menu::where('user_id', auth()->id())->get();
-
         */
+
         return Inertia::render('menus-listar',  compact('menus'));
     }
 

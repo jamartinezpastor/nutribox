@@ -72,7 +72,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                 onChange={(e) => setData('name', e.target.value)}
                                 required
                                 autoComplete="name"
-                                placeholder="Nombre y apellidos"                         
+                                placeholder="Nombre y apellidos"
                             />
 
                             <InputError className="mt-2" message={errors.name} />
@@ -168,7 +168,6 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             <Input
                                 id="info_extra"
                                 type="text"
-                                required
                                 autoComplete="info_extra"
                                 value={data.info_extra}
                                 onChange={(e) => setData('info_extra', e.target.value)}
@@ -217,8 +216,10 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             </div>
                         )}
 
-                        <div className="flex items-center mt-12 gap-4">
-                            <Button className='cursor-pointer' disabled={processing}>Guardar cambios</Button>
+                        <div className="mt-12 flex items-center gap-4">
+                            <Button className="cursor-pointer" disabled={processing}>
+                                Guardar cambios
+                            </Button>
 
                             <Transition
                                 show={recentlySuccessful}

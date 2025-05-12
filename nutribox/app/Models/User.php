@@ -30,7 +30,6 @@ class User extends Authenticatable
         'altura',
         'peso',
         'actividad',
-       // 'objetivo',
         'info_extra',
         'email',
         'password',

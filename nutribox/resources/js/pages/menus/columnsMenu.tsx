@@ -14,8 +14,6 @@ const iconosPorTipo = {
     CookingPot: <CookingPot />,
 };
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type MenusTipo = {
     id: number;
     fecha: Date;
@@ -64,9 +62,9 @@ export const columns: ColumnDef<MenusTipo>[] = [
         accessorKey: 'info_extra',
         header: 'Información adicional',
         cell: ({ row }) => {
-            const text: string = row.getValue('info_extra') || '';
-            const truncated = text.split(' ').slice(0, 10).join(' ') + (text.split(' ').length > 10 ? '...' : '');
-            return <span title={text}>{truncated}</span>; // Tooltip para ver el contenido completo
-        },
+        const text: string = row.getValue('info_extra') || '';
+        const truncated = text.split(' ').slice(0, 10).join(' ') + (text.split(' ').length > 10 ? '...' : '');
+        return <span title={text}>{truncated}</span>; // Tooltip para ver el contenido completo
+    },
     },
 ];

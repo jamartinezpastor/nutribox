@@ -19,7 +19,6 @@ type RegisterForm = {
     altura: number;
     peso: number;
     actividad: string;
-    // objetivo: string;
     info_extra: string;
     email: string;
     password: string;
@@ -28,7 +27,7 @@ type RegisterForm = {
 
 export default function Register() {
     const [actividad, setActividad] = useState('');
-    // const [objetivo, setObjetivo] = useState("");
+
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         name: '',
         sexo: '',
@@ -36,7 +35,6 @@ export default function Register() {
         altura: 0,
         peso: 0,
         actividad: '',
-        // objetivo: '',
         info_extra: '',
         email: '',
         password: '',
@@ -165,43 +163,6 @@ export default function Register() {
                             </SelectContent>
                         </Select>
                     </div>
-                    {/* 
-                    <div className="grid gap-2">
-                        <Label>Objetivo nutricional</Label>
-                        <Select
-                            value={data.objetivo}
-                            onValueChange={(value) => {
-                                setObjetivo(value);
-                                setData('objetivo', value);
-                            }}
-                            required
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Selecciona tu objetivo" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectLabel>Objetivo</SelectLabel>
-                                    <SelectItem
-                                        className="cursor-pointer"
-                                        value="disminuir-ingesta-calorica-reduciendo-en-menor-medida-las-proteinas-diarias"
-                                    >
-                                        Bajar de peso
-                                    </SelectItem>
-                                    <SelectItem className="cursor-pointer" value="aumentar-ingesta-calorica">
-                                        Aumentar de peso
-                                    </SelectItem>
-                                    <SelectItem className="cursor-pointer" value="disminuir-ingesta-carbohidratos-manteniendo-calorias">
-                                        Diminuir la ingesta de Carbohidratos <small>(Manteniendo las Calorías diarias)</small>
-                                    </SelectItem>
-                                    <SelectItem className="cursor-pointer" value="aumentar-ingesta-proteinas-manteniendo-calorias">
-                                        Aumentar la ingesta de Proteínas <small>(Manteniendo las Calorías diarias)</small>
-                                    </SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    */}
                     <div className="grid gap-2">
                         <Label htmlFor="info_extra">¿Padeces algún problema de salud?</Label>
                         <Input

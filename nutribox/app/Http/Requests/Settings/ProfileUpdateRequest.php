@@ -14,12 +14,17 @@ class ProfileUpdateRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-
-            'email' => [
+            'name'       => ['required', 'string', 'max:255'],
+            'email'      => [
                 'required',
                 'string',
                 'lowercase',
@@ -27,6 +32,12 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'sexo'       => ['required', Rule::in(['Masculino', 'Femenino'])],
+            'edad'       => ['required', 'integer', 'min:0', 'max:150'],
+            'altura'     => ['required', 'integer', 'min:50', 'max:300'],
+            'peso'       => ['required', 'numeric', 'min:20', 'max:500'],
+            'actividad'  => ['required', 'string', 'max:50'],
+            'info_extra' => ['nullable', 'string', 'max:1000'],
         ];
     }
 }
