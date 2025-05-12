@@ -35,9 +35,9 @@ jobs:
             composer install --optimize-autoloader --no-interaction --no-progress
 
             # BASE DE DATOS     
-            # php artisan migrate --force
-            php artisan migrate:fresh
-            php artisan db:seed
+            php artisan migrate --force
+            # php artisan migrate:fresh
+            # php artisan db:seed
 
             # CACHING
             php artisan config:cache
