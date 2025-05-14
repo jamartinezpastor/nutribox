@@ -8,10 +8,11 @@ import { Toaster, toast } from 'sonner';
 export default function AppHeaderLayout({ children, breadcrumbs }: PropsWithChildren<{ breadcrumbs?: BreadcrumbItem[] }>) {
     //toast.success('¡Notificación de prueba!');
     return (
-        <AppShell>
+        <AppShell >
+         <div className="min-h-screen flex flex-col">
             <AppHeader breadcrumbs={breadcrumbs} />
-            <AppContent>{children}</AppContent>
-        
+            <AppContent className="flex-1 flex flex-col overflow-hidden">{children}</AppContent>
+            </div>
         </AppShell>
     );
 }

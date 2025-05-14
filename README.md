@@ -197,3 +197,8 @@ Utilizaremos el Framework de CSS en su versión 4 pudiendo disponer de sus clase
 - sqlite3 database/database.sqlite
 - .tables
 - SELECT * FROM users;
+
+
+
+https://www.flaticon.com/free-icon/noodle_6305595
+https://www.flaticon.com/free-icon/salad_1880223

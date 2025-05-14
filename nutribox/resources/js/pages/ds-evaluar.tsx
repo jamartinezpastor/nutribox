@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -6,7 +7,8 @@ import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { useState } from 'react';
+import Autoplay from 'embla-carousel-autoplay';
+import { useRef, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -15,24 +17,40 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const carouselImages = [
+    {
+        imagen: '/img/loading/2frutas.gif',
+        consejo: 'Comer fruta con piel, como manzanas o peras, añade fibra y flavonoides que regulan de forma natural tus niveles de glucosa.',
+    },
+    {
+        imagen: '/img/loading/2cocinaasiatica.gif',
+        consejo: 'Los fermentados de la cocina asiática, como el miso o el kimchi, introducen probióticos que refuerzan tu salud digestiva.',
+    },
+    {
+        imagen: '/img/loading/2olivas.gif',
+        consejo: 'Las olivas negras curadas concentran oleuropeína, un antioxidante que protege tu sistema cardiovascular.',
+    },
+];
+
 export default function DS_evaluar() {
     const [producto, setProducto] = useState('');
     const [cantidad, setCantidad] = useState('');
     const [unidad, setUnidad] = useState('gr');
     const [patologia, setPatologia] = useState('');
-    const [isEvaluando, setIsEvaluando] = useState(false);
 
     const isValido = producto.trim() !== '' && cantidad.trim() !== '' && unidad.trim() !== '' && patologia.trim() !== '';
+    const [isTrabajando, setIsTrabajando] = useState(false);
+    const autoplay = useRef(Autoplay({ delay: 7000, stopOnInteraction: false }));
 
     const handleEvaluar = () => {
-        if (!isValido || isEvaluando) return;
-        setIsEvaluando(true);
+        if (!isValido || isTrabajando) return;
+        setIsTrabajando(true);
         router.get(
             '/dsevaluaracontroller',
             { producto, cantidad, unidad, patologia },
             {
                 onFinish: () => {
-                    setIsEvaluando(false);
+                    setIsTrabajando(false);
                 },
             },
         );
@@ -48,114 +66,138 @@ export default function DS_evaluar() {
                     interacciones y la evidencia científica que respalda nuestra evaluación.
                 </p>
                 <Separator className="my-4" />
+
+                {isTrabajando && (
+                    <div className="mx-auto w-full max-w-xl">
+                        <Carousel plugins={[autoplay.current]} className="w-full">
+                            <CarouselContent className="h-[30vh] w-full">
+                                {carouselImages.map(({ imagen, consejo }, idx) => (
+                                    <CarouselItem key={idx} className="basis-full">
+                                        <div className="relative h-full w-full overflow-hidden rounded-lg">
+                                            <img src={imagen} alt="Cargando..." className="h-full w-full object-cover" />
+                                            <div className="bg-background/60 absolute right-4 bottom-4 left-4 rounded-xl px-4 py-2">
+                                                <span className="text-foreground font-semibold">{consejo}</span>
+                                            </div>
+                                        </div>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                        </Carousel>
+                    </div>
+                )}
+
                 {/* Flex, columna de arriba a abajo, 4 unidades de separación,
                  max-w-sm limita el ancho, mx-auto margen automatico a ambos lados.. centra horizontal */}
                 <div className="mx-auto flex max-w-xl flex-col space-y-4">
-                    <div>
-                        <Label htmlFor="producto">Alimento o producto:</Label>
-                        <Input
-                            id="producto"
-                            type="text"
-                            placeholder="Huevos con jamón, plátano, etc.."
-                            value={producto}
-                            onChange={(e) => setProducto(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className="flex h-full flex-row gap-4 rounded-xl pt-4">
+                    {isTrabajando || (
                         <div>
-                            <Label htmlFor="cantidad">Cantidad: </Label>
-                            <Input
-                                id="cantidad"
-                                type="number"
-                                placeholder="Cantidad"
-                                value={cantidad}
-                                onChange={(e) => setCantidad(e.target.value)}
-                                required
-                            />
+                            <div>
+                                <Label htmlFor="producto">Alimento o producto:</Label>
+                                <Input
+                                    id="producto"
+                                    type="text"
+                                    placeholder="Huevos con jamón, plátano, etc.."
+                                    value={producto}
+                                    onChange={(e) => setProducto(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="flex h-full flex-row gap-4 rounded-xl pt-4">
+                                <div>
+                                    <Label htmlFor="cantidad">Cantidad: </Label>
+                                    <Input
+                                        id="cantidad"
+                                        type="number"
+                                        placeholder="Cantidad"
+                                        value={cantidad}
+                                        onChange={(e) => setCantidad(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <Label htmlFor="unidad">Unidad de medida:</Label>
+                                    <Select value={unidad} onValueChange={(value) => setUnidad(value)} required>
+                                        {' '}
+                                        {/* Aquí se asigna `onValueChange` */}
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Selecciona una unidad" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>Unidad</SelectLabel>
+                                                <SelectItem className="cursor-pointer" value="gr">
+                                                    Gramos (g)
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="ml">
+                                                    Mililitros (ml)
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="piezas">
+                                                    Porciones (unidad/pieza)
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="tazas">
+                                                    Taza o Vaso
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="cucharadas">
+                                                    Cucharadas (tbsp)
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="kcal">
+                                                    Kilocalorías (kcal)
+                                                </SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
+                            <div className="flex h-full flex-row gap-4 rounded-xl pt-4">
+                                <div>
+                                    <Label>Patología:</Label>
+                                    <Select onValueChange={(value) => setPatologia(value)} required>
+                                        {' '}
+                                        {/* Aquí se asigna `onValueChange` */}
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Selecciona una patología" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>Patología</SelectLabel>
+                                                <SelectItem className="cursor-pointer" value="sin patologia conocida">
+                                                    Sin patología conocida
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="obesidad">
+                                                    Obesidad
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="diabetes">
+                                                    Diabetes
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="hipercolesterolemia">
+                                                    Hipercolesterolemia
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="hipertrigliceridemia">
+                                                    Hipertrigliceridemia
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="enfermedad celiaca">
+                                                    Enfermedad celíaca
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="enfermedad-renal-cronica-con-restriccion-de-potasio">
+                                                    Enfermedad renal crónica <small>(Con altos niveles de Potasio)</small>
+                                                </SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                </div>{' '}
+                            </div>
                         </div>
-                        <div>
-                            <Label htmlFor="unidad">Unidad de medida:</Label>
-                            <Select value={unidad} onValueChange={(value) => setUnidad(value)} required>
-                                {' '}
-                                {/* Aquí se asigna `onValueChange` */}
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Selecciona una unidad" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Unidad</SelectLabel>
-                                        <SelectItem className="cursor-pointer" value="gr">
-                                            Gramos (g)
-                                        </SelectItem>
-                                        <SelectItem className="cursor-pointer" value="ml">
-                                            Mililitros (ml)
-                                        </SelectItem>
-                                        <SelectItem className="cursor-pointer" value="piezas">
-                                            Porciones (unidad/pieza)
-                                        </SelectItem>
-                                        <SelectItem className="cursor-pointer" value="tazas">
-                                            Taza o Vaso
-                                        </SelectItem>
-                                        <SelectItem className="cursor-pointer" value="cucharadas">
-                                            Cucharadas (tbsp)
-                                        </SelectItem>
-                                        <SelectItem className="cursor-pointer" value="kcal">
-                                            Kilocalorías (kcal)
-                                        </SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    </div>
-                    <div className="flex h-full flex-row gap-4 rounded-xl pt-4">
-                        <div>
-                            <Label>Patología:</Label>
-                            <Select onValueChange={(value) => setPatologia(value)} required>
-                                {' '}
-                                {/* Aquí se asigna `onValueChange` */}
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Selecciona una patología" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Patología</SelectLabel>
-                                        <SelectItem className="cursor-pointer" value="sin patologia conocida">
-                                            Sin patología conocida
-                                        </SelectItem>
-                                        <SelectItem className="cursor-pointer" value="obesidad">
-                                            Obesidad
-                                        </SelectItem>
-                                        <SelectItem className="cursor-pointer" value="diabetes">
-                                            Diabetes
-                                        </SelectItem>
-                                        <SelectItem className="cursor-pointer" value="hipercolesterolemia">
-                                            Hipercolesterolemia
-                                        </SelectItem>
-                                        <SelectItem className="cursor-pointer" value="hipertrigliceridemia">
-                                            Hipertrigliceridemia
-                                        </SelectItem>
-                                        <SelectItem className="cursor-pointer" value="enfermedad celiaca">
-                                            Enfermedad celíaca
-                                        </SelectItem>
-                                        <SelectItem className="cursor-pointer" value="enfermedad-renal-cronica-con-restriccion-de-potasio">
-                                            Enfermedad renal crónica <small>(Con altos niveles de Potasio)</small>
-                                        </SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </div>{' '}
-                    </div>
+                    )}
                     <div className="gap-8 pt-2">
                         <Button
                             type="button"
                             onClick={handleEvaluar}
-                            disabled={!isValido || isEvaluando}
-                            className={`w-full ${!isValido || isEvaluando ? 'cursor-not-allowed opacity-50' : ''}`}
+                            disabled={!isValido || isTrabajando}
+                            className={`w-full cursor-pointer ${!isValido || isTrabajando ? 'uppercase font-bold tracking-wide cursor-not-allowed opacity-50' : ''}`}
                         >
-                            {isEvaluando ? 'Evaluando…' : 'Evaluar'}
+                            {isTrabajando ? 'Evaluando…' : 'Evaluar'}
                         </Button>
-                    </div>{' '}
+                    </div>
                 </div>
             </div>
         </AppLayout>

@@ -1,11 +1,13 @@
 import { Button } from '@/components/ui/button';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { useState } from 'react';
+import Autoplay from 'embla-carousel-autoplay';
+import { useRef, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,15 +16,31 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const carouselImages = [
+    {
+        imagen: '/img/loading/1lombarda.gif',
+        consejo: 'La lombarda hervida conserva antocianinas que mejoran tu flora intestinal y reducen la inflamación.',
+    },
+    {
+        imagen: '/img/loading/1cebolla.gif',
+        consejo: 'La cebolla cruda libera quercetina al reaccionar con sus enzimas, actuando como un potente antiinflamatorio natural.',
+    },
+    {
+        imagen: '/img/loading/1queso.gif',
+        consejo: 'El queso madurado aporta péptidos bioactivos que favorecen la digestión y estimulan tu sistema inmunitario.',
+    },
+];
+
 export default function OFF_buscar() {
     const [termino, setTermino] = useState('');
-    const [isSearching, setIsSearching] = useState(false);
+
     const isValido = termino.trim().length > 0;
+    const [isTrabajando, setIsTrabajando] = useState(false);
+    const autoplay = useRef(Autoplay({ delay: 7000, stopOnInteraction: false }));
 
-    const handleSearch = () => {
+    const handleBuscar = () => {
         if (!isValido) return;
-        setIsSearching(true);
-
+        setIsTrabajando(true);
         router.get('/offbuscaracontroller', { termino });
     };
 
@@ -36,28 +54,50 @@ export default function OFF_buscar() {
                     con su información nutricional.
                 </p>
                 <Separator className="my-4" />
-                {/* Flex, columna de arriba a abajo, 4 unidades de separación,
-                 max-w-sm limita el ancho, mx-auto margen automatico a ambos lados.. centra horizontal */}
+
+                {isTrabajando && (
+                    <div className="mx-auto w-full max-w-xl">
+                        <Carousel plugins={[autoplay.current]} className="w-full">
+                            <CarouselContent className="h-[30vh] w-full">
+                                {carouselImages.map(({ imagen, consejo }, idx) => (
+                                    <CarouselItem key={idx} className="basis-full">
+                                        <div className="relative h-full w-full overflow-hidden rounded-lg">
+                                            <img src={imagen} alt="Cargando..." className="h-full w-full object-cover" />
+                                            <div className="bg-background/60 absolute right-4 bottom-4 left-4 rounded-xl px-4 py-2">
+                                                <span className="text-foreground">{consejo}</span>
+                                            </div>
+                                        </div>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                        </Carousel>
+                    </div>
+                )}
+
                 <div className="mx-auto flex max-w-xl flex-col space-y-4">
                     <div>
-                        <Label htmlFor="termino">Alimento o producto:</Label>
-                        <Input
-                            id="termino"
-                            type="text"
-                            placeholder="Yogurt, kiwi, etc..."
-                            value={termino}
-                            onChange={(e) => setTermino(e.target.value)}
-                            required
-                        />
+                        {isTrabajando || (
+                            <div>
+                                <Label htmlFor="termino">Alimento o producto:</Label>
+                                <Input
+                                    id="termino"
+                                    type="text"
+                                    placeholder="Yogurt, kiwi, etc..."
+                                    value={termino}
+                                    onChange={(e) => setTermino(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        )}
                     </div>
                     <div className="gap-8 pt-2">
                         <Button
                             type="button"
-                            onClick={handleSearch}
-                            disabled={!isValido || isSearching}
-                            className={`${!isValido || isSearching ? 'cursor-not-allowed opacity-50' : ''}`}
+                            onClick={handleBuscar}
+                            disabled={!isValido || isTrabajando}
+                            className={`w-full cursor-pointer ${!isValido || isTrabajando ? 'uppercase font-bold tracking-wide cursor-not-allowed opacity-50' : ''}`}
                         >
-                            {isSearching ? 'Buscando...' : 'Buscar'}
+                            {isTrabajando ? 'Buscando...' : 'Buscar'}
                         </Button>
                     </div>
                 </div>

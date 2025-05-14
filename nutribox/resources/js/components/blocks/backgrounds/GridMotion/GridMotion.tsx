@@ -1,27 +1,20 @@
-import { useEffect, useRef, FC } from "react";
-import { gsap } from "gsap";
+import { gsap } from 'gsap';
+import { FC, useEffect, useRef } from 'react';
 
 interface GridMotionProps {
     items?: string[];
     gradientColor?: string;
 }
 
-const GridMotion: FC<GridMotionProps> = ({
-    items = [],
-    gradientColor = "black",
-}) => {
+const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = 'black' }) => {
     const gridRef = useRef<HTMLDivElement>(null);
     const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
     const mouseXRef = useRef<number>(window.innerWidth / 2);
 
     // Ensure the grid has 28 items (4 rows x 7 columns) by default
     const totalItems = 42;
-    const defaultItems = Array.from(
-        { length: totalItems },
-        (_, index) => `Menú ${index + 1}`
-    );
-    const combinedItems =
-        items.length > 0 ? items.slice(0, totalItems) : defaultItems;
+    const defaultItems = Array.from({ length: totalItems }, (_, index) => `Menú ${index + 1}`);
+    const combinedItems = items.length > 0 ? items.slice(0, totalItems) : defaultItems;
 
     useEffect(() => {
         gsap.ticker.lagSmoothing(0);
@@ -38,27 +31,23 @@ const GridMotion: FC<GridMotionProps> = ({
             rowRefs.current.forEach((row, index) => {
                 if (row) {
                     const direction = index % 2 === 0 ? 1 : -1;
-                    const moveAmount =
-                        ((mouseXRef.current / window.innerWidth) * maxMoveAmount -
-                            maxMoveAmount / 2) *
-                        direction;
+                    const moveAmount = ((mouseXRef.current / window.innerWidth) * maxMoveAmount - maxMoveAmount / 2) * direction;
 
                     gsap.to(row, {
                         x: moveAmount,
-                        duration:
-                            baseDuration + inertiaFactors[index % inertiaFactors.length],
-                        ease: "sine",
-                        overwrite: "auto",
+                        duration: baseDuration + inertiaFactors[index % inertiaFactors.length],
+                        ease: 'sine',
+                        overwrite: 'auto',
                     });
                 }
             });
         };
 
         const removeAnimationLoop = gsap.ticker.add(updateMotion);
-        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener('mousemove', handleMouseMove);
 
         return () => {
-            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener('mousemove', handleMouseMove);
             removeAnimationLoop();
         };
     }, []);
@@ -66,37 +55,37 @@ const GridMotion: FC<GridMotionProps> = ({
     return (
         <div ref={gridRef} className="h-full w-full overflow-hidden">
             <section
-                className="w-full h-screen overflow-hidden relative flex items-center justify-center"
+                className="relative flex h-full w-full items-center justify-center overflow-hidden"
                 style={{
                     background: `radial-gradient(circle, ${gradientColor} 0%, transparent 75%)`,
                 }}
             >
                 {/* Noise overlay */}
                 {/*<div className="absolute inset-0 pointer-events-none z-[4] bg-[url('../../../assets/noise.png')] bg-[length:250px]"></div> */}
-                <div className="gap-4 flex-none relative w-[150vw] h-[150vh] grid grid-rows-5 grid-cols-1 rotate-[0deg] origin-center z-[2]">
+                <div className="relative z-[2] grid h-[80vh] w-[150vw] flex-none origin-center rotate-[0deg] grid-cols-1 grid-rows-5 gap-2">
                     {Array.from({ length: 5 }, (_, rowIndex) => (
                         <div
                             key={rowIndex}
-                            className="grid gap-4 grid-cols-7"
-                            style={{ willChange: "transform, filter" }}
+                            className="grid grid-cols-7 gap-2"
+                            style={{ willChange: 'transform, filter' }}
                             ref={(el) => (rowRefs.current[rowIndex] = el)}
                         >
                             {Array.from({ length: 7 }, (_, itemIndex) => {
                                 const content = combinedItems[rowIndex * 7 + itemIndex];
+
+                                const isImage = (path: string) => /\.(jpe?g|png|gif|webp|svg)$/i.test(path);
+
                                 return (
                                     <div key={itemIndex} className="relative">
-                                        <div className="relative w-full h-full overflow-hidden rounded-xl bg-[#111] flex items-center justify-center text-white text-[1.5rem]">
-                                            {typeof content === "string" &&
-                                                content.startsWith("http") ? (
+                                        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl bg-[#111] text-[1.5rem] text-white">
+                                            {typeof content === 'string' && (content.startsWith('http') || isImage(content)) ? (
                                                 <div
-                                                    className="w-full h-full bg-cover bg-center absolute top-0 left-0"
+                                                    className="absolute top-0 left-0 h-full w-full bg-cover bg-center"
                                                     style={{ backgroundImage: `url(${content})` }}
                                                 ></div>
                                             ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center z-[1]">
-                                                    <span className="font-black text-[20vw] md:text-[20vw] lg:text-[20vw] leading-none">
-                                                        {content}
-                                                    </span>
+                                                <div className="absolute inset-0 z-[1] flex items-center justify-center">
+                                                    <span className="text-[clamp(4rem,13vw,6rem)] leading-none font-black">{content}</span>
                                                 </div>
                                             )}
                                         </div>
@@ -106,7 +95,7 @@ const GridMotion: FC<GridMotionProps> = ({
                         </div>
                     ))}
                 </div>
-                <div className="relative w-full h-full top-0 left-0 pointer-events-none"></div>
+                <div className="pointer-events-none relative top-0 left-0 h-full w-full"></div>
             </section>
         </div>
     );
