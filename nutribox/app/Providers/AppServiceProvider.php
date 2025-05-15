@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,27 +24,15 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        /*
-        Inertia::share([
-            'auth.user' => function () {
-                if (! Auth::check()) {
-                    return null;
-                }
+        VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
 
-                return Auth::user()->only([
-                    'id',
-                    'name',
-                    'email',
-                    'email_verified_at',                 
-                    'sexo',
-                    'edad',
-                    'altura',
-                    'peso',
-                    'actividad',
-                    'info_extra',
-                ]);
-            },    
-        ]);
-        */
+            return (new MailMessage)
+                ->subject('Nutribox: Verificación de email')
+                ->greeting("¡Hola {$notifiable->name}!")   
+                ->line('Haz click en el siguiente enlace para confirmar tu dirección de correo electrónico.')
+                ->action('VERIFICAR EMAIL', $url)
+                ->line('Si no has creado una cuenta, ignora este mensaje.')
+                ->salutation('Un saludo.');
+        });
     }
 }

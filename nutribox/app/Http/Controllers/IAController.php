@@ -232,7 +232,7 @@ class IAController extends Controller
             set_time_limit(120); // Ampliado de 30 a 120 por si la consulta es lenta evitar errores
             $client = DeepSeekClient::build(apiKey: $this->deepseekApiKey, baseUrl: 'https://api.deepseek.com/v3', timeout: 120, clientType: 'guzzle');
             $response = $client
-                ->withModel(Models::CODER->value)
+                ->withModel(Models::CHAT->value)
                 ->query($prompt)
                 ->run();
 

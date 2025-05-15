@@ -6,8 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     // Para saber que menus tiene el usuario
     public function menus()
@@ -31,6 +32,7 @@ class User extends Authenticatable
         'peso',
         'actividad',
         'info_extra',
+        'email_verified_at',
         'email',
         'password',
     ];

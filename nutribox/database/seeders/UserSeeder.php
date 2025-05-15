@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Carbon\Carbon;
 
 class UserSeeder extends Seeder
 {
@@ -24,6 +25,7 @@ class UserSeeder extends Seeder
             'altura' => 170,
             'peso' => 77,
             'actividad' => "poco-movimiento",
+            'email_verified_at' => Carbon::now(),
             'info_extra' => 'Operado de rotura de ligamentos rodilla izquierda hace 3 años',
             'email' => 'correo@ejemplo.es',
             'password' => 'Contraseña',
