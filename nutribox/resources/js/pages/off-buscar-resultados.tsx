@@ -59,7 +59,7 @@ export default function OFF_buscar_resultados() {
                         {productos.map((p, index) => (
                             <div
                                 key={index}
-                                className="hover:shadow-primary hover:ring-primary/60 transform-gpu rounded-xl border p-4 shadow-lg transition-all duration-500 [perspective:600px] hover:[transform:rotateX(8deg)_rotateY(12deg)_scale(1.05)] hover:shadow-[0_0_30px_8px] hover:ring-2 cursor-pointer active:ring active:ring-offset-2 active:ring-primary/60 active:shadow-primary"
+                                className="hover:shadow-primary hover:ring-primary/60 transform-gpu rounded-xl border p-4 shadow-lg transition-all duration-500 [perspective:600px] hover:[transform:scale(1.05)] hover:shadow-[0_0_30px_8px] hover:ring-2 cursor-pointer active:ring active:ring-offset-2 active:ring-primary/60 active:shadow-primary"
                             >
                                 <div className="text-center">
                                     {p.image_url ? (

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\IAController;
 use App\Http\Controllers\MenusController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\PlayController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -75,10 +76,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/menus/{id}', [MenusController::class, 'actualizarMenuDiario'])->name('actualizarMenuDiario');
 
 
-
-    Route::get('principal', function () {
-        return view('principal');
-    })->name('principal');
+    // Play: Streaming y Youtube
+    Route::get('/multimedia', [PlayController::class, 'play'])
+        ->name('multimedia');
 
 
     // Route::get('/{any}', function () {

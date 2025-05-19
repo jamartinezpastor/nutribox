@@ -14,9 +14,12 @@ class OFFController extends Controller
         $termino = $formulario->input('termino');
 
         $client = new Client();
-        $url = "https://world.openfoodfacts.org/cgi/search.pl?action=process&json=1&search_terms=" . urlencode($termino);
+        $url = "https://world.openfoodfacts.org/cgi/search.pl?action=process&json=1&search_terms="
+            . urlencode($termino)
+            . "&page_size=20"; 
         try {
             $response = $client->get($url);
+
             $resultados = json_decode($response->getBody(), true); // Decodificar JSON a array
 
             return Inertia::render('off-buscar-resultados', compact('termino', 'resultados'));
@@ -24,7 +27,7 @@ class OFFController extends Controller
             return Inertia::render('off-buscar-resultados', ['error' => 'Error al conectar con Open Food Facts']);
         }
     }
-
+    /*
     // Primer método (de prueba) para recibir un formulario y devolver datos mockeados
     public function recibeForm_DevuelveVariable(Request $formulario)
     {
@@ -36,4 +39,5 @@ class OFFController extends Controller
 
         return Inertia::render('off-buscar-resultados', compact('termino', 'resultados'));
     }
+    */
 }

@@ -118,7 +118,7 @@ export default function DS_evaluar() {
                                     <Label htmlFor="unidad">Unidad de medida:</Label>
                                     <Select value={unidad} onValueChange={(value) => setUnidad(value)} required>
                                         {' '}
-                                        {/* Aquí se asigna `onValueChange` */}
+                                        {/* Asignar `onValueChange` */}
                                         <SelectTrigger>
                                             <SelectValue placeholder="Selecciona una unidad" />
                                         </SelectTrigger>
@@ -152,22 +152,39 @@ export default function DS_evaluar() {
                                 <div>
                                     <Label>Patología:</Label>
                                     <Select onValueChange={(value) => setPatologia(value)} required>
-                                        {' '}
-                                        {/* Aquí se asigna `onValueChange` */}
+                                        {/* Asignar `onValueChange` */}
                                         <SelectTrigger>
                                             <SelectValue placeholder="Selecciona una patología" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectGroup>
                                                 <SelectLabel>Patología</SelectLabel>
-                                                <SelectItem className="cursor-pointer" value="sin patologia conocida">
+                                                <SelectItem className="cursor-pointer" value="sin-patologia-conocida">
                                                     Sin patología conocida
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="obesidad">
-                                                    Obesidad
+                                                <SelectItem className="cursor-pointer" value="obesidad-clase-1-(moderada)">
+                                                    Obesidad I Moderada <small>(IMC entre 30 y 34.9 kg/m²)</small>
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="diabetes">
-                                                    Diabetes
+                                                <SelectItem className="cursor-pointer" value="obesidad-clase-2-(severa)">
+                                                    Obesidad II Severa <small>(IMC entre 35 y 39.9 kg/m²)</small>
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="obesidad-clase-3-(morbida)">
+                                                    Obesidad III Mórbida <small>(IMC de 40 kg/m² o superior)</small>
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="hipotiroidismo">
+                                                    Hipotiroidismo
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="hipertiroidismo">
+                                                    Hipertiroidismo
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="diabetes-tipo-1">
+                                                    Diabetes Tipo 1
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="diabetes-tipo-2">
+                                                    Diabetes Tipo 2
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="diabetes-gestacional">
+                                                    Diabetes Gestacional
                                                 </SelectItem>
                                                 <SelectItem className="cursor-pointer" value="hipercolesterolemia">
                                                     Hipercolesterolemia
@@ -175,16 +192,34 @@ export default function DS_evaluar() {
                                                 <SelectItem className="cursor-pointer" value="hipertrigliceridemia">
                                                     Hipertrigliceridemia
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="enfermedad celiaca">
+                                                <SelectItem className="cursor-pointer" value="enfermedad-celiaca">
                                                     Enfermedad celíaca
                                                 </SelectItem>
                                                 <SelectItem className="cursor-pointer" value="enfermedad-renal-cronica-con-restriccion-de-potasio">
                                                     Enfermedad renal crónica <small>(Con altos niveles de Potasio)</small>
                                                 </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="enfermedad-renal-cronica-estadio-2">
+                                                    Enfermedad renal crónica <small>(Estadio 2)</small>
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="enfermedad-renal-cronica-estadio-3">
+                                                    Enfermedad renal crónica <small>(Estadio 3)</small>
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="enfermedad-renal-cronica-estadio-4">
+                                                    Enfermedad renal crónica <small>(Estadio 4)</small>
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="enfermedad-renal-cronica-estadio-5-(dialisis)">
+                                                    Enfermedad renal crónica <small>(Estadio 5 - Diálisis)</small>
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="Sindrome de ovario poliquistico">
+                                                    Síndrome de ovario poliquístico
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="esteatosis hepatica no alcoholica">
+                                                    Esteatosis hepática no alcohólica <small>(EHNA)</small>
+                                                </SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
-                                </div>{' '}
+                                </div>
                             </div>
                         </div>
                     )}
@@ -193,7 +228,7 @@ export default function DS_evaluar() {
                             type="button"
                             onClick={handleEvaluar}
                             disabled={!isValido || isTrabajando}
-                            className={`w-full cursor-pointer ${!isValido || isTrabajando ? 'uppercase font-bold tracking-wide cursor-not-allowed opacity-50' : ''}`}
+                            className={`w-full cursor-pointer ${!isValido || isTrabajando ? 'cursor-not-allowed font-bold tracking-wide uppercase opacity-50' : ''}`}
                         >
                             {isTrabajando ? 'Evaluando…' : 'Evaluar'}
                         </Button>

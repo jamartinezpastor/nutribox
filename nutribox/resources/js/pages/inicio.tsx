@@ -63,9 +63,7 @@ export default function Inicio() {
     return (
       <AppLayout breadcrumbs={breadcrumbs}>
         <Head title="Inicio" />
-        {/* Contenedor flex que ocupa todo el espacio restante y evita overflow */}
         <div className="flex flex-1 flex-col p-4 gap-4 rounded-xl overflow-hidden min-h-0">
-          {/* Wrapper para forzar a GridMotion a rellenar la altura disponible */}
           <div className="flex-1 min-h-0">
             <GridMotion items={huecos} gradientColor="#00bc7d" />
           </div>

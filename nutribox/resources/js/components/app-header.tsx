@@ -2,6 +2,16 @@ import { Breadcrumbs } from '@/components/breadcrumbs';
 import { Icon } from '@/components/icon';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from '@/components/ui/drawer';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -11,9 +21,10 @@ import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookMarkedIcon, BookOpen, ForkKnifeCrossed, HeartPulse, LucideCarrot, Menu } from 'lucide-react';
+import { BookMarkedIcon, ForkKnifeCrossed, HeartPulse, ListVideo, LucideCarrot, LucideTv2, Menu, Play, Smile, Tv, Tv2, TvMinimal, TvMinimalIcon, TvMinimalPlay, TvMinimalPlayIcon } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
+import { Separator } from './ui/separator';
 
 const mainNavItems: NavItem[] = [
     /*
@@ -34,7 +45,7 @@ const mainNavItems: NavItem[] = [
         icon: HeartPulse,
     },
     {
-        title: 'Diseñar',
+        title: 'Diseñar menú',
         href: '/menucrear',
         icon: ForkKnifeCrossed,
     },
@@ -43,13 +54,18 @@ const mainNavItems: NavItem[] = [
         href: '/menuslistar',
         icon: BookMarkedIcon,
     },
+    {
+        title: 'Canal Cocina',
+        href: '/multimedia',
+        icon: Play,
+    },
 ];
 
 const rightNavItems: NavItem[] = [
     {
         title: 'Acerca de',
-        href: 'principal',
-        icon: BookOpen,
+        href: '',
+        icon: Smile,
     },
 ];
 
@@ -91,17 +107,40 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                             ))}
                                         </div>
 
+                                        {/* 
+                                        // Menu por defecto con <a>
                                         <div className="flex flex-col space-y-4">
                                             {rightNavItems.map((item) => (
                                                 <a
                                                     key={item.title}
                                                     href={item.href}
-                                                    target="_blank"
+                                                    target="_parent"
                                                     rel="noopener noreferrer"
                                                     className="flex items-center space-x-2 font-medium"
                                                 >
                                                     {item.icon && <Icon iconNode={item.icon} className="h-5 w-5" />}
                                                     <span>{item.title}</span>
+                                                </a>
+                                            ))}
+                                        </div>
+                                        */}
+                                        <div className="flex flex-col space-y-4">
+                                            {rightNavItems.map((item) => (
+                                                <a
+                                                    key={item.title}
+                                                    href=""
+                                                    target=""
+                                                    rel="noopener noreferrer"
+                                                    className="flex items-center space-x-2 font-medium"
+                                                >
+                                                    {item.icon && <Icon iconNode={item.icon} className="h-5 w-5" />}
+                                                    <span>
+                                                        <small>Desarrollado por:</small> <br />
+                                                        <b> Jose Antonio Martínez Pastor</b> <br />
+                                                        <a href="https://www.linkedin.com/in/jamartinezpastor/">
+                                                            <i>Linkedin</i>
+                                                        </a>
+                                                    </span>
                                                 </a>
                                             ))}
                                         </div>
@@ -114,7 +153,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                     <Link
                         href="/inicio"
                         prefetch
-                        className="hover:drop-shadow-[0_0_18px_#45c3bc] flex items-center space-x-2 transition duration-600 hover:brightness-125"
+                        className="flex items-center space-x-2 transition duration-600 hover:brightness-125 hover:drop-shadow-[0_0_18px_#45c3bc]"
                     >
                         <AppLogo />
                     </Link>
@@ -157,15 +196,52 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                     <TooltipProvider key={item.title} delayDuration={0}>
                                         <Tooltip>
                                             <TooltipTrigger>
-                                                <a
-                                                    href={item.href}
-                                                    target="_blank"
+                                                {/* Éste <span> antes era un <a>, cambiado ya que interfería su trigger/disparador con el del Drawer (Ahora solo 1 a la vez)*/}
+                                                <span
                                                     rel="noopener noreferrer"
-                                                    className="group text-accent-foreground ring-offset-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring ml-1 inline-flex h-9 w-9 items-center justify-center rounded-md bg-transparent p-0 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
+                                                    className="group text-accent-foreground ring-offset-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring ml-1 inline-flex h-9 w-9 items-center justify-center rounded-md bg-transparent p-0 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none cursor-pointer disabled:pointer-events-none disabled:opacity-50"
                                                 >
-                                                    <span className="sr-only">{item.title}</span>
-                                                    {item.icon && <Icon iconNode={item.icon} className="size-5 opacity-80 group-hover:opacity-100" />}
-                                                </a>
+                                                    <Drawer>
+                                                        <DrawerTrigger className="cursor-pointer">
+                                                            {/* <span className="sr-only">{item.title}</span> */}
+                                                            {item.icon && (
+                                                                <Icon iconNode={item.icon} className="size-5 opacity-80 group-hover:opacity-100" />
+                                                            )}
+                                                        </DrawerTrigger>
+                                                        <DrawerContent>
+                                                            <div className="mx-auto w-full max-w-lg">
+                                                                <DrawerHeader>
+                                                                    <DrawerTitle>Acerca de</DrawerTitle>
+                                                                    <DrawerDescription>NUTRIBOX - Alimentación Inteligente</DrawerDescription>
+                                                                    <DrawerDescription>
+                                                                        SPA (Single Page App) para la generación de menús diarios personalizados.
+                                                                    </DrawerDescription>
+                                                                </DrawerHeader>
+                                                                <Separator />
+                                                                <div className="p-4 pb-2">
+                                                                    <DrawerDescription>Stack de desarrollo: </DrawerDescription>
+                                                                    <div className="flex items-center justify-center space-x-2">
+                                                                        - Framework: Laravel 12.3.0 - Frontend: React 19.0.0 (Typescript 5.8.3) -
+                                                                        Backend: PHP 8.2.12 - Base de datos: SQLite 3.42.0 - Router / Navegación:
+                                                                        Inertia.js v2.0.1 (Laravel + React) - Estilos: Tailwind CSS 4.0.6 -
+                                                                        Empaquetador: Vite 6.0 - Control de versiones: GIT + GitHub - node.js: v22.9.0
+                                                                        - npm: 11.0.0 -
+                                                                    </div>
+                                                                    <div className="mt-3 h-[10px]">Gestión de tareas: Trello</div>
+                                                                </div>
+                                                                <DrawerFooter>
+                                                                    <DrawerDescription>Tutor: Jose Manuel Rubira Miranda</DrawerDescription>
+                                                                    <DrawerDescription>Desarrollador: Jose Antonio Martínez Pastor</DrawerDescription>
+                                                                    <DrawerClose asChild>
+                                                                        <Button className="cursor-pointer" variant="secondary">
+                                                                            Volver
+                                                                        </Button>
+                                                                    </DrawerClose>
+                                                                </DrawerFooter>
+                                                            </div>
+                                                        </DrawerContent>
+                                                    </Drawer>
+                                                </span>
                                             </TooltipTrigger>
                                             <TooltipContent>
                                                 <p>{item.title}</p>
@@ -177,7 +253,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                         </div>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="size-10 rounded-full p-1">
+                                <Button variant="ghost" className="size-10 rounded-full p-1 cursor-pointer">
                                     <Avatar className="size-8 overflow-hidden rounded-full">
                                         <AvatarImage src={auth.user.avatar} alt={auth.user.name} />
                                         <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
