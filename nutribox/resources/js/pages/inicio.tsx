@@ -10,7 +10,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-// note: you'll need to make sure the parent container of this component is sized properly
 const huecos = [
     'https://images.pexels.com/photos/86649/pexels-photo-86649.jpeg?auto=compress&cs=tinysrgb&w=800',
     'https://images.pexels.com/photos/14089635/pexels-photo-14089635.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -33,7 +32,7 @@ const huecos = [
     'T',
     'R',
     'I',
-    'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXQxbjBidTY5eDI3c280dDVsaHpkNm84MjQ0MHdwcm5zY2drejhxNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Qtw2vklEIHrff8hLNK/giphy.gif',    
+    'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXQxbjBidTY5eDI3c280dDVsaHpkNm84MjQ0MHdwcm5zY2drejhxNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Qtw2vklEIHrff8hLNK/giphy.gif',
     'https://images.pexels.com/photos/5175576/pexels-photo-5175576.jpeg?auto=compress&cs=tinysrgb&w=800',
     'https://images.pexels.com/photos/4929675/pexels-photo-4929675.jpeg?auto=compress&cs=tinysrgb&w=800',
     'https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjJrenFrODdia2o5M2JoaHhqdGNiMmZvZmNrdjE2c2loNTlhdDFiOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Z428zUetu8pFpeQHaY/giphy.gif',
@@ -56,18 +55,17 @@ const huecos = [
     'https://images.pexels.com/photos/86649/pexels-photo-86649.jpeg?auto=compress&cs=tinysrgb&w=800',
     'https://images.pexels.com/photos/14089635/pexels-photo-14089635.jpeg?auto=compress&cs=tinysrgb&w=800',
     'https://images.pexels.com/photos/1305063/pexels-photo-1305063.jpeg?auto=compress&cs=tinysrgb&w=800',
-    // Add more items as needed
 ];
 
 export default function Inicio() {
     return (
-      <AppLayout breadcrumbs={breadcrumbs}>
-        <Head title="Inicio" />
-        <div className="flex flex-1 flex-col p-4 gap-4 rounded-xl overflow-hidden min-h-0">
-          <div className="flex-1 min-h-0">
-            <GridMotion items={huecos} gradientColor="#00bc7d" />
-          </div>
-        </div>
-      </AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Inicio" />
+            <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden rounded-xl p-4">
+                <div className="min-h-0 flex-1">
+                    <GridMotion items={huecos} gradientColor="#00bc7d" />
+                </div>
+            </div>
+        </AppLayout>
     );
-  }
+}

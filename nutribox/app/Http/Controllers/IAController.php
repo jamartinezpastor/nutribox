@@ -25,7 +25,6 @@ class IAController extends Controller
     public function __construct()
     {
         $this->deepseekApiKey = config('services.deepseek.key');
-        $this->openaiApiKey = config('services.openai.key');
         $this->pexelsApiKey = config('services.pexels.key');
     }
 

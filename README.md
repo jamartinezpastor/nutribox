@@ -123,10 +123,6 @@
     - https://github.com/deepseek-php/deepseek-php-client
     - composer require deepseek-php/deepseek-php-client
 
-- OPENAI
-  - OPENAI_API_KEY="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"
-  - https://platform.openai.com/docs/api-reference/introduction
-
 - PEXELS
   - PEXELS_API_KEY="cvWiNcTFlkptWql4azsVgWh2qe7zC6Wj5xrqCVRPrbsDAohnwXmRnPGr"
   - https://www.pexels.com/api/documentation/
@@ -189,7 +185,6 @@ Utilizaremos el Framework de CSS en su versión 4 pudiendo disponer de sus clase
 1. Hostinger
 2. Servidor VPS
 3. Apache
-4. Clooudflare DNS / SSL
    
 - Comandos
 
