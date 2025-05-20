@@ -30,7 +30,6 @@ import AppLogoIcon from './app-logo-icon';
 import { Separator } from './ui/separator';
 
 const mainNavItems: NavItem[] = [
-
     {
         title: 'Buscar',
         href: '/offbuscar',
@@ -135,7 +134,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
     const getInitials = useInitials();
-    const autoplay = useRef(Autoplay({ delay: 2500, stopOnInteraction: true }));
+    const autoplay = useRef(Autoplay({ delay: 2500, stopOnInteraction: false }));
     return (
         <>
             <div className="border-sidebar-border/80 border-b">
