@@ -13,6 +13,7 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
+/*
 // Verificación por email
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -27,7 +28,7 @@ Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Link de verificación enviado!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
+*/
 
 // Middleware
 Route::middleware(['auth', 'verified'])->group(function () {
