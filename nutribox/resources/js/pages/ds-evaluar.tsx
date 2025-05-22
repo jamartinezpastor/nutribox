@@ -116,8 +116,7 @@ export default function DS_evaluar() {
                                 </div>
                                 <div>
                                     <Label htmlFor="unidad">Unidad de medida:</Label>
-                                    <Select value={unidad} onValueChange={(value) => setUnidad(value)} required>
-                                        {' '}
+                                    <Select value={unidad} onValueChange={(value) => setUnidad(value)} required>                                        
                                         {/* Asignar `onValueChange` */}
                                         <SelectTrigger>
                                             <SelectValue placeholder="Selecciona una unidad" />
@@ -127,6 +126,9 @@ export default function DS_evaluar() {
                                                 <SelectLabel>Unidad</SelectLabel>
                                                 <SelectItem className="cursor-pointer" value="gr">
                                                     Gramos (g)
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="mg">
+                                                    Miligramos (mg)
                                                 </SelectItem>
                                                 <SelectItem className="cursor-pointer" value="ml">
                                                     Mililitros (ml)
@@ -159,61 +161,67 @@ export default function DS_evaluar() {
                                         <SelectContent>
                                             <SelectGroup>
                                                 <SelectLabel>Patología</SelectLabel>
-                                                <SelectItem className="cursor-pointer" value="sin-patologia-conocida">
+                                                <SelectItem className="cursor-pointer" value="Sin patología conocida">
                                                     Sin patología conocida
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="obesidad-clase-1-(moderada)">
+                                                <SelectItem className="cursor-pointer" value="Obesidad clase I (Moderada)">
                                                     Obesidad I Moderada <small>(IMC entre 30 y 34.9 kg/m²)</small>
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="obesidad-clase-2-(severa)">
+                                                <SelectItem className="cursor-pointer" value="Obesidad clase II (Severa)">
                                                     Obesidad II Severa <small>(IMC entre 35 y 39.9 kg/m²)</small>
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="obesidad-clase-3-(morbida)">
+                                                <SelectItem className="cursor-pointer" value=" Obesidad clase III(Mórbida)">
                                                     Obesidad III Mórbida <small>(IMC de 40 kg/m² o superior)</small>
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="hipotiroidismo">
+                                                <SelectItem className="cursor-pointer" value="Hipotiroidismo">
                                                     Hipotiroidismo
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="hipertiroidismo">
+                                                <SelectItem className="cursor-pointer" value="Hipertiroidismo">
                                                     Hipertiroidismo
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="diabetes-tipo-1">
+                                                <SelectItem className="cursor-pointer" value="Diabetes Tipo 1">
                                                     Diabetes Tipo 1
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="diabetes-tipo-2">
+                                                <SelectItem className="cursor-pointer" value="Diabetes Tipo 2">
                                                     Diabetes Tipo 2
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="diabetes-gestacional">
+                                                <SelectItem className="cursor-pointer" value="Diabetes Gestacional">
                                                     Diabetes Gestacional
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="hipercolesterolemia">
+                                                <SelectItem className="cursor-pointer" value="Embarazo">
+                                                    Embarazo
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="Madre lactante">
+                                                    Lactancia
+                                                </SelectItem>
+                                                <SelectItem className="cursor-pointer" value="Hipercolesterolemia">
                                                     Hipercolesterolemia
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="hipertrigliceridemia">
+                                                <SelectItem className="cursor-pointer" value="Hipertrigliceridemia">
                                                     Hipertrigliceridemia
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="enfermedad-celiaca">
+                                                <SelectItem className="cursor-pointer" value="Enfermedad celíaca">
                                                     Enfermedad celíaca
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="enfermedad-renal-cronica-con-restriccion-de-potasio">
+                                                <SelectItem className="cursor-pointer" value="Enfermedad renal crónica (Con altos niveles de Potasio)">
                                                     Enfermedad renal crónica <small>(Con altos niveles de Potasio)</small>
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="enfermedad-renal-cronica-estadio-2">
+                                                <SelectItem className="cursor-pointer" value="Enfermedad renal crónica (Estadio 2)">
                                                     Enfermedad renal crónica <small>(Estadio 2)</small>
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="enfermedad-renal-cronica-estadio-3">
+                                                <SelectItem className="cursor-pointer" value="Enfermedad renal crónica (Estadio 3)">
                                                     Enfermedad renal crónica <small>(Estadio 3)</small>
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="enfermedad-renal-cronica-estadio-4">
+                                                <SelectItem className="cursor-pointer" value="Enfermedad renal crónica (Estadio 4)">
                                                     Enfermedad renal crónica <small>(Estadio 4)</small>
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="enfermedad-renal-cronica-estadio-5-(dialisis)">
+                                                <SelectItem className="cursor-pointer" value="Enfermedad renal crónica (Estadio 5 - Diálisis)">
                                                     Enfermedad renal crónica <small>(Estadio 5 - Diálisis)</small>
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="Sindrome de ovario poliquistico">
+                                                <SelectItem className="cursor-pointer" value="Síndrome de ovario poliquístico">
                                                     Síndrome de ovario poliquístico
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="esteatosis hepatica no alcoholica">
+                                                <SelectItem className="cursor-pointer" value="Esteatosis hepática no alcohólica (EHNA)">
                                                     Esteatosis hepática no alcohólica <small>(EHNA)</small>
                                                 </SelectItem>
                                             </SelectGroup>

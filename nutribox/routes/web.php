@@ -14,7 +14,7 @@ Route::get('/', function () {
 })->name('home');
 
 /*
-// Verificación por email
+// Verificación por email (Ya configuradas en routes/auth.php)
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
@@ -83,10 +83,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     // Route::get('/{any}', function () {
-    //     return view('welcome'); // Aquí se sirve el archivo index.html de tu app React
+    //     return view('welcome'); 
     // })->where('any', '.*');
 
 }); // Cierre Middleware
 
+
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
+
+Route::fallback(function () {
+    return Inertia::render('Error', ['status' => 404, 'mensaje' => 'Página no encontrada']);
+});

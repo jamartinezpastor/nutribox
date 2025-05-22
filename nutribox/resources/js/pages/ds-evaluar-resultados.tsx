@@ -32,7 +32,7 @@ export default function DS_evaluar_resultados() {
                 {/* Imagen de fondo con poca opacidad */}
                 {props.imageUrl && (
                     <div
-                        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15 pointer-events-none z-0"
+                        className="pointer-events-none absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-15"
                         style={{
                             backgroundImage: `url(${props.imageUrl})`,
                             backgroundSize: 'cover',
@@ -46,24 +46,29 @@ export default function DS_evaluar_resultados() {
                 {props.error && <p className="text-red-500">{props.error}</p>}
 
                 {!props.error && props.analisis ? (
-                    <div className="relative flex min-h-screen flex-col gap-4 rounded-xl bg-linear-to-tr from-white/100 opacity-100 to-white/00 p-4 dark:from-black/100 dark:to-black/00 z-10">
-                        <h2 className="text-3xl font-bold uppercase ">{props.producto}</h2>
+                    <div className="to-white/00 dark:to-black/00 relative z-10 flex min-h-screen flex-col gap-1 rounded-xl bg-linear-to-tr from-white/100 p-2 opacity-100 dark:from-black/100">
+                        <div className="flex items-center gap-1">
+                            <h2 className="bg-secondary inline-block rounded-xl px-4 py-1 text-2xl text-3xl font-bold capitalize uppercase">
+                                {props.producto}
+                            </h2>
+                        </div>
+
                         <br />
                         <h2 className="text-xl font-semibold uppercase">Cantidad:</h2>
-                        <p>
-                            {' '}
+                        <span>
                             <strong>{props.cantidad}</strong>
                             <i> {props.unidad}</i>
-                        </p>{' '}
+                        </span>
                         <br />
                         <h2 className="text-xl font-semibold uppercase">Patología:</h2>
-                        <p>
-                            {' '}
+                        <span>
                             <strong>{props.patologia}</strong>
-                        </p>{' '}
+                        </span>
                         <br />
                         <h2 className="text-xl font-semibold uppercase">Análisis:</h2>
-                        <p className="whitespace-pre-line hover:shadow-primary hover:ring-primary/60 transform-gpu rounded-xl border p-4 shadow-lg transition-all duration-500 hover:[transform:scale(1.05)] hover:shadow-[0_0_30px_8px] hover:ring-2 cursor-pointer active:ring active:ring-offset-2 active:ring-primary/60 active:shadow-primary">{props.analisis}</p>
+                        <span className="hover:shadow-primary hover:ring-primary/60 active:ring-primary/60 active:shadow-primary transform-gpu cursor-pointer rounded-xl border p-4 whitespace-pre-line shadow-lg transition-all duration-500 hover:[transform:scale(1.05)] hover:shadow-[0_0_30px_8px] hover:ring-2 active:ring active:ring-offset-2">
+                            {props.analisis}
+                        </span>
                     </div>
                 ) : (
                     <p>No se encontraron resultados.</p>

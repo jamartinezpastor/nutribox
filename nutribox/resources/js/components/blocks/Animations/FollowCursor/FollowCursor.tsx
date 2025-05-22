@@ -49,10 +49,10 @@ const FollowCursor: React.FC<FollowCursorProps> = ({
     className = '',
     animationConfig = { mass: 5, tension: 350, friction: 40 },
     hoverScale = 1.1,
-    offsetX = 20,
-    cardWidth = '200px',
+    offsetX = 35,
+    cardWidth = '100px',
     rotationFactor = 20,
-    perspective = '200px',
+    perspective = '100px',
     zoomSensitivity = 200,
     wheelConfig = { mass: 1, tension: 200, friction: 30 },
     enableTilt = true,
@@ -211,7 +211,8 @@ const FollowCursor: React.FC<FollowCursorProps> = ({
         <div className={`container ${className}`} ref={containerRef}>
             <animated.div
                 ref={domTarget}
-                className="absolute relative h-[150px] w-[180px] touch-none rounded-[15px] bg-[url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTd4bHJqeGxtdzh0cTcxaWxhMWs5MzlhZzZrNGp4cTJoczNxbGQ1bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7aD5lNmqChBB5yE0/giphy.gif')] bg-cover shadow-[0px_10px_30px_-5px_rgba(0,0,0,0.3)] transition-opacity transition-shadow duration-500 [will-change:transform]"
+                className="absolute relative h-[110px] w-[110px] touch-none rounded-xl bg-[url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTd4bHJqeGxtdzh0cTcxaWxhMWs5MzlhZzZrNGp4cTJoczNxbGQ1bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7aD5lNmqChBB5yE0/giphy.gif')] bg-cover shadow-[0px_10px_30px_-5px_rgba(0,0,0,0.3)]"
+                // className="absolute relative h-[110px] w-[110px] touch-none rounded-xl bg-[url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTd4bHJqeGxtdzh0cTcxaWxhMWs5MzlhZzZrNGp4cTJoczNxbGQ1bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7aD5lNmqChBB5yE0/giphy.gif')] bg-cover shadow-[0px_10px_30px_-5px_rgba(0,0,0,0.3)] transition-opacity transition-shadow duration-500 [will-change:transform]"
                 style={{
                     width: cardWidth,
                     transform: `perspective(${perspective})`,
