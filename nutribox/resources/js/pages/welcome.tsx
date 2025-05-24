@@ -1,6 +1,7 @@
 import FollowCursor from '@/components/blocks/Animations/FollowCursor/FollowCursor';
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
+import LottieNutriboxWelcome from '../components/LottieNutriboxWelcome';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
@@ -13,7 +14,7 @@ export default function Welcome() {
             </Head>
 
             <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:justify-center lg:p-8 dark:bg-[#0a0a0a]">
-                <header className="mb-6 w-full max-w-[335px] text-sm not-has-[nav]:hidden lg:max-w-4xl">
+                <header className="mb-3 w-full max-w-[335px] text-sm not-has-[nav]:hidden lg:max-w-4xl">
                     <nav className="flex items-center justify-end gap-4">
                         {auth.user ? (
                             <Link
@@ -74,39 +75,14 @@ export default function Welcome() {
                                 </li>
                             </ul>
                         </div>
-                        <div className="relative -mb-px aspect-[335/376] w-full shrink-0 overflow-hidden rounded-t-lg bg-[#fff2f2] lg:mb-0 lg:-ml-px lg:aspect-auto lg:w-[438px] lg:rounded-t-none lg:rounded-r-lg dark:bg-[#1D0002]">
-                            <img src="img/nutribox1.png" alt="" />
-                            {/*
-                            <svg
-                                className="w-full max-w-none translate-y-0 text-[#F53003] opacity-100 transition-all duration-750 dark:text-[#F61500] starting:translate-y-6 starting:opacity-0"
-                                viewBox="0 0 438 104"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                               <path d="M17.2036 -3H0V102.197H49.5189V86.7187H17.2036V-3Z" fill="currentColor" /> 
-                            </svg>
-                            {/* 
-                            <div className="flex h-screen items-center justify-center">
-                                <AnimacionLottie1 />
+                        <div className="lg:bg-muted-foreground bg-muted-foreground relative -mb-px aspect-[450/450] w-full shrink-0 overflow-hidden rounded-t-lg shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] lg:mb-0 lg:-ml-px lg:aspect-auto lg:w-[450px] lg:rounded-t-none lg:rounded-r-lg dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]">
+                            {/*<img src="img/nutribox1.png" alt="" /> */}
+                            <div className="flex items-center justify-center">
+                            <LottieNutriboxWelcome />
                             </div>
-                                                        <div className="absolute inset-0 rounded-t-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] lg:rounded-t-none lg:rounded-r-lg dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]" />
-
-                            */}
                         </div>
                     </main>
-                </div>
-                <div className="hidden h-14.5 lg:block">
-                    <FollowCursor
-                        offsetX={35}
-                        cardWidth="100px"
-                        rotationFactor={8}
-                        enableTilt={true}
-                        animationConfig={{ mass: 5, tension: 350, friction: 40 }}
-                        wheelConfig={{ mass: 1, tension: 200, friction: 30 }}
-                    >
-                        {' '}
-                    </FollowCursor>
-                </div>
+                </div>              
             </div>
         </>
     );

@@ -14,7 +14,7 @@ import { Link, usePage } from '@inertiajs/react';
 import { BookMarkedIcon, ForkKnifeCrossed, HeartPulse, LucideCarrot, Menu, Play, Smile } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
-import { DrawerConCarousel } from './drawerConCarousel';
+import { DrawerConCarousel } from '../pages/drawerConCarousel';
 
 const mainNavItems: NavItem[] = [
     {

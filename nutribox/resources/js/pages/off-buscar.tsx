@@ -8,7 +8,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import Autoplay from 'embla-carousel-autoplay';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -32,6 +32,25 @@ const carouselImages = [
     },
 ];
 
+const alimentos = [
+    {
+        nombre: 'zanahoria',
+        imgUrl: 'https://cdn-icons-png.flaticon.com/512/10847/10847795.png',
+    },
+    {
+        nombre: 'manzana',
+        imgUrl: 'https://cdn-icons-png.flaticon.com/512/415/415733.png',
+    },
+    {
+        nombre: 'yogurt',
+        imgUrl: 'https://cdn-icons-png.flaticon.com/512/2592/2592664.png',
+    },
+    {
+        nombre: 'salmon',
+        imgUrl: 'https://cdn-icons-png.flaticon.com/512/1915/1915297.png',
+    },
+];
+
 export default function OFF_buscar() {
     const [termino, setTermino] = useState('');
     const isValido = termino.trim().length > 0;
@@ -40,13 +59,21 @@ export default function OFF_buscar() {
     const inputRef = useRef<HTMLInputElement>(null);
     const [inputRect, setInputRect] = useState<DOMRect | null>(null);
 
+    // busqueda simple
+    const handleBuscar = () => {
+        if (!isValido) return;
+        setIsTrabajando(true);
+        router.get('/offbuscaracontroller', { termino });
+    };
+
     // Refresca el rectágunlo del input al renderizar
     const updateInputRect = useCallback(() => {
         if (inputRef.current) {
             setInputRect(inputRef.current.getBoundingClientRect());
         }
     }, []);
-    // Cuando se suelta el alimento sobre el input (Parecida a handleBuscar, pero aqui actualiza el termino con el nombre del alimento)
+
+    // Cuando se suelta el alimento sobre el input (Parecida a handleBuscar, pero aqui actualiza el termino con el nombre del alimento arrastrado)
     const handleDropAlimento = (nombre: string) => {
         setTermino(nombre);
         setTimeout(() => {
@@ -62,11 +89,25 @@ export default function OFF_buscar() {
         return () => window.removeEventListener('resize', updateInputRect);
     }, [updateInputRect]);
 
-    const handleBuscar = () => {
-        if (!isValido) return;
-        setIsTrabajando(true);
-        router.get('/offbuscaracontroller', { termino });
-    };
+    // Configura la posición inicial de los alimentos
+    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const MARGIN_BOTTOM = 24;
+    const ALIMENTO_SIZE = 70;
+    const total = alimentos.length;
+
+    // Alimentos distribuidos uniformemente
+    const posiciones = alimentos.map((_, i) => {
+        const espacio = windowWidth / (total + 1);
+        const left = espacio * (i + 1) - ALIMENTO_SIZE / 2;
+        const top = window.innerHeight - ALIMENTO_SIZE - MARGIN_BOTTOM;
+        return { left, top };
+    });
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -114,34 +155,16 @@ export default function OFF_buscar() {
                                 onFocus={updateInputRect}
                                 onMouseMove={updateInputRect}
                             />
-                            <AlimentoInteractivo
-                                nombre="zanahoria"
-                                imgUrl="https://cdn-icons-png.flaticon.com/512/10847/10847795.png"
-                                inputRect={inputRect}
-                                onDropInInput={handleDropAlimento}
-                                initialPosition={{ top: 460, left: 300 }}
-                            />
-                            <AlimentoInteractivo
-                                nombre="manzana"
-                                imgUrl="https://cdn-icons-png.flaticon.com/512/415/415733.png"
-                                inputRect={inputRect}
-                                onDropInInput={handleDropAlimento}
-                                initialPosition={{ top: 525, left: 600 }}
-                            />
-                            <AlimentoInteractivo
-                                nombre="salmon"
-                                imgUrl="https://cdn-icons-png.flaticon.com/512/1915/1915297.png"
-                                inputRect={inputRect}
-                                onDropInInput={handleDropAlimento}
-                                initialPosition={{ top: 422, left: 900 }}
-                            />
-                            <AlimentoInteractivo
-                                nombre="yogurt"
-                                imgUrl="https://cdn-icons-png.flaticon.com/512/2592/2592664.png"
-                                inputRect={inputRect}
-                                onDropInInput={handleDropAlimento}
-                                initialPosition={{ top: 480, left: 1200 }}
-                            />
+                            {alimentos.map((alimento, idx) => (
+                                <AlimentoInteractivo
+                                    key={alimento.nombre}
+                                    nombre={alimento.nombre}
+                                    imgUrl={alimento.imgUrl}
+                                    inputRect={inputRect}
+                                    onDropInInput={handleDropAlimento}
+                                    initialPosition={posiciones[idx]}
+                                />
+                            ))}
                         </div>
                     )}
 

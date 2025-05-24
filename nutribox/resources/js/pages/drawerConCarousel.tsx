@@ -16,7 +16,7 @@ import { type NavItem } from '@/types';
 import Autoplay from 'embla-carousel-autoplay';
 import { Smile } from 'lucide-react';
 import { useRef } from 'react';
-import { Separator } from './ui/separator';
+import { Separator } from '../components/ui/separator';
 
 const rightNavItems: NavItem[] = [
     {

@@ -211,7 +211,7 @@ const FollowCursor: React.FC<FollowCursorProps> = ({
         <div className={`container ${className}`} ref={containerRef}>
             <animated.div
                 ref={domTarget}
-                className="absolute relative h-[110px] w-[110px] touch-none rounded-xl bg-[url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTd4bHJqeGxtdzh0cTcxaWxhMWs5MzlhZzZrNGp4cTJoczNxbGQ1bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7aD5lNmqChBB5yE0/giphy.gif')] bg-cover shadow-[0px_10px_30px_-5px_rgba(0,0,0,0.3)]"
+                className="absolute relative h-[110px] w-[110px] touch-none rounded-xl bg-[url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHpsaHM0anZpbjdhMHJ2azc4YTVjazJxaWtnNmliZDRwM25lb3J1aCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/TJP7EH5i1fB2rKeWbf/giphy.gif')] bg-cover shadow-[0px_10px_30px_-5px_rgba(0,0,0,0.3)]"
                 // className="absolute relative h-[110px] w-[110px] touch-none rounded-xl bg-[url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTd4bHJqeGxtdzh0cTcxaWxhMWs5MzlhZzZrNGp4cTJoczNxbGQ1bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7aD5lNmqChBB5yE0/giphy.gif')] bg-cover shadow-[0px_10px_30px_-5px_rgba(0,0,0,0.3)] transition-opacity transition-shadow duration-500 [will-change:transform]"
                 style={{
                     width: cardWidth,

@@ -149,8 +149,12 @@ Utilizaremos el Framework de CSS en su versión 4 pudiendo disponer de sus clase
   -  0.2 ---> Croma (Saturación)
   -  150 ---> Tono (150° = verde en OKLCH)
 
-    https://oklch.com/#0.7,0.2,150,100
+    Verde normal:
+    https://oklch.com/#0.723,0.219,149.58,100
 
+    :dark
+    https://oklch.com/#0.7,0.2,150,100
+    
 ![verde-nutribox-oklch](verde-nutribox-oklch.png)
 
 
