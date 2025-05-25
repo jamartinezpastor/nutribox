@@ -3,9 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
-use Illuminate\Support\Facades\Date;
 use Carbon\Carbon;
+
 class bkpdatabase extends Command
 {
     /**
@@ -27,14 +26,17 @@ class bkpdatabase extends Command
      */
     public function handle()
     {
-        $source = '/database/database.sqlite';
-        $destinationDir = '../nutribox_bkpdatabase/';
-        $filename =  Carbon::now()->format('Y_m_d_His'). '_database' . '.sqlite';
+        // Rutas absolutas!
+        $source = '/var/www/nutribox/nutribox/database/database.sqlite';
+   
+        $destinationDir = '/opt/www/nutribox_database_bkp/';
+
+        $filename = Carbon::now()->format('Y_m_d_His') . '_database.sqlite';
         $destination = $destinationDir . $filename;
     
         if (!file_exists($destinationDir)) {
-            mkdir($destinationDir, 0755, true);
-        }
+            mkdir($destinationDir, 0755, true);        }
+
     
         if (copy($source, $destination)) {
             $this->info("Backup creado: $destination");
@@ -42,5 +44,4 @@ class bkpdatabase extends Command
             $this->error("No se pudo crear el backup.");
         }
     }
-    
 }
