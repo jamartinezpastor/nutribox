@@ -39,7 +39,7 @@ export default function OFF_buscar_resultados() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Resultados búsqueda" />
+            <Head title="Buscador (Resultados)" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <p className="text-4xl">
                     Resultados de: <b>{props.termino}</b>

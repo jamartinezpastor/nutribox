@@ -1,4 +1,3 @@
-import FollowCursor from '@/components/blocks/Animations/FollowCursor/FollowCursor';
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Input } from '@/components/ui/input';
@@ -59,7 +58,7 @@ export default function DS_evaluar() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Evaluador Alimento-Patología (IA)" />
+            <Head title="Evaluador Alimentos" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <p className="text-4xl">Evaluador Alimento-Patología (IA)</p>
                 <p className="text-muted-foreground text-sm">
@@ -117,7 +116,7 @@ export default function DS_evaluar() {
                                 </div>
                                 <div>
                                     <Label htmlFor="unidad">Unidad de medida:</Label>
-                                    <Select value={unidad} onValueChange={(value) => setUnidad(value)} required>                                        
+                                    <Select value={unidad} onValueChange={(value) => setUnidad(value)} required>
                                         {/* Asignar `onValueChange` */}
                                         <SelectTrigger>
                                             <SelectValue placeholder="Selecciona una unidad" />
@@ -204,7 +203,10 @@ export default function DS_evaluar() {
                                                 <SelectItem className="cursor-pointer" value="Enfermedad celíaca">
                                                     Enfermedad celíaca
                                                 </SelectItem>
-                                                <SelectItem className="cursor-pointer" value="Enfermedad renal crónica (Con altos niveles de Potasio)">
+                                                <SelectItem
+                                                    className="cursor-pointer"
+                                                    value="Enfermedad renal crónica (Con altos niveles de Potasio)"
+                                                >
                                                     Enfermedad renal crónica <small>(Con altos niveles de Potasio)</small>
                                                 </SelectItem>
                                                 <SelectItem className="cursor-pointer" value="Enfermedad renal crónica (Estadio 2)">
@@ -242,18 +244,20 @@ export default function DS_evaluar() {
                             {isTrabajando ? 'Evaluando…' : 'Evaluar'}
                         </Button>
                     </div>
+                    {/*
                     <div className="hidden h-14.5 lg:block">
                     <FollowCursor
-                        offsetX={35}
-                        cardWidth="100px"
-                        rotationFactor={8}
-                        enableTilt={true}
-                        animationConfig={{ mass: 5, tension: 350, friction: 40 }}
-                        wheelConfig={{ mass: 1, tension: 200, friction: 30 }}
-                    >
-                        {' '}
-                    </FollowCursor>
-                </div>
+                           offsetX={35}
+                            cardWidth="100px"
+                            rotationFactor={8}
+                             enableTilt={true}
+                             animationConfig={{ mass: 5, tension: 350, friction: 40 }}
+                             wheelConfig={{ mass: 1, tension: 200, friction: 30 }}
+                      >
+                           {' '}
+                        </FollowCursor>
+                    </div>
+                */}
                 </div>
             </div>
         </AppLayout>

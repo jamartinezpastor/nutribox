@@ -111,7 +111,7 @@ export default function OFF_buscar() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Buscador Información Nutricional" />
+            <Head title="Buscador Nutricional" />
             <div className="relative flex h-full flex-1 flex-col gap-4 rounded-xl p-4" id="contenedor">
                 <p className="text-4xl">Buscador Información Nutricional</p>
                 <p className="text-muted-foreground text-sm">

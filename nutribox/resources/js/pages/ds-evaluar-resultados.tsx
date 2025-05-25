@@ -26,7 +26,7 @@ export default function DS_evaluar_resultados() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Resultados de la búsqueda" />
+            <Head title="Evaluador (Resultados)" />
 
             <div className="to-white/00 dark:to-black/00 relative flex min-h-screen flex-col gap-4 rounded-xl bg-linear-to-tr from-white/100 p-4 dark:from-black/100">
                 {/* Imagen de fondo con poca opacidad */}

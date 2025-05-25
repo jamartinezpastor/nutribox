@@ -89,7 +89,7 @@ export default function DS_MenuCrear_Previsualizar() {
 
     return (
         <AppLayout>
-            <Head /*title={`Menú del ${props.menu.fecha}`} */ />
+            <Head title="Menú propuesto" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <div className="flex items-center justify-between">
                     <h1 className="flex items-center gap-2 text-4xl">

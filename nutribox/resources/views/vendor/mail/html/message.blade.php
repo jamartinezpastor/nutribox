@@ -21,7 +21,7 @@
 {{-- Footer --}}
 <x-slot:footer>
 <x-mail::footer>
-© {{ date('Y') }} {{ config('app.name') }}. {{ __('Todos los derechos reservados.') }}
+© {{ date('Y') }} {{ config('app.name') }}. {{ __(' Alimentación Inteligente') }}
 </x-mail::footer>
 </x-slot:footer>
 </x-mail::layout>

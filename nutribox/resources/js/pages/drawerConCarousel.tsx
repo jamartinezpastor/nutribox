@@ -48,6 +48,10 @@ const carouselImages = [
         texto: 'Librerías UI: shadcn/ui, Headless UI, React Bits, Radix UI, React Chartjs 2, Embla Carousel y React Youtube',
     },
     {
+        imagen: 'https://miro.medium.com/v2/resize:fit:2800/1*PASOqnDQksOLAFjE5jEAGg.png',
+        texto: 'Lottie Animations: Adobe After Effects -> .json -> Librería Lottie for Web',
+    },
+    {
         imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDuhTcp6ETMZtlL_eJ5lAQDImJHC6TJYCyJg&s',
         texto: 'Empaquetador: Vite 6.0',
     },

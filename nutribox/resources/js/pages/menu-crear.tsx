@@ -83,7 +83,7 @@ export default function DS_MenuCrear() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Diseño de Menús Diarios (IA)" />
+            <Head title="Diseño de Menús" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <p className="text-4xl">Diseño de Menús Diarios (IA)</p>
                 <p className="text-muted-foreground text-sm">
