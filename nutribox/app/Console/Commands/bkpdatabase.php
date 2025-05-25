@@ -29,7 +29,7 @@ class bkpdatabase extends Command
         // Rutas absolutas!
         $source = '/var/www/nutribox/nutribox/database/database.sqlite';
    
-        $destinationDir = '/opt/www/nutribox_database_bkp/';
+        $destinationDir = '/var/www/nutribox_bkpdatabase/';
 
         $filename = Carbon::now()->format('Y_m_d_His') . '_database.sqlite';
         $destination = $destinationDir . $filename;
