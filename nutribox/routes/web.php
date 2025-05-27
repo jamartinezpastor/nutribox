@@ -13,22 +13,6 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
-/*
-// Verificación por email (Ya configuradas en routes/auth.php)
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect('/home');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-    return back()->with('message', 'Link de verificación enviado!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-*/
 
 // Middleware
 Route::middleware(['auth', 'verified'])->group(function () {
