@@ -16,15 +16,23 @@ class OFFController extends Controller
         $client = new Client();
         $url = "https://world.openfoodfacts.org/cgi/search.pl?action=process&json=1&search_terms="
             . urlencode($termino)
-            . "&page_size=20"; 
+            . "&page_size=20";
         try {
             $response = $client->get($url);
 
             $resultados = json_decode($response->getBody(), true); // Decodificar JSON a array
 
-            return Inertia::render('off-buscar-resultados', compact('termino', 'resultados'));
+            return Inertia::render('off-buscar-resultados', [
+                'termino' => $termino,
+                'resultados' => $resultados,
+                'error' => null, // Test ok: Siempre existe, aunque sea null
+            ]);
         } catch (\Exception $e) {
-            return Inertia::render('off-buscar-resultados', ['error' => 'Error al conectar con Open Food Facts']);
+            return Inertia::render('off-buscar-resultados', [
+                'termino' => $termino,
+                'resultados' => ['products' => []], // Test ok: Siempre existe, aunque sea vacío
+                'error' => 'Error al conectar con Open Food Facts',
+            ]);
         }
     }
     /*

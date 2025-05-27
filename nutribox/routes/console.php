@@ -11,4 +11,4 @@ Artisan::command('inspire', function () {
     })->purpose('Display an inspiring quote');
     */
 
-app(Schedule::class)->command('bkp:database')->dailyAt('04:00');
+app(Schedule::class)->command('bkp:database')->dailyAt('23:59');
