@@ -11,7 +11,7 @@ const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = 'black' }
     const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
     const mouseXRef = useRef<number>(window.innerWidth / 2);
 
-    // Ensure the grid has 28 items (4 rows x 7 columns) by default
+    // Ensure the grid has 28 items (4 rows x 7 columns) by default (modificado)
     const totalItems = 42;
     const defaultItems = Array.from({ length: totalItems }, (_, index) => `Menú ${index + 1}`);
     const combinedItems = items.length > 0 ? items.slice(0, totalItems) : defaultItems;
@@ -24,8 +24,8 @@ const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = 'black' }
         };
 
         const updateMotion = (): void => {
-            const maxMoveAmount = 300;
-            const baseDuration = 2; // Base duration for inertia
+            const maxMoveAmount = 25;
+            const baseDuration = 3; // Base duration for inertia
             const inertiaFactors = [0.6, 0.4, 0.3, 0.2]; // Different inertia for each row, outer rows slower
 
             rowRefs.current.forEach((row, index) => {

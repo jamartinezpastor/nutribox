@@ -76,6 +76,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
 
-Route::fallback(function () {
-    return Inertia::render('Error', ['status' => 404, 'mensaje' => 'Página no encontrada :(']);
-});
+Route::get('info','\Lubusin\Decomposer\Controllers\DecomposerController@index');
+

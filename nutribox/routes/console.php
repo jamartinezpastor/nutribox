@@ -11,4 +11,6 @@ Artisan::command('inspire', function () {
     })->purpose('Display an inspiring quote');
     */
 
-app(Schedule::class)->command('bkp:database')->dailyAt('23:59');
+// Ahora lanzamos directamente el comando de 'php artisan bkp:database'
+// diariamente a las 21:59h desde cron en el VPS (crontab -e)
+// app(Schedule::class)->command('bkp:database')->dailyAt('21:59');

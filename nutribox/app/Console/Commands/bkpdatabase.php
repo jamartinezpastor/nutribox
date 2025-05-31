@@ -19,7 +19,7 @@ class bkpdatabase extends Command
      *
      * @var string
      */
-    protected $description = 'Comando para hacer un backup de la base de datos SQLite cada día a las 04:00 AM';
+    protected $description = 'Comando para hacer un backup de la base de datos SQLite';
 
     /**
      * Execute the console command.
