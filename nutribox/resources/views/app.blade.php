@@ -60,7 +60,7 @@
     @inertiaHead
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KXVEF10FJW"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2MX5Q18K5H"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -69,7 +69,7 @@
         }
         gtag('js', new Date());
 
-        gtag('config', 'G-KXVEF10FJW');
+        gtag('config', 'G-2MX5Q18K5H');
     </script>
 </head>
 
