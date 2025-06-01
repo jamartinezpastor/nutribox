@@ -22,12 +22,11 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-
-/storage/*.log
 /database/database.sqlite
-/storage/logs/*.log
 
 # Ignorar cachés y archivos generados
+/storage/*.log
+/storage/logs/*.log
 /bootstrap/cache/*.php
 /storage/*.key
 /storage/framework/*
