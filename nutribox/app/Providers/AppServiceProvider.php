@@ -8,6 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Lubusin\Decomposer\Decomposer;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 use App\Models\User;
 use App\Models\Menu;
 use App\Models\Comida;
@@ -30,6 +31,11 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        // en Testing NO queremos que se ejecute el código de Decomposer
+        if (app()->environment('testing')) {
+            return;
+        }
+
 
         // INFOLARAVEL
         $totalUsuarios = Cache::remember('stats_total_users', 300, function () {
@@ -52,13 +58,17 @@ class AppServiceProvider extends ServiceProvider
 
 
         // INFOSERVER
-        $uptimeTexto = Cache::remember('server_uptime', 300, function () {
-            try {
-                return trim(shell_exec('uptime -p'));
-            } catch (\Throwable $e) {
-                return '?';
-            }
-        });
+        if (PHP_OS_FAMILY === 'Linux' && Schema::hasTable('users')) {
+            $uptimeTexto = Cache::remember('server_uptime', 300, function () {
+                try {
+                    return trim(shell_exec('uptime -p'));
+                } catch (\Throwable $e) {
+                    return '?';
+                }
+            });
+        } else {
+            $uptimeTexto = '?';
+        }
         $infoserver = [
             'Uptime VPS' => $uptimeTexto ?? '?',
         ];
