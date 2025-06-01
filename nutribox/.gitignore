@@ -36,3 +36,10 @@ yarn-error.log
 !/storage/logs/.gitignore
 /storage/app/*
 !/storage/app/.gitignore
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
