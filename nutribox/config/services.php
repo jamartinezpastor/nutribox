@@ -22,6 +22,12 @@ return [
         'key' => env('PEXELS_API_KEY'),
     ],
 
+    'app_name'    => env('APP_NAME'),
+    'app_env'     => env('APP_ENV'),
+    'app_url'     => env('APP_URL'),
+    'mail_from'   => env('MAIL_FROM_ADDRESS'),
+    'deployed_at' => env('DEPLOYED_AT'),
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],

@@ -40,10 +40,10 @@ class AppServiceProvider extends ServiceProvider
         $totalProductos = Cache::remember('stats_total_productos', 300, fn() => Producto::count());
 
         $infolaravel = [
-            'APP_NAME'    => env('APP_NAME'),
-            'APP_ENV'     => env('APP_ENV'),
-            'APP_URL'     => env('APP_URL'),
-            'MAIL_FROM_ADDRESS' => env('MAIL_FROM_ADDRESS'),
+            'APP_NAME'    => config('services.app_name'),
+            'APP_ENV'     => config('services.app_env'),
+            'APP_URL'     => config('services.app_url'),
+            'MAIL_FROM_ADDRESS' => config('services.mail_from'),
             'Usuarios'        => $totalUsuarios,
             'Menús'           => $totalMenus,
             'Comidas'         => $totalComidas,
@@ -67,7 +67,7 @@ class AppServiceProvider extends ServiceProvider
         // INFOEXTRA
         $comandoBackup = 'php artisan bkp:database';
         $rutaEstado = '/estado + key';
-        $fechaDespliegue = env('DEPLOYED_AT');
+        $fechaDespliegue =  config('services.deployed_at');
         $tiempoOnline    = $fechaDespliegue
             ? Carbon::parse($fechaDespliegue)->diffForHumans()
             : '?';
