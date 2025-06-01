@@ -55,11 +55,11 @@ return [
 
     'thresholds' => [
 
-        'cpu' => env('CPU_MONITOR_THRESHOLD', 95),
+        'cpu' => env('CPU_MONITOR_THRESHOLD', 50),
 
-        'memory' => env('MEMORY_MONITOR_THRESHOLD', 80),
+        'memory' => env('MEMORY_MONITOR_THRESHOLD', 75),
 
-        'storage' => env('STORAGE_MONITOR_THRESHOLD', 5),
+        'storage' => env('STORAGE_MONITOR_THRESHOLD', 7),
 
     ],
 
@@ -72,7 +72,7 @@ return [
     |
     */
 
-    'network_monitor_url' => env('NETWORK_MONITOR_URL', ['https://nutribox.es', 'https://1.1.1.1', 'https://www.google.com']),
+    'network_monitor_url' => env('NETWORK_MONITOR_URL', ['https://nutribox.es', 'https://www.google.com']),
 
     /*
     |--------------------------------------------------------------------------

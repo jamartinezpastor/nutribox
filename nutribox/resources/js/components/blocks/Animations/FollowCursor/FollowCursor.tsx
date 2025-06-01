@@ -48,16 +48,16 @@ const FollowCursor: React.FC<FollowCursorProps> = ({
     children,
     className = '',
     animationConfig = { mass: 5, tension: 350, friction: 40 },
-    hoverScale = 1.1,
+    hoverScale = 1.2,
     offsetX = 35,
-    cardWidth = '100px',
-    rotationFactor = 20,
-    perspective = '100px',
-    zoomSensitivity = 200,
+    cardWidth = '200px',
+    rotationFactor = 5,
+    perspective = '500px',
+    zoomSensitivity = 20,
     wheelConfig = { mass: 1, tension: 200, friction: 30 },
     enableTilt = true,
     enableZoom = true,
-    enableDrag = true,
+    enableDrag = false,
 }) => {
     const domTarget = useRef<HTMLDivElement | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -210,8 +210,8 @@ const FollowCursor: React.FC<FollowCursorProps> = ({
     return (
         <div className={`container ${className}`} ref={containerRef}>
             <animated.div
-                ref={domTarget}
-                className="absolute relative h-[110px] w-[110px] touch-none rounded-xl bg-[url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXBiaTNkamJvazZveWVwbDJ3MjQ3MmYzdTN3dGMwenZrZWpqbXljMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/W5eUrzy3me0GzBZg6t/giphy.gif')] bg-cover shadow-[0px_10px_30px_-5px_rgba(0,0,0,0.3)]"
+                ref={domTarget as React.Ref<HTMLDivElement>}
+                className="absolute relative h-[220px] w-[110px] touch-none rounded-xl bg-[url('https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXBiaTNkamJvazZveWVwbDJ3MjQ3MmYzdTN3dGMwenZrZWpqbXljMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/W5eUrzy3me0GzBZg6t/giphy.gif')] bg-cover shadow-[0px_10px_30px_-5px_rgba(0,0,0,0.3)]"
                 // className="absolute relative h-[110px] w-[110px] touch-none rounded-xl bg-[url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTd4bHJqeGxtdzh0cTcxaWxhMWs5MzlhZzZrNGp4cTJoczNxbGQ1bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7aD5lNmqChBB5yE0/giphy.gif')] bg-cover shadow-[0px_10px_30px_-5px_rgba(0,0,0,0.3)] transition-opacity transition-shadow duration-500 [will-change:transform]"
                 style={{
                     width: cardWidth,
@@ -224,7 +224,6 @@ const FollowCursor: React.FC<FollowCursorProps> = ({
                     rotateZ: enableZoom ? (rotateZ as SpringValue<number>) : 0,
                 }}
             >
-                <animated.div style={{ transform: wheelY.to(wheelTransform) }}>{children}</animated.div>
             </animated.div>
         </div>
     );

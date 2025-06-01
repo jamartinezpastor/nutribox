@@ -25,8 +25,8 @@ export default function Error({ status, mensaje }: ErrorProps) {
             <p className="text-foreground-700 z-1 mb-4 text-lg">{mensaje}</p>
             <div className="z-1 hidden h-14.5 lg:block">
                 <FollowCursor
-                    offsetX={50}
-                    cardWidth="100px"
+                    offsetX={35}
+                    cardWidth="200px"
                     rotationFactor={5}
                     enableTilt={true}
                     animationConfig={{ mass: 5, tension: 350, friction: 40 }}

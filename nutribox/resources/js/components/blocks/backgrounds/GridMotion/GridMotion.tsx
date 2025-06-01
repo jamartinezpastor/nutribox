@@ -24,8 +24,8 @@ const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = 'black' }
         };
 
         const updateMotion = (): void => {
-            const maxMoveAmount = 25;
-            const baseDuration = 3; // Base duration for inertia
+            const maxMoveAmount = 40;
+            const baseDuration = 2; // Base duration for inertia
             const inertiaFactors = [0.6, 0.4, 0.3, 0.2]; // Different inertia for each row, outer rows slower
 
             rowRefs.current.forEach((row, index) => {
