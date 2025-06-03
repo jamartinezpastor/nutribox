@@ -327,4 +327,4 @@ Principales variables:
 <br><br>
 
 >## [nutribox.es](https://nutribox.es)
-`README.md versión 2.1 (20250603)`
+`README.md versión 2.1.1 (20250603)`
