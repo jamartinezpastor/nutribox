@@ -100,10 +100,10 @@ Nutribox es una aplicación web Single Page Application (SPA) orientada a la con
 ### Persistencia
 
 - **Base de datos**: SQLite
-- **Tablas principales** (y sus relaciones): users, menus, comidas, productos <br>
-<img src="README/database_principales.png" alt="database" width="75%" />
+- **Tablas principales** (y sus relaciones): users, menus, comidas, productos
 - **Gestión mediante DBeaver UI (sqlite3 CLI en Servidor)**
-- **Backup diario**: Mediante el comando `php artisan bkp:database` en Laravel y crontab -e en el servidor
+- **Backup diario**: Mediante el comando `php artisan bkp:database` en Laravel y crontab -e en el servidor <br>
+<img src="README/database_principales.png" alt="database" width="75%" />
 
 ### Utilidades
 
@@ -117,7 +117,7 @@ Nutribox es una aplicación web Single Page Application (SPA) orientada a la con
 
 - **Repositorio remoto en Github**: Trabajo con 2 ramas, dev (Donde se ha desarrollado alguna feature mergeada más tarde en la rama principal) y main.
 - **Git Story** <br>
-[<img src="README/gitstory.gif" alt="gitstory" width="400" />](README/gitstory.mp4)
+<img src="README/gitstory.gif" alt="gitstory" width="400" />
 
 - **Gestión de repositorios en desarrollo**: SourceTree <br>
 <img src="README/sourcetree.png" alt="sourcetree" width="75%" />
@@ -327,4 +327,4 @@ Principales variables:
 <br><br>
 
 >## [nutribox.es](https://nutribox.es)
-`README.md versión 2.0 (20250603)`
+`README.md versión 2.1 (20250603)`
