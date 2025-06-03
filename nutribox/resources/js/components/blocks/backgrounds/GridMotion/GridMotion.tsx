@@ -61,7 +61,6 @@ const GridMotion: FC<GridMotionProps> = ({ items = [], gradientColor = 'black' }
                 }}
             >
                 {/* Noise overlay */}
-                {/*<div className="absolute inset-0 pointer-events-none z-[4] bg-[url('../../../assets/noise.png')] bg-[length:250px]"></div> */}
                 <div className="relative z-[2] grid h-[80vh] w-[150vw] flex-none origin-center rotate-[0deg] grid-cols-1 grid-rows-5 gap-2">
                     {Array.from({ length: 5 }, (_, rowIndex) => (
                         <div

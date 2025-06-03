@@ -55,7 +55,7 @@ return [
 
     'thresholds' => [
 
-        'cpu' => env('CPU_MONITOR_THRESHOLD', 45),
+        'cpu' => env('CPU_MONITOR_THRESHOLD', 43),
 
         'memory' => env('MEMORY_MONITOR_THRESHOLD', 70),
 

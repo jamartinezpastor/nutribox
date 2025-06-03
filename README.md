@@ -1,203 +1,330 @@
-# NUTRIBOX - Alimentación Inteligente
-- PROYECTO FIN DE GRADO - Jose Antonio Martínez Pastor
-- SPA para la Generación de Dietas Personalizadas
+![Nutribox](recursos_visuales/nutribox.gif)
+
+# [Nutribox.es](https://nutribox.es)
+
+**Alimentación Inteligente**
+
+Nutribox es una aplicación web Single Page Application (SPA) orientada a la consulta, análisis de la compatibilidad entre alimentos y patologías, creación y gestión de menús diarios, recomendaciones personalizadas mediante IA y recursos multimedia. Integra tecnologías modernas tanto en backend (Laravel 12) como frontend (React 19 con Typescript), APIs externas, un diseño responsive con versiones Desktop/Móvil, diferentes apariencias visuales y despliegue automatizado CI/CD.
+
+---
+
+## Tabla de contenidos
+
+- [Nutribox.es](#nutriboxes)
+  - [Tabla de contenidos](#tabla-de-contenidos)
+  - [Demo y capturas](#demo-y-capturas)
+  - [Características principales](#características-principales)
+  - [Stack tecnológico](#stack-tecnológico)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
+    - [Persistencia](#persistencia)
+    - [Utilidades](#utilidades)
+    - [Control de versiones](#control-de-versiones)
+    - [Despliegue a producción](#despliegue-a-producción)
+  - [Estructura básica de carpetas](#estructura-básica-de-carpetas)
+  - [Instalación y puesta en marcha](#instalación-y-puesta-en-marcha)
+  - [Rutas y páginas principales](#rutas-y-páginas-principales)
+    - [`routes/web.php` y `resources/js/pages/`](#routeswebphp-y-resourcesjspages)
+    - [Componentes destacados (`resources/js/components/`)](#componentes-destacados-resourcesjscomponents)
+  - [Librerías destacadas](#librerías-destacadas)
+  - [Gestión de dependencias y scripts](#gestión-de-dependencias-y-scripts)
+    - [Scripts Framework (`Laravel 12`)](#scripts-framework-laravel-12)
+    - [Scripts principales (`package.json`)](#scripts-principales-packagejson)
+    - [Scripts backend (`composer.json`)](#scripts-backend-composerjson)
+    - [Dependencias clave (extracto)](#dependencias-clave-extracto)
+  - [Variables de entorno](#variables-de-entorno)
+  - [Buenas prácticas, accesibilidad y detalles técnicos](#buenas-prácticas-accesibilidad-y-detalles-técnicos)
+  - [Licencia y créditos](#licencia-y-créditos)
+
+---
+
+## Demo y capturas
+
+<img src="recursos_visuales/cbbox_mockup.png" alt="cdbox" width="50%"/>
+
+| Desktop | Mobile |
+|:-------:|:------:|
+| <img src="README/desktop.gif" alt="desktop" width="400"/> | <img src="README/mobile.gif" alt="mobile" width="175"/> |
+
+
+---
+
+## Características principales
+
+- **Búsqueda avanzada de alimentos** en la base de datos Open Food Facts (OFF).
+- **Evaluador IA**: Relaciona alimentos con patologías mediante Inteligencia Artificial (DeepSeek).
+- **Diseño de menús diarios personalizados** (con previsualización y almacenamiento).
+- **Gestión de menús guardados**: Consulta, edición, borrado y visualización detallada.
+- **Sección multimedia**: Streaming de Canal Cocina e integración con Youtube.
+- **Dashboard de usuario y configuración**
+- **Auto deploy CI/CD**
+- **SPA completa con navegación instantánea** gracias a la suma de React + Inertia.js
+- **Accesibilidad y responsive**: UI moderna, adaptable a pantallas pequeñas y con modo oscuro.
+- **Animaciones gráficas vectoriales** 
+- **Imágenes animadas mediante IA** y tips nutricionales en las esperas de respuesta de las APIs.
+- **Sistema de autenticación mediante tokens y protección de rutas con Middleware**.
+- **Panel de información de la App y estado del Servidor** (`/info` + `/estado`).
+
+---
+
+## Stack tecnológico
+
+### Backend
+
+- **Laravel Framework 12+ PHP 8.2+**: Eloquent ORM, alta/reset contraseña con token, autenticación, colas, seeders, migraciones, etc..
+- **Inertia.js**: Conexión directa con el frontend React sin API REST convencional.
+- **API Deepsek con wrapper/deepseek-php-client**: Para evaluación nutricional y creación de menús mediante IA.
+- **API Open Food Facts v1**: Para búsqueda de alimentos y productos en su base de datos.
+- **API Pexels v1**: Para decoración background resultados evaluador nutricional.
+- **Tightenco Ziggy**: Enrutamiento completo entre backend y frontend.
+- **Lubusin Decomposer y Stethoscope**: Diagnóstico del entorno Laravel y del Servidor.
+- **Handler de excepciones en bootstrap/app.tsx** Enrutamiento personalizado según el problema a `Error.tsx`
+
+### Frontend
+
+- **React 19**: SPA moderna, componentes funcionales, hooks.
+- **TypeScript 5+**: Tipado estricto.
+- **Tailwind CSS 4**: CSS-first (Personalización directa en CSS), sistema de colores OKLCH, modo dark, versiones por tamaño de pantalla.
+- **shadcn/ui, Reactbits, Radix UI, HeadlessUI**: Componentes de interfaz listos y accesibles.
+- **Framer Motion, Embla Carousel**: Animaciones y carruseles interactivos.
+- **Lottie y LottieFiles**: Integración de animaciones vectoriales en .json
+- **Chart.js y React-Chartjs-2**: Visualización de datos.
+- **Sonner**: Notificaciones y feedback.
+- **Lucide React**: Iconografía moderna.
+- **favicon.ico animado**
+![favicon.ico](README/favicon.ico)
+- **Streaming de vídeo embebido y playlist de YouTube**: Integración multimedia.
+- **React FC AlimentoInteractivo**: Búsqueda interactiva. <br>
+<img src="README/alimentointeractivo.gif" alt="reactFC" width="200" />
+
+### Persistencia
+
+- **Base de datos**: SQLite
+- **Tablas principales** (y sus relaciones): users, menus, comidas, productos <br>
+<img src="README/database_principales.png" alt="database" width="75%" />
+- **Gestión mediante DBeaver UI (sqlite3 CLI en Servidor)**
+- **Backup diario**: Mediante el comando `php artisan bkp:database` en Laravel y crontab -e en el servidor
+
+### Utilidades
 
-![Nutribox](nutribox2.png)
-
-
-
+- **Vite 6**: Bundler y dev-server ultrarrápido.
+- **Prettier, ESLint**: Formato y linting.
+- **Unit Tests**: (`php artisan test`)
+- **Microsoft Playwright**: Testing end-to-end (`npx playwright test --ui`)
+- **Google Analytics 4**: Incorporado a `app.blade.php` y a .env. Para obtención de datos de visitas, flujo e interacción de usuario.
 
-# STACK DE DESARROLLO
-- Framework: Laravel 12.3.0
-- Frontend: React 19.0.0 (Typescript 5.8.3)
-- Backend: PHP 8.2.12
-- Base de datos: SQLite 3.42.0
-- Router / Navegación: Inertia.js v2.0.1 (Laravel + React)
-- Estilos: Tailwind CSS 4.0.6
-- Empaquetador: Vite 6.0
-- Control de versiones: GIT + GitHub https://github.com/salamalicun/nutribox
-- node.js: v22.9.0
-- npm: 11.0.0
+### Control de versiones
 
-- Gestión de tareas: Trello https://trello.com/b/7zppc0Na/%F0%9F%A5%95%F0%9F%A5%97-nutriboxes
-  - Link de colaboración: https://trello.com/invite/67fa1d40e1e950f46ccb44b6/ATTI8810e61a1882ceb5582740a87b816cf5E4185F15
+- **Repositorio remoto en Github**: Trabajo con 2 ramas, dev (Donde se ha desarrollado alguna feature mergeada más tarde en la rama principal) y main.
+- **Git Story** <br>
+[<img src="README/gitstory.gif" alt="gitstory" width="400" />](README/gitstory.mp4)
 
+- **Gestión de repositorios en desarrollo**: SourceTree <br>
+<img src="README/sourcetree.png" alt="sourcetree" width="75%" />
 
+### Despliegue a producción
+
+- **Auto deploy CI/CD** mediante Github Actions
+- **deploy.yml** Despliegue automático mediante SSH, comandos GIT, instalación de dependencias, comandos de base de datos, caching y buildeo <br>
+<img src="README/githubactions.png" alt="githubactions" width="75%" />
+
+---
+
+## Estructura básica de carpetas
+
+```
+nutribox/
+├── app/                # Lógica principal Laravel (modelos, controladores, etc..)
+├── config/             # Configuración de servicios y app
+├── database/           # Migraciones, seeders y factories
+├── public/             # Recursos públicos (assets, imágenes, etc..)
+├── resources/
+│   ├── css/            # Estilos Tailwind y CSS personalizado
+│   ├── js/
+│   │   ├── components/ # Componentes React y UI propios/shadcn
+│   │   ├── layouts/    # Layouts globales y específicos
+│   │   ├── pages/      # Páginas principales SPA
+│   │   ├── types/      # Tipos TypeScript compartidos
+│   │   └── lib/        # Utilidades y helpers
+├── routes/
+│   ├── web.php         # Definición de rutas web principales y SPA
+│   ├── auth.php        # Rutas de autenticación
+│   └── settings.php    # Rutas de configuración
+├── storage/            # Almacenamiento de archivos, logs
+├── tests/              # Tests unitarios
+├── .env                # Configuración de entorno
+├── composer.json       # Dependencias PHP (Laravel)
+├── package.json        # Dependencias JS/TS y scripts
+└── vite.config.ts      # Configuración Vite
+
+```
+
+---
+
+## Instalación y puesta en marcha
+
+1. **Clona el repositorio**
+
+   ```sh
+   git clone https://github.com/salamalicun/nutribox.git
+   cd nutribox
+   ```
+
+2. **Instala dependencias**
+
+   - Backend:
+     ```sh
+     composer install
+     ```
+   - Frontend:
+     ```sh
+     npm install
+
+     # Si usas React 19 y alguna dependencia da error, usa:
+     # npm install --legacy-peer-deps
+     ```
 
+3. **Configura las variables de entorno**
 
-# ROUTER / NAVEGACIÓN
-- https://inertiajs.com/
-- Inertia es una capa que unirá mediante un adaptador nuestro Cliente/Frontend (React-TS) al Servidor/Backend Laravel (PHP) mediante otro adaptador, permitiéndonos construir una Single Page App (SPA) sin usar una API tradicional, se integrará todo en un mismo proyecto, back en PHP y front en React-TS (Arquitectura monolítica). Inertia.js se encargará de renderizar páginas (en el front), compartir props, enrutar, complementar la autenticación, etc..
+   - Copia `.env.example` a `.env` y ajusta las claves necesarias (Base de datos, APIs, emails...).
 
+4. **Genera la clave de la app y configura la base de datos**
 
+   ```sh
+   php artisan key:generate
+   php artisan migrate --seed
+   ```
 
+5. **Arranca el entorno de desarrollo**
 
-# BASE DE DATOS
-- Dada la reducida dimensión del proyecto y el no haber trabajado con SQLite anteriormente, lo he escogido como tipo de SGBD Relacional para explorar una nueva herramienta, además es ligero y almacena toda la Base de datos localmente en un único fichero lo que simplificará el desarrollo. La seguridad de acceso depende de quién tiene acceso a dicho archivo (database.sqlite) y no de usuarios dentro de la base de datos.
-1. En el fichero .ENV ---> DB_CONNECTION=sqlite
-2. Gestionada con: https://dbeaver.io/ (Free Universal Database Tool)
+   ```sh
+   composer dev
 
-- ---> ORDEN DE CREACIÓN
-  - Modelo -> Migración (User/Menu/Comida/Producto) -> Factoría -> Seeder (Dentro de DatabaseSeeder UserSeeder/MenuSeeder/ComidaSeeder/ProductoSeeder)
+   # O bien arranca individualmente back y front:
+   php artisan serve
+   npm run dev
+   ```
 
-- ---> USUARIO DE PRUEBA (En UserSeeder.php)
-  - (De la tabla 'Users', no del SGBD)
-  - Nombre: Usuario Demo
-  - Email: correo@ejemplo.es
-  - Contraseña: Contraseña
+6. **Build de producción**
+   ```sh
+   npm run build
+   ```
 
-- ---> User
-  1. Modificado Modelo, Factoria, Migraciones y Seeder para añadir más campos
-  2. Y el RegisteredUserController.php donde está la validación del modelo y la posterior instanciación del mismo a la hora del registro de un nuevo usuario
-  3. Relaciones del modelo: 1:N con Menu
-   
-  - php artisan make:seeder UserSeeder
-  - (Añado 10 usuarios mediante una factoria previamente configurada con Faker() y luego un usuario más manualmente)
+---
 
-- ---> Menu
-  - php artisan make:model Menu -m (-m para crear también la migración)
-  1. Modelo: Señalamos en el array "protected $fillable=[]" los campos que se podrán editar de la tabla
-  2. Relaciones del modelo: 1:N con User, 1:N con Comida
-  3. Migraciones: Configuramos que nombre tendrá la tabla, y que tipo, nombre y restricciones los campos, todo esto a la hora de lanzar la migración
-     
-  - php artisan make:seeder MenuSeeder
-  - (Y añado varios menús de prueba)
+## Rutas y páginas principales
 
-- ---> Comida
-  - php artisan make:model Comida -m (-m para crear también la migración)
-  1. Modelo: Señalamos en el array "protected $fillable=[]" los campos que se podrán editar de la tabla, y además en este modelo añadimos una serie de funciones para calcular totales en base a las características de los productos que contenga cada comida
-   
-  ![funciones-para-totales](funciones-para-totales.png) 
+### `routes/web.php` y `resources/js/pages/`
 
-  2. Relaciones del modelo: 1:N con Menu, 1:N con Producto  
-  3. Migraciones: Configuramos que nombre tendrá la tabla, y que tipo, nombre y restricciones los campos, todo esto a la hora de lanzar la migración
+- `/` → (`welcome.tsx`) Landing page (Acceso a `/login` y a `/register`)
+- `/inicio` → Página principal con accesos rápidos y opciones
+- `/offbuscar` → Formulario búsqueda alimentos OFF
+- `/offresultados` → Resultados de búsqueda
+- `/dsevaluar` → Formulario evaluar alimento y patología (IA)
+- `/ds-evaluar-resultados` → Resultados evaluador
+- `/menucrear` → Formulario crear menú personalizado
+- `/controlleraprevisualizar` → Previsualizar menú generado antes de guardar
+- `/menus/guardar` → Guardar menú en base de datos
+- `/menuslistar` → Listar menús guardados
+- `/menus/{menuSeleccionado}` → Ver menú en detalle
+- `/menus/{id}` (DELETE) → Borrar menú
+- `/menus/{id}` (PUT) → Editar nombre/información_extra menú
+- `/multimedia` → Sección multimedia (Streaming vídeo y Youtube)
+- `/info` → Panel info técnica (Laravel Decomposer)
+- `/estado` → Panel estado servidor (Laravel Stethoscope)
+- `Error.tsx` → Página de error dinámica que recoge props con el tipo de error + mensaje
+- `drawerConCarousel.tsx` → 'Acerca de' en un componente Drawer
 
-  - php artisan make:seeder ComidaSeeder
-  - (Y añado varios comidas de prueba)
 
-- ---> Modelo Producto
-  - php artisan make:model Producto -m (-m para crear también la migración)
-  1. Modelo: Señalamos en el array "protected $fillable=[]" los campos que se podrán editar de la tabla
-  2. Relaciones del modelo: 1:N con Comida
-  3. Migraciones: Configuramos que nombre tendrá la tabla, y que tipo, nombre y restricciones los campos, todo esto a la hora de lanzar la migración
-   
-  - php artisan make:seeder ProductoSeeder
-  (Y añado varios productos de prueba)
+### Componentes destacados (`resources/js/components/`)
 
+- `app-sidebar.tsx` → Sidebar de navegación (Inicio, Búsqueda alimento, Evaluador IA, Creador Menús, Menús Guardados, Multimedia, Acerca de, Opciones)
+- `ui/` → Colección de componentes shadcn/ui y de otras librerias (botones, inputs, selects, dialogs, carousels, etc..)
+- `nav-*` → Navegación, usuario, footer
+- `AlimentoInteractivo`, `GridMotion`, `FollowCursor`, toast de `sonner`, `DataTable`, etc..
 
+---
 
+## Librerías destacadas
 
----> MIGRACIÓN, AGRUPACIÓN SEEDERS Y SIEMBRA
-  1. php artisan migrate:fresh
-  2. Crear en el orden correcto ---> DatabaseSeeder.php
-    
-    ```public function run(): void
-     {
-            $this->call([
-              UserSeeder::class,
-              MenuSeeder::class,
-              ComidaSeeder::class,
-              ProductoSeeder::class,
-          ]);
-     }```
-  
-  3. php artisan db:seed
-   
-![seeder-generacioncorrecta](seeder-generacioncorrecta.png)
-![diagrama-tablas](tablas.png)
+- **shadcn/ui**: Librería base del framework.
+- **Radix UI**: Base para muchos componentes personalizados.
+- **HeadlessUI**: Utilizada en transiciones.
+- **Reactbits**: Gridmotion y FollowCursor.
+- **Embla Carousel**: Carruseles de imágenes y sliders para los momentos de carga y para 'Acerca de'.
+- **Framer Motion**: Base para varios componentes animados.
+- **Lottie, LottieFiles**: Animaciones vectoriales desde After Effects.
+- **Chart.js, React-Chartjs-2**: Gráficas y visualización de datos.
+- **Sonner**: Para notificaciones toast.
+- **Lucide React**: Iconos SVG.
+- **React-Youtube**: Integración Youtube.
 
+---
 
+## Gestión de dependencias y scripts
 
+### Scripts Framework (`Laravel 12`)
 
+- `php artisan serve` → Arranca backend
+- `php artisan route:list` → Muestra las rutas disponibles
+- `php artisan test` → Ejecuta los tests preconfigurados
+- `php artisan bkp:database` → Backup de la base de datos (Configurado con crontab -e para hacerla a diario)
 
-# API's
-- OPEN FOOD FACTS
-    - https://es.openfoodfacts.org/data
-    - https://github.com/openfoodfacts/openfoodfacts-laravel
+### Scripts principales (`package.json`)
 
-- DEEPSEEK
-  - DEEPSEEK_API_KEY="sk-ed3ad3e46b7447c1a9a8a21f560cec25"
-  - https://api-docs.deepseek.com/
+- `npm run dev` → Arranca frontend en desarrollo (Vite)
+- `npm run build` → Build de producción
+- `npm run build:ssr` → Build SSR
 
-  - ---> Cliente DEEPSEEK para PHP
-    - https://github.com/deepseek-php/deepseek-php-client
-    - composer require deepseek-php/deepseek-php-client
+### Scripts backend (`composer.json`)
 
-- PEXELS
-  - PEXELS_API_KEY="cvWiNcTFlkptWql4azsVgWh2qe7zC6Wj5xrqCVRPrbsDAohnwXmRnPGr"
-  - https://www.pexels.com/api/documentation/
+- `composer dev` → Arranca Laravel, colas y Vite en paralelo
+- `composer dev:ssr` → Arranca SSR + logs + workers
 
+### Dependencias clave (extracto)
 
+Ver el detalle completo en `package.json` y `composer.json`.  
+Incluye:
 
+- `@inertiajs/inertia`, `@inertiajs/react`, `@headlessui/react`, `@radix-ui/*`, `framer-motion`, `gsap`, `embla-carousel`, `lottie-react`, `tailwindcss`, `vite`, `typescript`, etc.
 
+---
 
+## Variables de entorno
 
-# TAILWIND CSS v4
-Utilizaremos el Framework de CSS en su versión 4 pudiendo disponer de sus clases de utilidad predefinidads y características responsive, por ejemplo:
-- opacity-100 transition-opacity duration-750 ---> transiciones
-- dark:bg-[#3E3E3A] ---> if(Apariencia oscura){color fondo gris oscuro}
-- lg:mb-6 ---> if(tamaño pantalla grande){margin bottom 24px}
+Principales variables:
 
----> CONFIGURACIÓN POR DEFECTO
-  - tailwind.config.js
-  - Aquí se definimos los colores y fuentes personalizadas para nuestro proyecto
+- `APP_NAME`, `APP_ENV`, `APP_KEY`, `APP_URL`
+- Integraciones externas: `DEEPSEEK_API_KEY`, `PEXELS_API_KEY`, `GA_MEASUREMENT_ID`
+- Base de datos: `DB_CONNECTION`, `DB_DATABASE`, etc..
+- Email: `MAIL_HOST=smtp.gmail.com`, `MAIL_FROM_ADDRESS=holanutribox@gmail.com`, etc..
+- Otros servicios: `MONITORING_PANEL_KEY=admin`, `DEPLOYED_AT="YYYY-MM-DD HH:MM:SS"`, etc..
 
----> VALORES OKLCH
-  - Los valores por defecto vienen con el sistema OKLCH, donde por ejemplo nuestro color de acento (Verde) será el siguiente:
-  - --accent: oklch(0.7 0.2 150);
-  -  0.7 ---> Luminosidad (1 = blanco, 0 = negro)
-  -  0.2 ---> Croma (Saturación)
-  -  150 ---> Tono (150° = verde en OKLCH)
+---
 
-    Verde normal:
-    https://oklch.com/#0.723,0.219,149.58,100
+## Buenas prácticas, accesibilidad y detalles técnicos
 
-    :dark
-    https://oklch.com/#0.7,0.2,150,100
-    
-![verde-nutribox-oklch](verde-nutribox-oklch.png)
+- **SPA real**: Toda la navegación y el estado de la app gestionados desde React+Inertia, se recarga solo lo que cambia.
+- **SSR y SEO**: Renderizado en servidor para mejorar velocidad y posicionamiento, utilización de Google Analytics 4.
+- **Accesibilidad**: Todos los componentes clave cumplen normas ARIA y accesibilidad.
+- **Modo claro/oscuro y colores OKLCH**: Varias apariencias y y estilos definidos en `resources\css\app.css`.
+- **Animaciones ligeras Lottie**.
+- **Proyecto Lottie Animations de Adobe After Effects incluido**
+- **Código tipado, formateado y testeado**.
+- **Migraciones y Seeders**: Base de datos fácil de regenerar y de sembrar.
+- **Panel información App**: `/info` (Laravel Decomposer, inspección técnica de Framework y del servidor).
+- **Panel estado servidor VPS**: `/estado?key=admin` (Laravel Stethoscope, estadísticas de los últimos 7 días sobre uso de cpu, ram, caidas del server, etc..).
 
+---
 
+## Licencia y créditos
 
+- **Licencia**: MIT <img src="README/mit.jpg" alt="MIT" width="20"/>
+- **Tutor**: [Jose Manuel Rubira Miranda](https://www.linkedin.com/in/ACoAAFO5FNQBZNg6AQZwBXpW4STrthV3ala8c7E?lipi=urn%3Ali%3Apage%3Ad_flagship3_leia_profile_views%3BjRoMe5mOTZ2gZxz%2F0Y%2BXLg%3D%3D)
+- **Desarrollador**: Jose Antonio Martínez Pastor [LinkedIn](https://www.linkedin.com/in/jamartinezpastor/) | [Email](mailto:holanutribox@gmail.com) | [Portfolio Web](https://martinezpastor.es/)
 
+---
+<br><br>
 
-# LIBRERIA DE COMPONENTES REACT-TS: shadcn/ui
-- Biblioteca open source de componentes recomendada para Laravel 12 + React
-- https://ui.shadcn.com/
-
-
-
-
-
-# LIBRERIA DE COMPONENTES REACT-TS: Reactbits
-- Biblioteca de componentes React
-1. Para que no de errores al trabajar con React19 (ya que todas las librerias NO se han actualizado a esa versión ni han actualizado todas sus dependencias, así evitamos conflictos) utilizamos el flag "--legacy-peer-deps"
-   - npm i framer-motion --legacy-peer-deps
-   - npm i @react-spring/web --legacy-peer-deps
-   - npm update --legacy-peer-deps
-
-2. Repositorio jsrepo (TS + Tailwind)
-   - npx jsrepo init https://reactbits.dev/ts/tailwind
-
-3. Dependencia solo para el componente Grid-Motion
-   - npm i gsap
-
-
-
-
-# DESPLIEGUE EN SERVIDOR VPS
-1. Hostinger
-2. Servidor VPS
-3. Apache
-   
-- Comandos
-
-- Comprobación base de datos:
-- sqlite3 database/database.sqlite
-- .tables
-- SELECT * FROM users;
-
-
-
-https://www.flaticon.com/free-icon/noodle_6305595
-https://www.flaticon.com/free-icon/salad_1880223
+>## [nutribox.es](https://nutribox.es)
+`README.md versión 2.0 (20250603)`

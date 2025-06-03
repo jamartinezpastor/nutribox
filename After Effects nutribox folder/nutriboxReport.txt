@@ -1,0 +1,39 @@
+Report created: 
+	02/06/2025	22:25:23
+
+Project name: nutribox.aep
+
+Source files collected to: 
+	C:\Users\mippr\Desktop\nutribox folder
+
+Source files collected: For all comps
+
+Collected comps:  
+	Welcome
+	alimentos_layers
+	alimentos_layers 2
+	NB
+	LogoMain
+	LogoMain 2
+	LogoMain-ico
+	Welcome
+	LogoMain_dark
+	
+Number of collected files:  0
+
+Size of collected files:  0 KB
+
+Number of missing items:  2
+
+Rendering plug-ins:
+	Classic 3D
+	
+Effects used:  1
+
+Effect:  Slider Control
+	
+
+Layer:  Text Layer
+	External dependencies:  
+		Font family: “Poppins”, Font style: “Black”
+
