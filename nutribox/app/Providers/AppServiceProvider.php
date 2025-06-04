@@ -120,16 +120,17 @@ class AppServiceProvider extends ServiceProvider
         Decomposer::addServerStats($infoserver);
         Decomposer::addExtraStats($infoextra);
 
-
+        /*
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
 
             return (new MailMessage)
                 ->subject('Nutribox: Verificación de email')
                 ->greeting("¡Hola {$notifiable->name}!")
-                ->line('Haz click en el siguiente enlace para confirmar tu dirección de correo electrónico.')
+                ->line('Haz click en el siguiente enlace para confirmar tu cuenta.')
                 ->action('VERIFICAR EMAIL', $url)
                 ->line('Si no has creado una cuenta, ignora este mensaje.')
                 ->salutation('Un saludo.');
-        });
+        });    
+        */    
     }
 }

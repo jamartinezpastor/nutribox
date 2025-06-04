@@ -19,13 +19,13 @@ export default function VerifyEmail({ status }: { status?: string }) {
     return (
         <AuthLayout
             title="Verificación de correo electrónico"
-            description="Por favor, revisa tu buzón de entrada de correo electrónico, abre el mail que te hemos enviado y haz click en el enlace de verificación de cuenta. (Es posible que el correo lo hayas recibido erróneamente en la carpeta de spam o correo no deseado)."
+            description="Por favor, haz click en el enlace de verificación que te hemos enviado a tu Email."
         >
             <Head title="Verificación de correo electrónico" />
 
             {status === 'verification-link-sent' && (
                 <div className="mb-4 text-center text-sm font-medium text-green-600">
-                    Un nuevo enlace de verificación ha sido enviado a la dirección de correo electrónico registrada
+                    Enlace de verificación enviado! Por favor, revisa tu buzón de correo electrónico y confirma tu cuenta.
                 </div>
             )}
 

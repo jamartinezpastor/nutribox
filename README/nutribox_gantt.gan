@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Nutribox AI" company="" webLink="https://nutribox.es" view-date="2025-03-03" view-index="0" gantt-divider-location="289" resource-divider-location="300" version="3.3.3316" locale="es_ES">
+    <description/>
+    <view zooming-state="default:7" id="gantt-chart">
+        <field id="tpd4" name="Fecha de inicio" width="125" order="0"/>
+        <field id="tpd5" name="Fecha de fin" width="148" order="1"/>
+        <option id="taskLabelUp" value=""/>
+        <option id="taskLabelLeft" value=""/>
+        <option id="taskLabelRight" value="name"/>
+        <option id="filter.completedTasks" value="false"/>
+        <option id="filter.dueTodayTasks" value="false"/>
+        <option id="filter.overdueTasks" value="false"/>
+        <option id="filter.inProgressTodayTasks" value="false"/>
+        <option id="color.recent"><![CDATA[#ff9999 #f0f0f0 #ffff99 #66ccff #ffcc33 #cccccc #00cc00]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nombre" width="211" order="0"/>
+        <field id="1" name="Función" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" uid="953aa43e68ca462299dbd3d19f4dec83" name="Análisis de requisitos y diseño de la arquitectura de la aplicación." color="#ffcc33" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-03-17" duration="14" complete="0" expand="true"/>
+        <task id="21" uid="cb3f73a0513c4a03b77415ade5af5593" name="Base documentación" color="#ffcc33" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-03-24" duration="5" complete="0" expand="true"/>
+        <task id="22" uid="140fa8e6944246ada63e270589917b5b" name="Base README.md" color="#ffcc33" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-03-31" duration="20" complete="0" expand="true"/>
+        <task id="2" uid="a0b601d07e434bcc9a8a6afd50d442e1" name="Configuración del entorno de desarrollo" color="#66ccff" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-03-17" duration="7" complete="0" expand="true"/>
+        <task id="23" uid="edbf6222864e4b8093ce6fe698f85ac4" name="Framework y UI" color="#ff9999" shape="0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0" meeting="false" start="2025-03-26" duration="35" complete="0" expand="true"/>
+        <task id="16" uid="29491b546b714aedb61302a624c4fbab" name="Configuración hosting y dominio" color="#ffff99" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-03-26" duration="18" complete="0" expand="true"/>
+        <task id="18" uid="c52f3c6084704d3f849ef42e071cd45e" name="Configuración VPS y Apache" color="#ffff99" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-04-14" duration="40" complete="0" expand="true"/>
+        <task id="17" uid="1b0794ae42c347af8d460578d4d96ea0" name="Despliegue automático CI/CD" color="#cccccc" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-04-28" duration="8" complete="0" expand="true"/>
+        <task id="19" uid="e9b29623c6f94dc880b09edd1994209d" name="Https" color="#ffff99" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-05-19" duration="4" complete="0" expand="true"/>
+        <task id="20" uid="d7439a3be2384e22ada33bcddc38dbd1" name="Backup automático base de datos" color="#ffff99" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-05-26" duration="4" complete="0" expand="true"/>
+        <task id="13" uid="b950b268812a4ccbb2f6302fff52481a" name="Modelos, migraciones, seeders..." color="#ff9999" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-03-28" duration="9" complete="0" expand="true"/>
+        <task id="3" uid="85322e6cb92548fc8b19313ff040ce49" name="Formulario de recopilación de datos del usuario" color="#ff9999" shape="0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0" meeting="false" start="2025-03-31" duration="14" complete="0" expand="true"/>
+        <task id="4" uid="8f78c766e0714d52bdf2de69e862a36e" name="Implementación generación menús y evaluador" color="#ff9999" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-04-09" duration="9" complete="0" expand="true"/>
+        <task id="10" uid="ca2a299cceb14e5fbd04be4d9257534a" name="Conexión APIs Deepseek, Pexels y Open Food Facts" color="#ffff99" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-04-09" duration="28" complete="0" expand="true"/>
+        <task id="9" uid="228537a62d6647d8bb42588bc1a073f7" name="Búsqueda alimentos" color="#00cc00" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-04-15" duration="9" complete="0" expand="true"/>
+        <task id="8" uid="3d3f616ee2974bc5bfe94f64e034bcdd" name="Evaludador de patologías" color="#00cc00" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-04-21" duration="9" complete="0" expand="true"/>
+        <task id="11" uid="ed13687725d04eb0ad56431493845c99" name="Creador de menús personalizadas" color="#00cc00" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-04-24" duration="14" complete="0" expand="true"/>
+        <task id="15" uid="87796b6b7a784e6e930389a4fd0f15a4" name="Sistema autenticación por token" color="#ff9999" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-05-14" duration="9" complete="0" expand="true"/>
+        <task id="5" uid="647988937c3147ae928cfd6776a4584a" name="Pruebas y depuración de la plataforma." color="#ff9999" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-05-08" duration="19" complete="0" expand="true"/>
+        <task id="12" uid="a601293d4f054945a682785e3b3893fb" name="Animaciones y cambios visuales menores" color="#66ccff" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-05-06" duration="14" complete="0" expand="true"/>
+        <task id="6" uid="53239886975148d6929d615f1f84dff2" name="Revisión documentación" color="#ffcc33" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-05-26" duration="12" complete="0" expand="true"/>
+        <task id="7" uid="91cec22d8ece4b3383193dd65959aa03" name="Revisión README.md" color="#ffcc33" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-06-02" duration="2" complete="0" expand="true"/>
+        <task id="14" uid="e5064e45a344416a97deab43f460286e" name="Documento exposición" color="#ffcc33" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2025-06-09" duration="7" complete="0" expand="true"/>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>

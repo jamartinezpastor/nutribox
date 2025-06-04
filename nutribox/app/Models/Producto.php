@@ -21,7 +21,7 @@ class Producto extends Model
     ];
 
     // Para saber a que comida pertenece el producto
-    public function menu()
+    public function comida()
     {
         return $this->belongsTo(Comida::class);
     }
