@@ -26,8 +26,6 @@ type RegisterForm = {
 };
 
 export default function Register() {
-    const [actividad, setActividad] = useState('');
-
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         name: '',
         sexo: '',
@@ -133,7 +131,6 @@ export default function Register() {
                         <Select
                             value={data.actividad}
                             onValueChange={(value) => {
-                                setActividad(value);
                                 setData('actividad', value);
                             }}
                             required

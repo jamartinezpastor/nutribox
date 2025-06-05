@@ -110,7 +110,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'holanutribox@gmail.com'),
-        'name' => env('MAIL_FROM_NAME', 'Hola-Nutribox.es'),
+        'name' => env('MAIL_FROM_NAME', 'Soporte-Nutribox'),
     ],
 
 ];

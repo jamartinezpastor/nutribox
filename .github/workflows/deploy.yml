@@ -27,7 +27,8 @@ jobs:
             # CAMBIOS CÓDIGO
             git fetch origin
             git reset --hard origin/main
-            git clean -fd -e database/database.sqlite -e storage/ -e bootstrap/cache/
+            git clean -fd -e database/database.sqlite
+            # git clean -fd -e database/database.sqlite -e storage/ -e bootstrap/cache/
             # git clean -fd
 
             
