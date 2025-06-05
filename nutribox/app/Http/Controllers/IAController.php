@@ -137,64 +137,6 @@ class IAController extends Controller
         $nombre = $datos['nombre'];
         $infoExtra = $datos['info_extra'] ?? null;
 
-        // Datos mockeados de prueba
-        /*
-        $menu_estructura_json = '{
-"nombre": "Menú saludable 1800 kcal",
-"info_extra": "Ideal para pérdida de peso",
-"fecha": "dd-mm-aaaa",
-"comidas": [
-{
-  "grupo": "Desayuno",
-   "info_extra": "Recomendamos Avena Overnight o similar y que el platano no esté muy maduro.",
-  "productos": [
-    {
-      "nombre": "Avena",
-      "cantidad": 50,
-      "unidad": "g",
-      "kcal": 180,
-      "pr": 5,
-      "ch": 30,
-      "gr": 4
-    },
-    {
-      "nombre": "Plátano",
-      "cantidad": 1,
-      "unidad": "unidad",
-      "kcal": 89,
-      "pr": 1.1,
-      "ch": 23,
-      "gr": 0.3
-    }
-  ]
-},
-{
-  "grupo": "Comida",
-  "info_extra": "Atención a la preparación de la Pechuga, que sea a la placha o al vapor, evitar aceites refinados.",
-  "productos": [
-    {
-      "nombre": "Pechuga de pollo",
-      "cantidad": 150,
-      "unidad": "g",
-      "kcal": 165,
-      "pr": 31,
-      "ch": 0,
-      "gr": 3.6
-    },
-    {
-      "nombre": "Arroz integral",
-      "cantidad": 60,
-      "unidad": "g",
-      "kcal": 210,
-      "pr": 5,
-      "ch": 44,
-      "gr": 2
-    }
-  ]
-}
-]
-}
-';
         // $menu_estructura_json = json_decode($menu_estructura_json, true); // convierte el JSON string a array asociativo       
         $estructuraEjemplo = json_encode(json_decode($menu_estructura_json, true), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
       
@@ -221,7 +163,7 @@ class IAController extends Controller
             Ten en cuenta que es un menú diario (Son las calorias de un dia entero, ten esto presenta para calcular calorias, macronutrientes, etc..), las comidas diarias deben ajustarse inversamente en su contenido calórico y de macronutrientes según su frecuencia (Por ejemplo, cuando una persona realiza menos comidas al día, cada una debe contener mayor cantidad de calorías y macronutrientes para cumplir con los requerimientos diarios totales establecidos según el perfil individual del usuario), que la mayoria de los usuarios son de España (Murcia) y que puedes tomarte tu tiempo para realizarlo (es preferible obtener un resultado veraz antes que rápido e inexacto).
 
             La respuesta debe estar en formato JSON, basado en esta estructura:
-                - Un Menu está formado por los atributos: nombre ($nombre), info_extra ($infoExtra), fecha (Añade la fecha actual en formato dd-mm-aaaa) y comidas (un conjunto de tipo Comida).
+                - Un Menu está formado por los atributos: nombre ($nombre), info_extra ($infoExtra), fecha (Añade la fecha actual de España en formato dd-mm-aaaa) y comidas (un conjunto de tipo Comida).
                 - Una Comida está formada por los atributos: grupo (Por ejemplo: 'Desayuno', 'Almuerzo', 'Comida', 'Merienda', 'Cena', etc.. a los grupos que sean Snacks añádeselo, como por ejemplo: 'Almuerzo (Snack)'), info_extra (Por ejemplo: 'Recomendamos Avena Overnight o similar y que el platano no esté muy maduro') y productos (un conjunto de tipo Producto).
                 - Un Producto está formado: nombre, cantidad, unidad (Por ejemplo: 'g', 'ml', 'taza', 'unidad', etc..), kcal, pr (proteinas), ch (carbohidratos) y gr (grasas).
                 - Un Menu puede contener 1 o muchas comidas, una Comida puede contener 1 o muchos productos.

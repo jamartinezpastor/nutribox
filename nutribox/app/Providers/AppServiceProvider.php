@@ -120,7 +120,7 @@ class AppServiceProvider extends ServiceProvider
         Decomposer::addServerStats($infoserver);
         Decomposer::addExtraStats($infoextra);
 
-        /*
+
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
 
             return (new MailMessage)
@@ -130,7 +130,6 @@ class AppServiceProvider extends ServiceProvider
                 ->action('VERIFICAR EMAIL', $url)
                 ->line('Si no has creado una cuenta, ignora este mensaje.')
                 ->salutation('Un saludo.');
-        });    
-        */    
+        });
     }
 }
