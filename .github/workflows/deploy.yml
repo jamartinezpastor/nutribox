@@ -23,7 +23,8 @@ jobs:
           command_timeout: 10m
           script: |
             cd /var/www/nutribox/nutribox
-
+            ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+            
             # CAMBIOS CÓDIGO
             git fetch origin
             git reset --hard origin/main
