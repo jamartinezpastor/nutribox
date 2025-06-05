@@ -137,10 +137,6 @@ class IAController extends Controller
         $nombre = $datos['nombre'];
         $infoExtra = $datos['info_extra'] ?? null;
 
-        // $menu_estructura_json = json_decode($menu_estructura_json, true); // convierte el JSON string a array asociativo       
-        $estructuraEjemplo = json_encode(json_decode($menu_estructura_json, true), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-      
-*/
 
         try {
             $prompt = "Desde la perspectiva de un médico endocrino (especialista en nutrición y dietética) y para un usuario con el siguiente perfil:
@@ -163,7 +159,7 @@ class IAController extends Controller
             Ten en cuenta que es un menú diario (Son las calorias de un dia entero, ten esto presenta para calcular calorias, macronutrientes, etc..), las comidas diarias deben ajustarse inversamente en su contenido calórico y de macronutrientes según su frecuencia (Por ejemplo, cuando una persona realiza menos comidas al día, cada una debe contener mayor cantidad de calorías y macronutrientes para cumplir con los requerimientos diarios totales establecidos según el perfil individual del usuario), que la mayoria de los usuarios son de España (Murcia) y que puedes tomarte tu tiempo para realizarlo (es preferible obtener un resultado veraz antes que rápido e inexacto).
 
             La respuesta debe estar en formato JSON, basado en esta estructura:
-                - Un Menu está formado por los atributos: nombre ($nombre), info_extra ($infoExtra), fecha (Añade la fecha actual de España en formato dd-mm-aaaa) y comidas (un conjunto de tipo Comida).
+                - Un Menu está formado por los atributos: nombre ($nombre), info_extra ($infoExtra), fecha (Añade la fecha actual de en formato dd-mm-aaaa) y comidas (un conjunto de tipo Comida).
                 - Una Comida está formada por los atributos: grupo (Por ejemplo: 'Desayuno', 'Almuerzo', 'Comida', 'Merienda', 'Cena', etc.. a los grupos que sean Snacks añádeselo, como por ejemplo: 'Almuerzo (Snack)'), info_extra (Por ejemplo: 'Recomendamos Avena Overnight o similar y que el platano no esté muy maduro') y productos (un conjunto de tipo Producto).
                 - Un Producto está formado: nombre, cantidad, unidad (Por ejemplo: 'g', 'ml', 'taza', 'unidad', etc..), kcal, pr (proteinas), ch (carbohidratos) y gr (grasas).
                 - Un Menu puede contener 1 o muchas comidas, una Comida puede contener 1 o muchos productos.
