@@ -38,24 +38,32 @@ class AppServiceProvider extends ServiceProvider
 
 
         // INFOLARAVEL
-        $totalUsuarios = Cache::remember('stats_total_users', 300, function () {
-            return User::count();
-        });
-        $totalMenus     = Cache::remember('stats_total_menus', 300, fn() => Menu::count());
-        $totalComidas   = Cache::remember('stats_total_comidas', 300, fn() => Comida::count());
-        $totalProductos = Cache::remember('stats_total_productos', 300, fn() => Producto::count());
+        if (
+            Schema::hasTable('cache') &&
+            Schema::hasTable('users') &&
+            Schema::hasTable('menus') &&
+            Schema::hasTable('comidas') &&
+            Schema::hasTable('productos')
+        ) {
 
-        $infolaravel = [
-            'APP_NAME'    => config('services.app_name'),
-            'APP_ENV'     => config('services.app_env'),
-            'APP_URL'     => config('services.app_url'),
-            'MAIL_FROM_ADDRESS' => config('services.mail_from'),
-            'Usuarios'        => $totalUsuarios,
-            'Menús'           => $totalMenus,
-            'Comidas'         => $totalComidas,
-            'Productos'       => $totalProductos,
-        ];
+            $totalUsuarios = Cache::remember('stats_total_users', 300, function () {
+                return User::count();
+            });
+            $totalMenus     = Cache::remember('stats_total_menus', 300, fn() => Menu::count());
+            $totalComidas   = Cache::remember('stats_total_comidas', 300, fn() => Comida::count());
+            $totalProductos = Cache::remember('stats_total_productos', 300, fn() => Producto::count());
 
+        }
+            $infolaravel = [
+                'APP_NAME'    => config('services.app_name'),
+                'APP_ENV'     => config('services.app_env'),
+                'APP_URL'     => config('services.app_url'),
+                'MAIL_FROM_ADDRESS' => config('services.mail_from'),
+                'Usuarios'        => $totalUsuarios ?? 0,
+                'Menús'           => $totalMenus?? 0,
+                'Comidas'         => $totalComidas??   0,
+                'Productos'       => $totalProductos?? 0,
+            ];
 
         // INFOSERVER
         if (PHP_OS_FAMILY === 'Linux' && Schema::hasTable('users')) {
