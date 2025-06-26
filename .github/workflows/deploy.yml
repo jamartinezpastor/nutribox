@@ -53,6 +53,7 @@ jobs:
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             nvm use 22            
             npm install --legacy-peer-deps            
-            npm run build 
+            # build con node para evitar noexec
+            node node_modules/vite/bin/vite.js build
 
           
