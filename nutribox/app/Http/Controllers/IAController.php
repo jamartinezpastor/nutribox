@@ -19,7 +19,6 @@ use Carbon\Carbon;
 class IAController extends Controller
 {
     private $deepseekApiKey;
-    private $openaiApiKey;
     private $pexelsApiKey;
 
     public function __construct()
@@ -48,13 +47,10 @@ class IAController extends Controller
                 ->query($prompt)
                 ->run();
 
-            // Decodifica la respuesta JSON.. con true array asociativo!
-            $responseArray = json_decode($response, true);
+            $responseArray = json_decode($response, true); // array asociativo (false -> obj)
 
             if (json_last_error() === JSON_ERROR_NONE) {
                 $analisis = $responseArray['choices'][0]['message']['content'];
-
-                // Eliminar cualquier "**" restante
                 $analisis = str_replace(["*"], '', $analisis);
             } else {
                 return back()->with('error', 'Error al decodificar la respuesta del análisis mediante IA.');
@@ -130,7 +126,7 @@ class IAController extends Controller
         $numComidas = $datos['numComidas'];
         $numSnacks = $datos['numSnacks'];
         $restricciones = $datos['restricciones'];
-        $restriccionesTexto = implode(', ', $restricciones); // Al poder ser varias, se prepara para que se entendible en el prompt
+        $restriccionesTexto = implode(', ', $restricciones); // Al poder ser varias, se prepara para que se entendible en el Prompt
         $productosAEvitar = $datos['productosAEvitar'] ?? null;
         $productosAPriorizar = $datos['productosAPriorizar'] ?? null;
         $tiempoPreparacion = $datos['tiempoPreparacion'];
@@ -159,7 +155,7 @@ class IAController extends Controller
             Ten en cuenta que es un menú diario (Son las calorias de un dia entero, ten esto presenta para calcular calorias, macronutrientes, etc..), las comidas diarias deben ajustarse inversamente en su contenido calórico y de macronutrientes según su frecuencia (Por ejemplo, cuando una persona realiza menos comidas al día, cada una debe contener mayor cantidad de calorías y macronutrientes para cumplir con los requerimientos diarios totales establecidos según el perfil individual del usuario), que la mayoria de los usuarios son de España (Murcia) y que puedes tomarte tu tiempo para realizarlo (es preferible obtener un resultado veraz antes que rápido e inexacto).
 
             La respuesta debe estar en formato JSON, basado en esta estructura:
-                - Un Menu está formado por los atributos: nombre ($nombre), info_extra ($infoExtra), fecha (Añade la fecha actual de en formato dd-mm-aaaa) y comidas (un conjunto de tipo Comida).
+                - Un Menu está formado por los atributos: nombre ($nombre), info_extra ($infoExtra), fecha (Añade la fecha de cuando se hace la petición en formato dd-mm-aaaa, fecha en España) y comidas (un conjunto de tipo Comida).
                 - Una Comida está formada por los atributos: grupo (Por ejemplo: 'Desayuno', 'Almuerzo', 'Comida', 'Merienda', 'Cena', etc.. a los grupos que sean Snacks añádeselo, como por ejemplo: 'Almuerzo (Snack)'), info_extra (Por ejemplo: 'Recomendamos Avena Overnight o similar y que el platano no esté muy maduro') y productos (un conjunto de tipo Producto).
                 - Un Producto está formado: nombre, cantidad, unidad (Por ejemplo: 'g', 'ml', 'taza', 'unidad', etc..), kcal, pr (proteinas), ch (carbohidratos) y gr (grasas).
                 - Un Menu puede contener 1 o muchas comidas, una Comida puede contener 1 o muchos productos.
@@ -175,12 +171,9 @@ class IAController extends Controller
 
             /*
             // Petición Simple a la API IA
-            $response = DeepSeekClient::build(env('DEEPSEEK_API_KEY'))
+            $response = DeepSeekClient::build($this->deepseekApiKey)
                 ->query($prompt)
-                ->run();
-            Log::info('Prompt enviado a DeepSeek', ['prompt' => $prompt]);
-            Log::info('Respuesta de DeepSeek:', ['respuesta_bruta' => $response]);
-            dd($response);
+                ->run();         
             */
 
             $responseArray = json_decode($response, true);
@@ -195,7 +188,7 @@ class IAController extends Controller
                 // Extraer bloque JSON en caso de que DeepSeek lo devuelva rodeado de texto
                 preg_match('/\{.*\}/s', $analisis, $coincidencias);
                 $jsonLimpio = $coincidencias[0] ?? '{}';
-                $menu = json_decode($jsonLimpio, true);
+                $menu = json_decode($jsonLimpio, true);  // Decodifica la respuesta JSON.. con true array asociativo!
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
                     return Inertia::render('menu-crear-previsualizar', ['error' => 'El modelo ha devuelto un JSON inválido']);

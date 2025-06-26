@@ -21,6 +21,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface PageProps {
     error?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any; // Para inertia
 }
 

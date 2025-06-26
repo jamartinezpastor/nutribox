@@ -1,6 +1,7 @@
 import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler, useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { FormEventHandler } from 'react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -41,9 +42,11 @@ export default function Register() {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+        /*
         post(route('register'), {
             onFinish: () => reset('password', 'password_confirmation'),
         });
+        */
     };
 
     return (

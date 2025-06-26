@@ -31,6 +31,9 @@ export default function Password() {
     const updatePassword: FormEventHandler = (e) => {
         e.preventDefault();
 
+        alert('Actualización de contraseña bloqueada');
+        // Reset de contraseña
+        /*
         put(route('password.update'), {
             preserveScroll: true,
             onSuccess: () => reset(),
@@ -46,6 +49,7 @@ export default function Password() {
                 }
             },
         });
+        */
     };
 
     return (

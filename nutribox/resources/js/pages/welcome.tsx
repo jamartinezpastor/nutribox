@@ -1,6 +1,7 @@
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import LottieWelcome from '../components/LottieWelcome';
+import GlareHover from '../components/blocks/Animations/GlareHover/GlareHover';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
@@ -30,8 +31,13 @@ export default function Welcome() {
                                 >
                                     Iniciar sesión
                                 </Link>
+                                {/* register */}
                                 <Link
-                                    href={route('register')}
+                                    href={route('login')}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        alert('Registro deshabilitado, puedes iniciar sesión con las credenciales de demostración.');
+                                    }}
                                     className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                                 >
                                     Registrarse
@@ -73,6 +79,38 @@ export default function Welcome() {
                                     <span>Evaluador de Alimentos y Patologías (IA).</span>
                                 </li>
                             </ul>
+                            <br />
+
+                            <div >
+                                <GlareHover
+                                    glareColor="#ffffff"
+                                    glareOpacity={0.5}
+                                    glareAngle={-30}
+                                    glareSize={300}
+                                    transitionDuration={1000}
+                                    playOnce={true}
+                                >
+                                    <div className="items-left border-ring bg-primary dark:bg-primary flex flex-col rounded-lg p-2 text-[#1b1b18] lg:justify-center lg:p-4">
+                                        <p className="text-foreground dark:text-background border-ring rounded-lg p-1 text-lg font-bold">
+                                            <b>REGISTRO DESHABILITADO</b>
+                                            <br />
+                                            Credenciales de prueba:
+                                        </p>
+                                        <span className="text-foreground dark:text-foreground bg-sidebar mt-2 rounded-lg pl-3 font-light">
+                                            Email:
+                                            <span className="pl-3 font-bold">
+                                                <i>correo@ejemplo.es</i>
+                                            </span>
+                                        </span>
+                                        <span className="text-foreground dark:text-foreground bg-sidebar mt-2 rounded-lg pl-3 font-light">
+                                            Clave:
+                                            <span className="pl-3 font-bold">
+                                                <i>Contraseña</i>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </GlareHover>
+                            </div>
                         </div>
                         <div className="relative w-full overflow-hidden rounded-t-lg bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] lg:mb-0 lg:ml-0 lg:aspect-auto lg:w-[450px] lg:rounded-t-none lg:rounded-r-lg dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]">
                             <div className="flex items-center justify-center">

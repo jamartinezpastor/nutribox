@@ -20,7 +20,7 @@ type ComidaConTotales = {
     gr: number;
     ch: number;
     pr: number;
-    productos: ProductoTipo[]; // Asegúrate de que ProductoTipo esté definido correctamente
+    productos: ProductoTipo[]; 
 };
 
 type Menu = {
@@ -34,7 +34,7 @@ type Menu = {
 
 type Props = {
     menuSeleccionado: Menu;
-    totalesComidas: ComidaConTotales[]; // Definir el tipo como un array de ComidaConTotales
+    totalesComidas: ComidaConTotales[]; // Array de ComidaConTotales
 };
 
 export default function VerDetalles({ menuSeleccionado, totalesComidas }: Props) {

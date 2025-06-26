@@ -86,8 +86,6 @@ export default function DS_evaluar() {
                     </div>
                 )}
 
-                {/* Flex, columna de arriba a abajo, 4 unidades de separación,
-                 max-w-sm limita el ancho, mx-auto margen automatico a ambos lados.. centra horizontal */}
                 <div className="mx-auto flex max-w-xl flex-col space-y-4">
                     {isTrabajando || (
                         <div>
@@ -244,20 +242,6 @@ export default function DS_evaluar() {
                             {isTrabajando ? 'Evaluando…' : 'Evaluar'}
                         </Button>
                     </div>
-                    {/*
-                    <div className="hidden h-14.5 lg:block">
-                    <FollowCursor
-                           offsetX={35}
-                            cardWidth="100px"
-                            rotationFactor={8}
-                             enableTilt={true}
-                             animationConfig={{ mass: 5, tension: 350, friction: 40 }}
-                             wheelConfig={{ mass: 1, tension: 200, friction: 30 }}
-                      >
-                           {' '}
-                        </FollowCursor>
-                    </div>
-                */}
                 </div>
             </div>
         </AppLayout>

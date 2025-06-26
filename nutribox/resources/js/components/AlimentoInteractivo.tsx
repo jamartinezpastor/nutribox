@@ -18,6 +18,7 @@ const AlimentoInteractivo: React.FC<AlimentoInteractivoProps> = ({
     const [pos, setPos] = useState(initialPosition);
     const [dragging, setDragging] = useState(false);
     const offset = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [hover, setHover] = useState(false);
 
     // MOUSE

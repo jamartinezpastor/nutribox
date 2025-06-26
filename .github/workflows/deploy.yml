@@ -31,7 +31,6 @@ jobs:
             # git clean -fd -e database/database.sqlite
             git clean -fd -e database/database.sqlite -e storage/ -e bootstrap/cache/
             # git clean -fd
-
             
             # DEPENDENCIAS
             composer install --optimize-autoloader --no-interaction --no-progress
@@ -51,6 +50,6 @@ jobs:
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             nvm use 22            
             npm install --legacy-peer-deps            
-            npm run build       
+            npm run build 
 
           

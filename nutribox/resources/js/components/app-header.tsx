@@ -44,6 +44,7 @@ const mainNavItems: NavItem[] = [
     },
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const rightNavItems: NavItem[] = [
     {
         title: 'Acerca de',
@@ -62,12 +63,11 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const page = usePage<SharedData>();
     const { auth } = page.props;
     const getInitials = useInitials();
-    // const autoplay = useRef(Autoplay({ delay: 2500, stopOnInteraction: false }));
     return (
         <>
             <div className="border-sidebar-border/80 border-b">
                 <div className="mx-auto flex h-16 items-center px-4 md:max-w-9xl">
-                    {/* Mobile Menu */}
+                    {/* Menú -Hamburguesa- Móvil */}
                     <div className="lg:hidden">
                         <Sheet>
                             <SheetTrigger asChild>
@@ -92,7 +92,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                         </div>
 
                                         {/* 
-                                        // Menu por defecto con <a>
+                                        // Botones "icono" por defecto con <a>
                                         <div className="flex flex-col space-y-4">
                                             {rightNavItems.map((item) => (
                                                 <a
@@ -145,7 +145,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                         <AppLogo />
                     </Link>
 
-                    {/* Desktop Navigation */}
+                    {/* Desktop */}
                     <div className="ml-6 hidden h-full items-center space-x-6 lg:flex">
                         <NavigationMenu className="flex h-full items-stretch">
                             <NavigationMenuList className="flex h-full items-stretch space-x-2">

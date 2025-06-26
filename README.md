@@ -4,8 +4,7 @@
 
 **Alimentación Inteligente**
 
-Nutribox es una aplicación web Single Page Application (SPA) orientada a la consulta, análisis de la compatibilidad entre alimentos y patologías, creación y gestión de menús diarios, recomendaciones personalizadas mediante IA y recursos multimedia. Integra tecnologías modernas tanto en backend (Laravel 12) como frontend (React 19 con Typescript), APIs externas, un diseño responsive con versiones Desktop/Móvil, diferentes apariencias visuales y despliegue automatizado CI/CD.
-<p>&nbsp;</p>
+Nutribox es una aplicación web Single Page Application (SPA) orientada a la consulta, análisis de la compatibilidad entre alimentos y patologías, creación y gestión de menús diarios, recomendaciones personalizadas mediante IA y recursos multimedia. Integra tecnologías modernas tanto en backend (Laravel 12 o Inertia.js) como en frontend (React 19 con Typescript), APIs externas (Deepseek, Open Food Facts y Pexels), un diseño responsive con versiones Desktop/Móvil, diferentes apariencias visuales, renderizado en cliente (CSR) y despliegue automatizado CI/CD.
 <p>&nbsp;</p>
 
 ## Tabla de contenidos
@@ -35,15 +34,13 @@ Nutribox es una aplicación web Single Page Application (SPA) orientada a la con
   - [Buenas prácticas, accesibilidad y detalles técnicos](#buenas-prácticas-accesibilidad-y-detalles-técnicos)
   - [Licencia y créditos](#licencia-y-créditos)
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 
 ## Demo y capturas
-<img src="recursos_visuales/cbbox_mockup.png" alt="cdbox" width="50%"/>
+<img src="recursos_visuales/fdd95f05-7e58-4f4a-525a-43ec3118fad4.jpeg" alt="cdbox" width="75%"/>
 
 | Desktop | Mobile |
 |:-------:|:------:|
 | <img src="README/desktop.gif" alt="desktop" width="400"/> | <img src="README/mobile.gif" alt="mobile" width="175"/> |
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 
 ## Características principales
@@ -52,14 +49,19 @@ Nutribox es una aplicación web Single Page Application (SPA) orientada a la con
 - **Diseño de menús diarios personalizados** (con previsualización y almacenamiento).
 - **Gestión de menús guardados**: Consulta, edición, borrado y visualización detallada.
 - **Sección multimedia**: Streaming de Canal Cocina e integración con Youtube.
-- **Dashboard de usuario y configuración**
-- **Auto deploy CI/CD**
+- **Dashboard y configuración de usuario**
+- **Auto deploy CI/CD**: Mediante Github Actions
+- **Backups automático de la Base de Datos**: Mediante comando Artisan personalizado + 'crontab' en Servidor.
+- **Manejo de todo el tráfico en Apache a URL segura**: Configuración SSL en ficheros .conf + certbot (Let's Encrypt).
 - **SPA completa con navegación instantánea** gracias a la suma de React + Inertia.js
+- **Manejo de errores**: Página TS que recoge errores 403, 404, 500, etc.. y personaliza el mensaje.
 - **Accesibilidad y responsive**: UI moderna, adaptable a pantallas pequeñas y con modo oscuro.
-- **Animaciones gráficas vectoriales** 
+- **Animaciones gráficas vectoriales**: Adobe After Effects + .json + Lottie 
 - **Imágenes animadas mediante IA** y tips nutricionales en las esperas de respuesta de las APIs.
 - **Sistema de autenticación mediante tokens y protección de rutas con Middleware**.
 - **Panel de información de la App y estado del Servidor** (`/info` + `/estado`).
+
+<img src="recursos_visuales/a2.gif" alt="nutribox" width="50%"/>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
@@ -67,12 +69,15 @@ Nutribox es una aplicación web Single Page Application (SPA) orientada a la con
 ### Backend
 - **Laravel Framework 12+ PHP 8.2+**: Eloquent ORM, alta/reset contraseña con token, autenticación, colas, seeders, migraciones, etc..
 - **Inertia.js**: Conexión directa con el frontend React sin API REST convencional.
+- **Vite 6**: Para creación de bundles
 - **API Deepsek con wrapper/deepseek-php-client**: Para evaluación nutricional y creación de menús mediante IA.
 - **API Open Food Facts v1**: Para búsqueda de alimentos y productos en su base de datos.
 - **API Pexels v1**: Para decoración background resultados evaluador nutricional.
-- **Tightenco Ziggy**: Enrutamiento completo entre backend y frontend.
 - **Lubusin Decomposer y Stethoscope**: Diagnóstico del entorno Laravel y del Servidor.
 - **Handler de excepciones en bootstrap/app.tsx** Enrutamiento personalizado según el problema a `Error.tsx`
+
+<img src="recursos_visuales/a1.gif" alt="nutribox" width="40%"/>
+<p>&nbsp;</p>
 
 ### Frontend
 - **React 19**: SPA moderna, componentes funcionales, hooks.
@@ -88,7 +93,9 @@ Nutribox es una aplicación web Single Page Application (SPA) orientada a la con
 ![favicon.ico](README/favicon.ico)
 - **Streaming de vídeo embebido y playlist de YouTube**: Integración multimedia.
 - **React FC AlimentoInteractivo**: Búsqueda interactiva. <br>
+
 <img src="README/alimentointeractivo.gif" alt="reactFC" width="200" />
+<p>&nbsp;</p>
 
 ### Persistencia
 - **Base de datos**: SQLite
@@ -96,6 +103,7 @@ Nutribox es una aplicación web Single Page Application (SPA) orientada a la con
 - **Gestión mediante DBeaver UI (sqlite3 CLI en Servidor)**
 - **Backup diario**: Mediante el comando `php artisan bkp:database` en Laravel y crontab -e en el servidor <br>
 <img src="README/database_principales.png" alt="database" width="75%" />
+<p>&nbsp;</p>
 
 ### Utilidades
 - **Vite 6**: Bundler y dev-server ultrarrápido.
@@ -103,6 +111,7 @@ Nutribox es una aplicación web Single Page Application (SPA) orientada a la con
 - **Unit Tests**: (`php artisan test`)
 - **Microsoft Playwright**: Testing end-to-end (`npx playwright test --ui`)
 - **Google Analytics 4**: Incorporado a `app.blade.php` y a .env. Para obtención de datos de visitas, flujo e interacción de usuario.
+<p>&nbsp;</p>
 
 ### Control de versiones
 - **Repositorio remoto en Github**: Trabajo con 2 ramas, dev (Donde se ha desarrollado alguna feature mergeada más tarde en la rama principal) y main.
@@ -111,12 +120,12 @@ Nutribox es una aplicación web Single Page Application (SPA) orientada a la con
 
 - **Gestión de repositorios en desarrollo**: SourceTree <br>
 <img src="README/sourcetree.png" alt="sourcetree" width="75%" />
+<p>&nbsp;</p>
 
 ### Despliegue a producción
 - **Auto deploy CI/CD** mediante Github Actions
-- **deploy.yml** Despliegue automático mediante SSH, comandos GIT, instalación de dependencias, comandos de base de datos, caching y buildeo <br>
+- **deploy.yml** Despliegue automático mediante SSH (Repo remoto -> VPS, VPS -> Repo remoto), comandos GIT, instalación de dependencias, comandos de base de datos, caching y buildeo <br>
 <img src="README/githubactions.png" alt="githubactions" width="75%" />
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 
 ## Estructura básica de carpetas
@@ -147,7 +156,6 @@ nutribox/
 
 ```
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 
 ---
 ## Instalación y puesta en marcha
@@ -168,7 +176,7 @@ nutribox/
      ```sh
      npm install
 
-     # Si usas React 19 y alguna dependencia da error, usa:
+     # Con React 19 si alguna dependencia da error, usa:
      # npm install --legacy-peer-deps
      ```
 
@@ -198,7 +206,6 @@ nutribox/
    npm run build
    ```
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 
 ## Rutas y páginas principales
 ### `routes/web.php` y `resources/js/pages/`
@@ -221,13 +228,14 @@ nutribox/
 - `Error.tsx` → Página de error dinámica que recoge props con el tipo de error + mensaje
 - `drawerConCarousel.tsx` → 'Acerca de' en un componente Drawer
 
+<img src="recursos_visuales/a4.gif" alt="nutribox" width="25%"/>
+<p>&nbsp;</p>
 
 ### Componentes destacados `resources/js/components/`
 - `app-sidebar.tsx` → Sidebar de navegación (Inicio, Búsqueda alimento, Evaluador IA, Creador Menús, Menús Guardados, Multimedia, Acerca de, Opciones)
 - `ui/` → Colección de componentes shadcn/ui y de otras librerias (botones, inputs, selects, dialogs, carousels, etc..)
 - `nav-*` → Navegación, usuario, footer
 - `AlimentoInteractivo`, `GridMotion`, `FollowCursor`, toast de `sonner`, `DataTable`, etc..
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 
 ## Librerías destacadas
@@ -242,7 +250,6 @@ nutribox/
 - **Sonner**: Para notificaciones toast.
 - **Lucide React**: Iconos SVG.
 - **React-Youtube**: Integración Youtube.
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 
 ## Gestión de dependencias y scripts
@@ -267,7 +274,6 @@ Incluye:
 
 - `@inertiajs/inertia`, `@inertiajs/react`, `@headlessui/react`, `@radix-ui/*`, `framer-motion`, `gsap`, `embla-carousel`, `lottie-react`, `tailwindcss`, `vite`, `typescript`, etc..
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 
 ## Variables de entorno
 Principales variables:
@@ -277,11 +283,10 @@ Principales variables:
 - Email: `MAIL_HOST=smtp.gmail.com`, `MAIL_FROM_ADDRESS=holanutribox@gmail.com`, etc..
 - Otros servicios: `MONITORING_PANEL_KEY=admin`, `DEPLOYED_AT="YYYY-MM-DD HH:MM:SS"`, etc..
 <p>&nbsp;</p>
-<p>&nbsp;</p>
 
 ## Buenas prácticas, accesibilidad y detalles técnicos
-- **SPA real**: Toda la navegación y el estado de la app gestionados desde React+Inertia, se recarga solo lo que cambia.
-- **SSR y SEO**: Renderizado en servidor para mejorar velocidad y posicionamiento, utilización de Google Analytics 4.
+- **SPA real**: Toda la navegación y el estado de la app gestionados desde React + Inertia, la comunicación de Inertia con Inertia Runtime en el front, permite que se recargue solo lo que cambie.
+- **SSR y SEO**: Con posibilidad de renderizado en servidor para mejorar velocidad y posicionamiento, se utiliza Google Analytics 4 para anañizar el tráfico de los usuarios (Localización, páginas visitas, tiempo en ellas, clicks, etc..).
 - **Accesibilidad**: Todos los componentes clave cumplen normas ARIA y accesibilidad.
 - **Modo claro/oscuro y colores OKLCH**: Varias apariencias y y estilos definidos en `resources\css\app.css`.
 - **Animaciones ligeras Lottie**.
@@ -290,15 +295,17 @@ Principales variables:
 - **Migraciones y Seeders**: Base de datos fácil de regenerar y de sembrar.
 - **Panel información App**: `/info` (Laravel Decomposer, inspección técnica de Framework y del servidor).
 - **Panel estado servidor VPS**: `/estado?key=admin` (Laravel Stethoscope, estadísticas de los últimos 7 días sobre uso de cpu, ram, caidas del server, etc..).
-<p>&nbsp;</p>
+
+<img src="recursos_visuales/a3.gif" alt="nutribox" width="35%"/>
 <p>&nbsp;</p>
 
 ## Licencia y créditos
 - **Licencia**: MIT <img src="README/mit.jpg" alt="MIT" width="20"/>
 - **Tutor**: [Jose Manuel Rubira Miranda](https://www.linkedin.com/in/ACoAAFO5FNQBZNg6AQZwBXpW4STrthV3ala8c7E?lipi=urn%3Ali%3Apage%3Ad_flagship3_leia_profile_views%3BjRoMe5mOTZ2gZxz%2F0Y%2BXLg%3D%3D)
-- **Desarrollador**: Jose Antonio Martínez Pastor [LinkedIn](https://www.linkedin.com/in/jamartinezpastor/) | [Email](mailto:holanutribox@gmail.com) | [Portfolio Web](https://martinezpastor.es/)
-<p>&nbsp;</p>
+- **Desarrollador**: Jose Antonio Martínez Pastor [LinkedIn](https://www.linkedin.com/in/jamartinezpastor/) | [Email](mailto:jamartinezpastor@gmail.com) | [Portfolio Web](https://martinezpastor.es/)
+
+<img src="recursos_visuales/cocina_,mockup.png" alt="nutribox" width="59%"/><img src="recursos_visuales/packaging_mockup.png" alt="nutribox" width="39.35%"/>
 <p>&nbsp;</p>
 
 >## [nutribox.es](https://nutribox.es)
-`README.md versión 2.1.1 (20250603)`
+`README.md versión 2.2.1 (20250626)`

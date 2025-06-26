@@ -178,17 +178,18 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         </div>
                         <Separator className="my-12" />
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Correo electrónico</Label>
+                            <Label htmlFor="email">Correo electrónico <i>(Email de demostración)</i></Label>
 
                             <Input
                                 id="email"
                                 type="email"
-                                className="mt-1 block w-full"
+                                className="mt-1 block w-full bg-gray-100 cursor-not-allowed"
                                 value={data.email}
                                 onChange={(e) => setData('email', e.target.value)}
-                                required
+                                disabled
                                 autoComplete="username"
                                 placeholder="Correo electrónico"
+
                             />
 
                             <InputError className="mt-2" message={errors.email} />
