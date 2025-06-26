@@ -162,25 +162,51 @@
 }
 
 @keyframes shake {
-    0% { transform: scale(1.3) rotate(-3deg); }
-    20% { transform: scale(1.3) rotate(4deg); }
-    40% { transform: scale(1.3) rotate(-5deg); }
-    60% { transform: scale(1.3) rotate(3deg); }
-    80% { transform: scale(1.3) rotate(-1deg); }
-    100% { transform: scale(1.3) rotate(0deg); }
-  }
-  
-  .drag-shake {
-    animation: shake 0.5s infinite ease-in-out;
-  }
+    0% {
+        transform: scale(1.3) rotate(-3deg);
+    }
+    20% {
+        transform: scale(1.3) rotate(4deg);
+    }
+    40% {
+        transform: scale(1.3) rotate(-5deg);
+    }
+    60% {
+        transform: scale(1.3) rotate(3deg);
+    }
+    80% {
+        transform: scale(1.3) rotate(-1deg);
+    }
+    100% {
+        transform: scale(1.3) rotate(0deg);
+    }
+}
 
-  #lottie{
-    background-color:#787878;
-    width:100%;
-    height:100%;
-    display:block;
+.drag-shake {
+    animation: shake 0.5s infinite ease-in-out;
+}
+
+#lottie {
+    background-color: #787878;
+    width: 100%;
+    height: 100%;
+    display: block;
     overflow: hidden;
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
     text-align: center;
     opacity: 1;
+}
+
+@keyframes glow {
+    0%,
+    100% {
+        box-shadow: 0 0 0 var(--background);
+    }
+    50% {
+        box-shadow: 0 0 15px var(--chart-2);
+    }
+}
+
+.glow-border {
+    animation: glow 2s ease-in-out infinite;
 }

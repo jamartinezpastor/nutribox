@@ -97,8 +97,14 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                 </div>
 
                 <div className="text-muted-foreground text-center text-sm">
-                    ¿No tienes todavía cuenta?{' '}
-                    <TextLink href={route('register')} tabIndex={5}>
+                    ¿No tienes todavía cuenta?
+                    <TextLink href={route('login')}
+                    tabIndex={5}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        alert('Registro deshabilitado, puedes iniciar sesión con las credenciales de demostración.');
+                    }}
+                    >
                         Date de alta
                     </TextLink>
                 </div>

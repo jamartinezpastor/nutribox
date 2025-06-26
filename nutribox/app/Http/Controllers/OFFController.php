@@ -16,7 +16,7 @@ class OFFController extends Controller
         $client = new Client();
         $url = "https://world.openfoodfacts.org/cgi/search.pl?action=process&json=1&search_terms="
             . urlencode($termino)
-            . "&page_size=20";
+            . "&page_size=40";
         try {
             $response = $client->get($url);
 

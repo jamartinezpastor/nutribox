@@ -59,6 +59,7 @@ const GlareHover: React.FC<GlareHoverProps> = ({
 
         el.style.transition = 'none';
         el.style.backgroundPosition = '-100% -100%, 0 0';
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         el.offsetHeight;
         el.style.transition = `${transitionDuration}ms ease`;
         el.style.backgroundPosition = '100% 100%, 0 0';
@@ -92,7 +93,7 @@ const GlareHover: React.FC<GlareHoverProps> = ({
 
     return (
         <div
-            className={`relative grid cursor-pointer place-items-center overflow-hidden border ${className}`}
+            className={`relative grid cursor-pointer place-items-center overflow-hidden ${className}`}
             style={{
                 width,
                 height,

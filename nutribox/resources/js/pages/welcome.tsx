@@ -81,7 +81,7 @@ export default function Welcome() {
                             </ul>
                             <br />
 
-                            <div >
+                            <div className="flex items-center justify-center ">
                                 <GlareHover
                                     glareColor="#ffffff"
                                     glareOpacity={0.5}
@@ -90,19 +90,19 @@ export default function Welcome() {
                                     transitionDuration={1000}
                                     playOnce={true}
                                 >
-                                    <div className="items-left border-ring bg-primary dark:bg-primary flex flex-col rounded-lg p-2 text-[#1b1b18] lg:justify-center lg:p-4">
+                                    <div className="items-center border-ring bg-primary dark:bg-primary flex flex-col rounded-lg p-2 text-[#1b1b18] lg:justify-center lg:p-4 glow-border">
                                         <p className="text-foreground dark:text-background border-ring rounded-lg p-1 text-lg font-bold">
                                             <b>REGISTRO DESHABILITADO</b>
                                             <br />
                                             Credenciales de prueba:
                                         </p>
-                                        <span className="text-foreground dark:text-foreground bg-sidebar mt-2 rounded-lg pl-3 font-light">
+                                        <span className="text-foreground dark:text-foreground bg-sidebar mt-2 rounded-lg pl-3 pr-3 font-light">
                                             Email:
                                             <span className="pl-3 font-bold">
                                                 <i>correo@ejemplo.es</i>
                                             </span>
                                         </span>
-                                        <span className="text-foreground dark:text-foreground bg-sidebar mt-2 rounded-lg pl-3 font-light">
+                                        <span className="text-foreground dark:text-foreground bg-sidebar mt-2 rounded-lg pl-3 pr-3 font-light">
                                             Clave:
                                             <span className="pl-3 font-bold">
                                                 <i>Contraseña</i>

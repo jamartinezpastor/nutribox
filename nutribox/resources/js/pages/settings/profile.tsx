@@ -64,13 +64,13 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="name">Nombre y apellidos</Label>
+                            <Label htmlFor="name">Nombre y apellidos <i><small>(Opción deshabilitada)</small></i></Label>
                             <Input
                                 id="name"
-                                className="mt-1 block w-full"
+                                className="mt-1 block w-full bg-gray-100 cursor-not-allowed"
                                 value={data.name}
                                 onChange={(e) => setData('name', e.target.value)}
-                                required
+                                disabled
                                 autoComplete="name"
                                 placeholder="Nombre y apellidos"
                             />
@@ -178,7 +178,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         </div>
                         <Separator className="my-12" />
                         <div className="grid gap-2">
-                            <Label htmlFor="email">Correo electrónico <i>(Email de demostración)</i></Label>
+                            <Label htmlFor="email">Correo electrónico <i><small>(Opción deshabilitada)</small></i></Label>
 
                             <Input
                                 id="email"

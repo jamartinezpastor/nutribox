@@ -18,6 +18,7 @@ import { Smile } from 'lucide-react';
 import { useRef } from 'react';
 import { Separator } from '../components/ui/separator';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const rightNavItems: NavItem[] = [
     {
         title: 'Acerca de',
@@ -40,40 +41,12 @@ const carouselImages = [
         texto: 'Frontend: React 19.0.0 (Typescript 5.8.3)',
     },
     {
-        imagen: 'https://tailwindcss.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcard.d69e3d8c.jpg&w=3840&q=75',
-        texto: 'Estilos: Tailwind CSS 4.0.6',
-    },
-    {
-        imagen: 'https://miro.medium.com/v2/resize:fit:1024/1*xFASqi7HgNXyCvQJ9NmEDA.png',
-        texto: 'Librerías UI: shadcn/ui, Headless UI, React Bits, Radix UI, React Chartjs 2, Embla Carousel y React Youtube',
-    },
-    {
-        imagen: 'https://miro.medium.com/v2/resize:fit:2800/1*PASOqnDQksOLAFjE5jEAGg.png',
-        texto: 'Lottie Animations: Adobe After Effects -> .json -> Librería Lottie for Web',
-    },
-    {
-        imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDuhTcp6ETMZtlL_eJ5lAQDImJHC6TJYCyJg&s',
-        texto: 'Empaquetador: Vite 6.0',
-    },
-    {
         imagen: 'https://miro.medium.com/v2/resize:fit:1400/1*HWgi914cfYaezPHLalCOZQ.png',
-        texto: 'Router: Inertia.js v2.0.1',
-    },
-    {
-        imagen: 'https://files.nette.org/blog/main/135-b.webp?v=1730788240',
-        texto: 'Backend: PHP 8.2.12',
-    },
-    {
-        imagen: 'https://i.blogs.es/ef26c3/81789893-2daf-418f-a041-8d37ee55b9a0/1366_2000.webp',
-        texto: 'Base de datos: SQLite 3.42.0',
-    },
-    {
-        imagen: 'https://images.seeklogo.com/logo-png/46/1/open-food-facts-logo-png_seeklogo-463766.png',
-        texto: 'API Base de datos alimentos: Open Fact Foods v1',
+        texto: 'Router: Inertia.js v2.0.1 - CSR (Client Side Rendering)',
     },
     {
         imagen: 'https://tjzk.replicate.delivery/models_models_featured_image/302182ab-af74-4963-97f2-6121a80c61d7/deepseek-r1-cover.webp',
-        texto: 'API IA: Deepseek Chat Model (DeepSeek PHP Client wrapper)',
+        texto: 'API IA: Deepseek Chat Model (DS PHP Client wrapper)',
     },
     {
         imagen: 'https://corporacioninformatica.com/wp-content/uploads/2023/06/git.jpg',
@@ -84,12 +57,42 @@ const carouselImages = [
         texto: 'Despliege automático CI/CD: Github Actions',
     },
     {
+        imagen: 'https://tailwindcss.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcard.d69e3d8c.jpg&w=3840&q=75',
+        texto: 'Estilos: Tailwind CSS 4.0.6',
+    },
+    {
+        imagen: 'https://miro.medium.com/v2/resize:fit:1024/1*xFASqi7HgNXyCvQJ9NmEDA.png',
+        texto: 'Librerías UI: shadcn/ui, Headless UI, React Bits, Radix UI, React Chartjs 2, Embla Carousel y React Youtube',
+    },
+    {
+        imagen: 'https://miro.medium.com/v2/resize:fit:2800/1*PASOqnDQksOLAFjE5jEAGg.png',
+        texto: 'Animaciones: Adobe After Effects + .json + Lottie for Web',
+    },
+    {
+        imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDuhTcp6ETMZtlL_eJ5lAQDImJHC6TJYCyJg&s',
+        texto: 'Empaquetador/Bundler: Vite 6.0',
+    },
+  
+    {
+        imagen: 'https://files.nette.org/blog/main/135-b.webp?v=1730788240',
+        texto: 'Backend: PHP 8.2.12',
+    },
+    {
+        imagen: 'https://i.blogs.es/ef26c3/81789893-2daf-418f-a041-8d37ee55b9a0/1366_2000.webp',
+        texto: 'Base de datos: SQLite 3.42.0 + Backup automático',
+    },
+    {
+        imagen: 'https://images.seeklogo.com/logo-png/46/1/open-food-facts-logo-png_seeklogo-463766.png',
+        texto: 'API Base de datos alimentos: Open Fact Foods v1',
+    },
+ 
+    {
         imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOCLsjMtwYXxs6m0rIrYmKriOWyI88059LTw&s',
         texto: 'Dominio Hostinger: nutribox.es',
     },
     {
         imagen: 'https://www.softwaredoit.es/logotipos/axarnet.jpg?t=2023-05-08_11_17_48',
-        texto: 'Hosting Axarnet VPS Go! VZ: Apache Ubuntu 22.04 2vCPU 20GB-Almacenamiento 4GB-RAM',
+        texto: 'Hosting Axarnet VPS Go! VZ: Apache Ubuntu 22.04 Only CLI 2vCPU 20GB-Almacenamiento 4GB-RAM',
     },
 ];
 export function DrawerConCarousel({ texto }: DrawerConCarouselProps) {

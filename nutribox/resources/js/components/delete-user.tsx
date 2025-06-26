@@ -12,19 +12,23 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 
 export default function DeleteUser() {
     const passwordInput = useRef<HTMLInputElement>(null);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { data, setData, delete: destroy, processing, reset, errors, clearErrors } = useForm<Required<{ password: string }>>({ password: '' });
 
     const deleteUser: FormEventHandler = (e) => {
         e.preventDefault();
 
+        alert('Eliminación del usuario de demostración deshabilitada.');
+
+        /*
         destroy(route('profile.destroy'), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
             onError: () => passwordInput.current?.focus(),
             onFinish: () => reset(),
         });
+        */
     };
-
     const closeModal = () => {
         clearErrors();
         reset();
@@ -46,7 +50,8 @@ export default function DeleteUser() {
                     <DialogContent>
                         <DialogTitle>¿Estás seguro de que quieres eliminar tu cuenta?</DialogTitle>
                         <DialogDescription>
-                            Una vez que tu cuenta sea eliminada, todos tus datos también se eliminarán de forma permanente. Por favor, introduce tu contraseña para confirmar que deseas eliminar tu cuenta de manera definitiva.
+                            Una vez que tu cuenta sea eliminada, todos tus datos también se eliminarán de forma permanente. Por favor, introduce tu
+                            contraseña para confirmar que deseas eliminar tu cuenta de manera definitiva.
                         </DialogDescription>
                         <form className="space-y-6" onSubmit={deleteUser}>
                             <div className="grid gap-2">
