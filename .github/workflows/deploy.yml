@@ -28,8 +28,8 @@ jobs:
             # CAMBIOS CÓDIGO
             git fetch origin
             git reset --hard origin/main
-            # git clean -fd -e database/database.sqlite
-            git clean -fd -e database/database.sqlite -e storage/ -e bootstrap/cache/
+            git clean -fd -e database/database.sqlite
+            # git clean -fd -e database/database.sqlite -e storage/ -e bootstrap/cache/
             # git clean -fd
             
             # DEPENDENCIAS
@@ -40,7 +40,10 @@ jobs:
             # php artisan migrate:fresh
             # php artisan db:seed
 
-            # CACHING
+            # LIMPIAR TODOS LOS CACHES DE LARAVEL
+            php artisan optimize:clear
+
+            # CACHING DE NUEVO
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
