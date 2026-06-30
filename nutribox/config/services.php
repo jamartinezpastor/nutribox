@@ -14,8 +14,11 @@ return [
     |
     */
 
-    'deepseek' => [
-        'key' => env('DEEPSEEK_API_KEY'),
+    'openrouter' => [
+        'key' => env('OPENROUTER_API_KEY'),
+        'base_url' => env('OPENROUTER_BASE_URL', 'https://openrouter.ai/api/v1'),
+        'model_eval' => env('OPENROUTER_MODEL_EVAL', 'deepseek/deepseek-chat'),
+        'model_menu' => env('OPENROUTER_MODEL_MENU', 'deepseek/deepseek-chat'),
     ],
 
     'pexels' => [

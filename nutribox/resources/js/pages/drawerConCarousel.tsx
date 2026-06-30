@@ -33,7 +33,7 @@ interface DrawerConCarouselProps {
 
 const carouselImages = [
     {
-        imagen: 'https://laravel.com/images/home/video-preview-static.jpg',
+        imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9il8TK92BzS8rm95VMALNs3ZtQ7cVqoQcaF34LFhQQw&s=10',
         texto: 'Framework: Laravel 12.3.0',
     },
     {
@@ -57,7 +57,7 @@ const carouselImages = [
         texto: 'Despliege automático CI/CD: Github Actions',
     },
     {
-        imagen: 'https://tailwindcss.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcard.d69e3d8c.jpg&w=3840&q=75',
+        imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYDWh6FtpSmFXjfNzWW5eQMeC_OEBCeGG7xsxLBIDGqA&s=10',
         texto: 'Estilos: Tailwind CSS 4.0.6',
     },
     {
@@ -69,10 +69,10 @@ const carouselImages = [
         texto: 'Animaciones: Adobe After Effects + .json + Lottie for Web',
     },
     {
-        imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDuhTcp6ETMZtlL_eJ5lAQDImJHC6TJYCyJg&s',
+        imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv63VxHp_V9hcQPQlerKq1kIf2LA7MntNeSth9KWSOFA&s=10',
         texto: 'Empaquetador/Bundler: Vite 6.0',
     },
-  
+
     {
         imagen: 'https://files.nette.org/blog/main/135-b.webp?v=1730788240',
         texto: 'Backend: PHP 8.2.12',
@@ -85,7 +85,7 @@ const carouselImages = [
         imagen: 'https://images.seeklogo.com/logo-png/46/1/open-food-facts-logo-png_seeklogo-463766.png',
         texto: 'API Base de datos alimentos: Open Fact Foods v1',
     },
- 
+
     {
         imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOCLsjMtwYXxs6m0rIrYmKriOWyI88059LTw&s',
         texto: 'Dominio Hostinger: nutribox.es',

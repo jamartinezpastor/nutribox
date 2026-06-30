@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use DeepSeek\DeepSeekClient;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
 use App\Models\Menu;
@@ -13,18 +12,43 @@ use App\Models\Producto;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
-use DeepSeek\Enums\Models;
 use Carbon\Carbon;
 
 class IAController extends Controller
 {
-    private $deepseekApiKey;
+    private $openrouterKey;
     private $pexelsApiKey;
 
     public function __construct()
     {
-        $this->deepseekApiKey = config('services.deepseek.key');
+        $this->openrouterKey = config('services.openrouter.key');
         $this->pexelsApiKey = config('services.pexels.key');
+    }
+
+    private function llamarIA(string $prompt, string $model, int $timeout = 120): array
+    {
+        $response = Http::withToken($this->openrouterKey)
+            ->withHeaders([
+                'HTTP-Referer' => config('app.url'),
+                'X-Title' => config('app.name'),
+            ])
+            ->timeout($timeout)
+            ->post(config('services.openrouter.base_url') . '/chat/completions', [
+                'model' => $model,
+                'messages' => [['role' => 'user', 'content' => $prompt]],
+                'temperature' => 0.7,
+            ]);
+
+        if (!$response->successful()) {
+            throw new \RuntimeException('HTTP ' . $response->status() . ': ' . $response->body());
+        }
+
+        $data = $response->json();
+        $content = $data['choices'][0]['message']['content'] ?? null;
+        if (!is_string($content)) {
+            throw new \RuntimeException('Respuesta de IA sin contenido válido');
+        }
+        return [$content, $data];
     }
 
     public function evaluarDS(Request $formulario)
@@ -43,18 +67,8 @@ class IAController extends Controller
         (Comienza directamente con la respuesta, no con el nombre del alimento)";
 
         try {
-            $response = DeepSeekClient::build($this->deepseekApiKey)
-                ->query($prompt)
-                ->run();
-
-            $responseArray = json_decode($response, true); // array asociativo (false -> obj)
-
-            if (json_last_error() === JSON_ERROR_NONE) {
-                $analisis = $responseArray['choices'][0]['message']['content'];
-                $analisis = str_replace(["*"], '', $analisis);
-            } else {
-                return back()->with('error', 'Error al decodificar la respuesta del análisis mediante IA.');
-            }
+            [$analisis] = $this->llamarIA($prompt, config('services.openrouter.model_eval'), 60);
+            $analisis = str_replace(["*"], '', $analisis);
 
             // Petición a la API de Pexels          
             $responsePexels = Http::withHeaders([
@@ -163,48 +177,23 @@ class IAController extends Controller
 
             // Petición Completa a la API IA
             set_time_limit(120); // Ampliado de 30 a 120 por si la consulta es lenta evitar errores
-            $client = DeepSeekClient::build(apiKey: $this->deepseekApiKey, baseUrl: 'https://api.deepseek.com/v3', timeout: 120, clientType: 'guzzle');
-            $response = $client
-                ->withModel(Models::CHAT->value)
-                ->query($prompt)
-                ->run();
+            $analisis = $this->llamarIA($prompt, config('services.openrouter.model_menu'), 120)[0];
 
-            /*
-            // Petición Simple a la API IA
-            $response = DeepSeekClient::build($this->deepseekApiKey)
-                ->query($prompt)
-                ->run();         
-            */
+            // Extraer bloque JSON en caso de que la IA lo devuelva rodeado de texto
+            preg_match('/\{.*\}/s', $analisis, $coincidencias);
+            $jsonLimpio = $coincidencias[0] ?? '{}';
+            $menu = json_decode($jsonLimpio, true);  // Decodifica la respuesta JSON.. con true array asociativo!
 
-            $responseArray = json_decode($response, true);
-            // dd($responseArray);
-
-            if (
-                isset($responseArray['choices'][0]['message']['content']) &&
-                is_string($responseArray['choices'][0]['message']['content'])
-            ) {
-                $analisis = $responseArray['choices'][0]['message']['content'];
-
-                // Extraer bloque JSON en caso de que DeepSeek lo devuelva rodeado de texto
-                preg_match('/\{.*\}/s', $analisis, $coincidencias);
-                $jsonLimpio = $coincidencias[0] ?? '{}';
-                $menu = json_decode($jsonLimpio, true);  // Decodifica la respuesta JSON.. con true array asociativo!
-
-                if (json_last_error() !== JSON_ERROR_NONE) {
-                    return Inertia::render('menu-crear-previsualizar', ['error' => 'El modelo ha devuelto un JSON inválido']);
-                }
-
-                return Inertia::render('menu-crear-previsualizar', [
-                    'nombre' => $nombre,
-                    'tipoIcono' => $tipoIcono,
-                    'info_extra' => $infoExtra,
-                    'menu' => $menu,
-                ]);
-            } else {
-                return Inertia::render('menu-crear-previsualizar', [
-                    'error' => 'La IA no devolvió una respuesta válida. Inténtalo de nuevo más tarde.',
-                ]);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return Inertia::render('menu-crear-previsualizar', ['error' => 'El modelo ha devuelto un JSON inválido']);
             }
+
+            return Inertia::render('menu-crear-previsualizar', [
+                'nombre' => $nombre,
+                'tipoIcono' => $tipoIcono,
+                'info_extra' => $infoExtra,
+                'menu' => $menu,
+            ]);
         } catch (\Exception $e) {
             return Inertia::render('menu-crear-previsualizar', ['error' => 'Error de conexión con la plataforma de IA: ' . $e->getMessage()]);
         }
