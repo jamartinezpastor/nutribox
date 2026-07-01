@@ -31,50 +31,60 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        // en Testing NO queremos que se ejecute el código de Decomposer
-        if (app()->environment('testing')) {
+        // en Testing y en comandos de consola (artisan, composer scripts, colas...)
+        // NO queremos ejecutar el código de Decomposer: no hay conexión a BD garantizada
+        // (p. ej. "php artisan package:discover" durante el build de Docker).
+        if (app()->environment('testing') || $this->app->runningInConsole()) {
             return;
         }
 
 
         // INFOLARAVEL
-        if (
-            Schema::hasTable('cache') &&
-            Schema::hasTable('users') &&
-            Schema::hasTable('menus') &&
-            Schema::hasTable('comidas') &&
-            Schema::hasTable('productos')
-        ) {
+        $totalUsuarios = $totalMenus = $totalComidas = $totalProductos = 0;
+        try {
+            if (
+                Schema::hasTable('cache') &&
+                Schema::hasTable('users') &&
+                Schema::hasTable('menus') &&
+                Schema::hasTable('comidas') &&
+                Schema::hasTable('productos')
+            ) {
 
-            $totalUsuarios = Cache::remember('stats_total_users', 300, function () {
-                return User::count();
-            });
-            $totalMenus     = Cache::remember('stats_total_menus', 300, fn() => Menu::count());
-            $totalComidas   = Cache::remember('stats_total_comidas', 300, fn() => Comida::count());
-            $totalProductos = Cache::remember('stats_total_productos', 300, fn() => Producto::count());
+                $totalUsuarios = Cache::remember('stats_total_users', 300, function () {
+                    return User::count();
+                });
+                $totalMenus     = Cache::remember('stats_total_menus', 300, fn() => Menu::count());
+                $totalComidas   = Cache::remember('stats_total_comidas', 300, fn() => Comida::count());
+                $totalProductos = Cache::remember('stats_total_productos', 300, fn() => Producto::count());
 
+            }
+        } catch (\Throwable $e) {
+            // BD no disponible: se mantienen los valores por defecto
         }
             $infolaravel = [
                 'APP_NAME'    => config('services.app_name'),
                 'APP_ENV'     => config('services.app_env'),
                 'APP_URL'     => config('services.app_url'),
                 'MAIL_FROM_ADDRESS' => config('services.mail_from'),
-                'Usuarios'        => $totalUsuarios ?? 0,
-                'Menús'           => $totalMenus?? 0,
-                'Comidas'         => $totalComidas??   0,
-                'Productos'       => $totalProductos?? 0,
+                'Usuarios'        => $totalUsuarios,
+                'Menús'           => $totalMenus,
+                'Comidas'         => $totalComidas,
+                'Productos'       => $totalProductos,
             ];
 
         // INFOSERVER
-        if (PHP_OS_FAMILY === 'Linux' && Schema::hasTable('users')) {
-            $uptimeTexto = Cache::remember('server_uptime', 300, function () {
-                try {
-                    return trim(shell_exec('uptime -p'));
-                } catch (\Throwable $e) {
-                    return '?';
-                }
-            });
-        } else {
+        $uptimeTexto = '?';
+        try {
+            if (PHP_OS_FAMILY === 'Linux' && Schema::hasTable('users')) {
+                $uptimeTexto = Cache::remember('server_uptime', 300, function () {
+                    try {
+                        return trim(shell_exec('uptime -p'));
+                    } catch (\Throwable $e) {
+                        return '?';
+                    }
+                });
+            }
+        } catch (\Throwable $e) {
             $uptimeTexto = '?';
         }
         $infoserver = [
