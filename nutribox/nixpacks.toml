@@ -5,4 +5,4 @@ cmds = [
 ]
 
 [start]
-cmd = "node /assets/scripts/prestart.mjs /assets/nginx.template.conf /nginx.conf && node /app/fix-nginx-conf.mjs /nginx.conf && (php-fpm -y /assets/php-fpm.conf & nginx -c /nginx.conf)"
+cmd = "mkdir -p /var/log/nginx && node /assets/scripts/prestart.mjs /assets/nginx.template.conf /nginx.conf && node /app/fix-nginx-conf.mjs /nginx.conf && (php-fpm -y /assets/php-fpm.conf & nginx -c /nginx.conf)"
