@@ -20,6 +20,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // La app solo recibe trafico interno de Traefik (proxy reverso de Coolify),
+        // nunca directamente de internet: confiamos en X-Forwarded-* para que
+        // Laravel genere URLs de assets (css/js) con el esquema https real.
+        $middleware->trustProxies(at: '*');
+
         $middleware->encryptCookies(except: ['appearance']);
 
         $middleware->web(append: [
