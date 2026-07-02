@@ -13,7 +13,13 @@ class OFFController extends Controller
     {
         $termino = $formulario->input('termino');
 
-        $client = new Client();
+        $client = new Client([
+            'timeout' => 10,
+            'connect_timeout' => 5,
+            'headers' => [
+                'User-Agent' => 'Nutribox/1.0 (' . config('services.app_url') . ')',
+            ],
+        ]);
         $url = "https://world.openfoodfacts.org/cgi/search.pl?action=process&json=1&search_terms="
             . urlencode($termino)
             . "&page_size=40";
