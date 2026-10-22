@@ -16,37 +16,67 @@ use Carbon\Carbon;
 
 class IAController extends Controller
 {
-    private $openrouterKey;
+    private $geminiKey;
     private $pexelsApiKey;
 
     public function __construct()
     {
-        $this->openrouterKey = config('services.openrouter.key');
+        $this->geminiKey = config('services.gemini.key');
         $this->pexelsApiKey = config('services.pexels.key');
     }
 
-    private function llamarIA(string $prompt, string $model, int $timeout = 120): array
+    private function llamarIA(string $prompt, string $model, int $timeout = 120, bool $json = false): array
     {
-        $response = Http::withToken($this->openrouterKey)
-            ->withHeaders([
-                'HTTP-Referer' => config('app.url'),
-                'X-Title' => config('app.name'),
-            ])
+        if (!is_string($this->geminiKey) || trim($this->geminiKey) === '') {
+            throw new \RuntimeException('Falta configurar GEMINI_API_KEY en el servidor.');
+        }
+
+        $generationConfig = [
+            'temperature' => 1.0,
+            'thinkingConfig' => [
+                'thinkingLevel' => strtoupper(config('services.gemini.thinking_level')),
+            ],
+        ];
+        if ($json) {
+            $generationConfig['responseMimeType'] = 'application/json';
+        }
+
+        $response = Http::withHeaders(['x-goog-api-key' => $this->geminiKey])
+            ->acceptJson()
             ->timeout($timeout)
-            ->post(config('services.openrouter.base_url') . '/chat/completions', [
-                'model' => $model,
-                'messages' => [['role' => 'user', 'content' => $prompt]],
-                'temperature' => 0.7,
+            ->post(rtrim(config('services.gemini.base_url'), '/') . '/models/' . rawurlencode($model) . ':generateContent', [
+                'contents' => [['role' => 'user', 'parts' => [['text' => $prompt]]]],
+                'generationConfig' => $generationConfig,
             ]);
 
         if (!$response->successful()) {
-            throw new \RuntimeException('HTTP ' . $response->status() . ': ' . $response->body());
+            Log::warning('Error en la API de Gemini', ['status' => $response->status(), 'model' => $model]);
+            $mensaje = match ($response->status()) {
+                400, 401, 403 => 'Comprueba la clave y la configuración de Gemini en el servidor.',
+                404 => 'El modelo de Gemini configurado no está disponible.',
+                429 => 'Se ha alcanzado la cuota de Gemini. Inténtalo más tarde o revisa los límites del proyecto en Google AI Studio.',
+                default => 'Gemini no está disponible temporalmente. Inténtalo más tarde.',
+            };
+            throw new \RuntimeException('HTTP ' . $response->status() . ': ' . $mensaje);
         }
 
         $data = $response->json();
-        $content = $data['choices'][0]['message']['content'] ?? null;
-        if (!is_string($content)) {
-            throw new \RuntimeException('Respuesta de IA sin contenido válido');
+        $candidate = $data['candidates'][0] ?? [];
+        if (isset($data['promptFeedback']['blockReason']) || ($candidate['finishReason'] ?? null) === 'SAFETY') {
+            throw new \RuntimeException('Gemini no ha podido responder a esta consulta por sus filtros de seguridad.');
+        }
+        if (isset($candidate['finishReason']) && $candidate['finishReason'] !== 'STOP') {
+            throw new \RuntimeException('Gemini no ha completado la respuesta. Vuelve a intentarlo.');
+        }
+
+        $content = '';
+        foreach ($candidate['content']['parts'] ?? [] as $part) {
+            if (empty($part['thought']) && isset($part['text']) && is_string($part['text'])) {
+                $content .= $part['text'];
+            }
+        }
+        if (trim($content) === '') {
+            throw new \RuntimeException('Gemini ha devuelto una respuesta sin contenido válido.');
         }
         return [$content, $data];
     }
@@ -67,7 +97,7 @@ class IAController extends Controller
         (Comienza directamente con la respuesta, no con el nombre del alimento)";
 
         try {
-            [$analisis] = $this->llamarIA($prompt, config('services.openrouter.model_eval'), 60);
+            [$analisis] = $this->llamarIA($prompt, config('services.gemini.model_eval'), 60);
             $analisis = str_replace(["*"], '', $analisis);
 
             // Petición a la API de Pexels          
@@ -177,14 +207,11 @@ class IAController extends Controller
 
             // Petición Completa a la API IA
             set_time_limit(120); // Ampliado de 30 a 120 por si la consulta es lenta evitar errores
-            $analisis = $this->llamarIA($prompt, config('services.openrouter.model_menu'), 120)[0];
+            $analisis = $this->llamarIA($prompt, config('services.gemini.model_menu'), 120, true)[0];
 
-            // Extraer bloque JSON en caso de que la IA lo devuelva rodeado de texto
-            preg_match('/\{.*\}/s', $analisis, $coincidencias);
-            $jsonLimpio = $coincidencias[0] ?? '{}';
-            $menu = json_decode($jsonLimpio, true);  // Decodifica la respuesta JSON.. con true array asociativo!
+            $menu = json_decode($analisis, true);
 
-            if (json_last_error() !== JSON_ERROR_NONE) {
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($menu) || empty($menu['comidas']) || !is_array($menu['comidas'])) {
                 return Inertia::render('menu-crear-previsualizar', ['error' => 'El modelo ha devuelto un JSON inválido']);
             }
 

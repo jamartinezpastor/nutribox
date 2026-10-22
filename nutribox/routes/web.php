@@ -32,7 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-    // DEEPSEEK EVALUAR
+    // GEMINI EVALUAR
     Route::get('dsevaluar', function () {
         return Inertia::render('ds-evaluar');
     })->name('dsevaluar');

@@ -14,11 +14,12 @@ return [
     |
     */
 
-    'openrouter' => [
-        'key' => env('OPENROUTER_API_KEY'),
-        'base_url' => env('OPENROUTER_BASE_URL', 'https://openrouter.ai/api/v1'),
-        'model_eval' => env('OPENROUTER_MODEL_EVAL', 'deepseek/deepseek-chat'),
-        'model_menu' => env('OPENROUTER_MODEL_MENU', 'deepseek/deepseek-chat'),
+    'gemini' => [
+        'key' => env('GEMINI_API_KEY'),
+        'base_url' => env('GEMINI_BASE_URL', 'https://generativelanguage.googleapis.com/v1beta'),
+        'model_eval' => env('GEMINI_MODEL_EVAL', 'gemini-3.5-flash-lite'),
+        'model_menu' => env('GEMINI_MODEL_MENU', 'gemini-3.8-flash'),
+        'thinking_level' => env('GEMINI_THINKING_LEVEL', 'LOW'),
     ],
 
     'pexels' => [

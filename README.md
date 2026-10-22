@@ -4,7 +4,7 @@
 
 **Alimentación Inteligente**
 
-Nutribox es una aplicación web Single Page Application (SPA) orientada a la consulta, análisis de la compatibilidad entre alimentos y patologías, creación y gestión de menús diarios, recomendaciones personalizadas mediante IA y recursos multimedia. Integra tecnologías modernas tanto en backend (Laravel 12 o Inertia.js) como en frontend (React 19 con Typescript), APIs externas (Deepseek, Open Food Facts y Pexels), un diseño responsive con versiones Desktop/Móvil, diferentes apariencias visuales, renderizado en cliente (CSR) y despliegue automatizado CI/CD.
+Nutribox es una aplicación web Single Page Application (SPA) orientada a la consulta, análisis de la compatibilidad entre alimentos y patologías, creación y gestión de menús diarios, recomendaciones personalizadas mediante IA y recursos multimedia. Integra tecnologías modernas tanto en backend (Laravel 12 o Inertia.js) como en frontend (React 19 con Typescript), APIs externas (Google Gemini, Open Food Facts y Pexels), un diseño responsive con versiones Desktop/Móvil, diferentes apariencias visuales, renderizado en cliente (CSR) y despliegue automatizado CI/CD.
 <p>&nbsp;</p>
 
 ## Tabla de contenidos
@@ -45,7 +45,7 @@ Nutribox es una aplicación web Single Page Application (SPA) orientada a la con
 
 ## Características principales
 - **Búsqueda avanzada de alimentos** en la base de datos Open Food Facts (OFF).
-- **Evaluador IA**: Relaciona alimentos con patologías mediante Inteligencia Artificial (DeepSeek).
+- **Evaluador IA**: Relaciona alimentos con patologías mediante Inteligencia Artificial (Google Gemini Flash-Lite).
 - **Diseño de menús diarios personalizados** (con previsualización y almacenamiento).
 - **Gestión de menús guardados**: Consulta, edición, borrado y visualización detallada.
 - **Sección multimedia**: Streaming de Canal Cocina e integración con Youtube.
@@ -70,7 +70,7 @@ Nutribox es una aplicación web Single Page Application (SPA) orientada a la con
 - **Laravel Framework 12+ PHP 8.2+**: Eloquent ORM, alta/reset contraseña con token, autenticación, colas, seeders, migraciones, etc..
 - **Inertia.js**: Conexión directa con el frontend React sin API REST convencional.
 - **Vite 6**: Para creación de bundles
-- **API Deepsek con wrapper/deepseek-php-client**: Para evaluación nutricional y creación de menús mediante IA.
+- **API de Google Gemini**: Evaluación nutricional con Flash-Lite y creación de menús con Flash mediante el cliente HTTP de Laravel.
 - **API Open Food Facts v1**: Para búsqueda de alimentos y productos en su base de datos.
 - **API Pexels v1**: Para decoración background resultados evaluador nutricional.
 - **Lubusin Decomposer y Stethoscope**: Diagnóstico del entorno Laravel y del Servidor.
@@ -278,10 +278,28 @@ Incluye:
 ## Variables de entorno
 Principales variables:
 - `APP_NAME`, `APP_ENV`, `APP_KEY`, `APP_URL`
-- Integraciones externas: `DEEPSEEK_API_KEY`, `PEXELS_API_KEY`, `GA_MEASUREMENT_ID`
+- Integraciones externas: `GEMINI_API_KEY`, `PEXELS_API_KEY`, `GA_MEASUREMENT_ID`
 - Base de datos: `DB_CONNECTION`, `DB_DATABASE`, etc..
 - Email: `MAIL_HOST=smtp.gmail.com`, `MAIL_FROM_ADDRESS=holanutribox@gmail.com`, etc..
 - Otros servicios: `MONITORING_PANEL_KEY=admin`, `DEPLOYED_AT="YYYY-MM-DD HH:MM:SS"`, etc..
+
+### Configuración de Google Gemini
+
+En el `.env` de Laravel o en las variables de entorno de Coolify:
+
+```dotenv
+GEMINI_API_KEY=tu_clave_de_google_ai_studio
+GEMINI_BASE_URL=https://generativelanguage.googleapis.com/v1beta
+GEMINI_MODEL_EVAL=gemini-3.5-flash-lite
+GEMINI_MODEL_MENU=gemini-3.8-flash
+GEMINI_THINKING_LEVEL=LOW
+```
+
+Obtén la clave en [Google AI Studio](https://aistudio.google.com/apikey). La aplicación llama directamente a la API de Google; las variables `OPENROUTER_*` dejan de utilizarse. Los modelos se pueden cambiar por separado. El nivel `LOW` reduce el tiempo dedicado al razonamiento y es compatible con los modelos configurados.
+
+Después de cambiar las variables, vuelve a desplegar la aplicación. Si gestionas la configuración manualmente, ejecuta `php artisan config:clear` en el contenedor de Laravel (o regenera la caché con `php artisan config:cache`). La clave se usa exclusivamente en el servidor. Los menús solicitan el modo JSON de Gemini y las evaluaciones solicitan texto.
+
+Modelos y formato de la API: [catálogo de Gemini](https://ai.google.dev/gemini-api/docs/models) y [generateContent](https://ai.google.dev/api/generate-content).
 <p>&nbsp;</p>
 
 ## Buenas prácticas, accesibilidad y detalles técnicos

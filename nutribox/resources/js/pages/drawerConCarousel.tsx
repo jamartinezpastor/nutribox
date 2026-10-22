@@ -45,8 +45,8 @@ const carouselImages = [
         texto: 'Router: Inertia.js v2.0.1 - CSR (Client Side Rendering)',
     },
     {
-        imagen: 'https://tjzk.replicate.delivery/models_models_featured_image/302182ab-af74-4963-97f2-6121a80c61d7/deepseek-r1-cover.webp',
-        texto: 'API IA: Deepseek Chat Model (DS PHP Client wrapper)',
+        imagen: '/logo.svg',
+        texto: 'API IA: Google Gemini (Flash y Flash-Lite)',
     },
     {
         imagen: 'https://corporacioninformatica.com/wp-content/uploads/2023/06/git.jpg',
