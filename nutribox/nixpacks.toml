@@ -1,3 +1,11 @@
+[phases.setup]
+nixpkgsArchive = "nixos-26.05-small"
+cmds = [
+  "php -v",
+  "php-fpm -v",
+  """php -r 'exit(version_compare(PHP_VERSION, "8.2.35", ">=") ? 0 : 1);'"""
+]
+
 [phases.install]
 cmds = [
   "composer install --ignore-platform-reqs",
