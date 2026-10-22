@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 
 const path = process.argv[2] || '/nginx.conf';
-let conf = readFileSync(path, 'utf8');
+const conf = readFileSync(path, 'utf8');
 
 // Nixpacks' generated nginx.conf can contain the same "location / { ... }"
 // block twice (with differing indentation/whitespace between occurrences)
@@ -11,7 +11,7 @@ let conf = readFileSync(path, 'utf8');
 const locationBlockRe = /[ \t]*location\s*\/\s*\{\s*try_files\s+\$uri\s+\$uri\/\s+\/index\.php\?\$query_string;\s*\}\s*/g;
 
 let seen = false;
-const fixed = conf.replace(locationBlockRe, (match) => {
+let fixed = conf.replace(locationBlockRe, (match) => {
   if (!seen) {
     seen = true;
     return match;
@@ -19,9 +19,18 @@ const fixed = conf.replace(locationBlockRe, (match) => {
   return '';
 });
 
+// Laravel waits up to 120 seconds for Gemini. Nginx's default FastCGI
+// read timeout is only 60 seconds, so it can return a 504 before Laravel
+// finishes or handles the API timeout. Give PHP time to return its response.
+// Remove existing directives first to keep repeated runs idempotent.
+fixed = fixed.replace(/^[ \t]*fastcgi_read_timeout\s+[^;]+;[ \t]*(?:\r?\n|$)/gm, '');
+fixed = fixed.replace(/^([ \t]*)fastcgi_pass\s+([^;]+);/gm, (_match, indent, upstream) =>
+  `${indent}fastcgi_pass ${upstream};\n${indent}fastcgi_read_timeout 150s;`
+);
+
 if (fixed !== conf) {
   writeFileSync(path, fixed);
-  console.log('[fix-nginx-conf] Removed duplicate "location /" block(s) from ' + path);
+  console.log('[fix-nginx-conf] Fixed duplicate locations and set FastCGI read timeout to 150s in ' + path);
 } else {
-  console.log('[fix-nginx-conf] No duplicate "location /" block found, nginx.conf left unchanged.');
+  console.log('[fix-nginx-conf] Nginx configuration already up to date.');
 }

@@ -70,7 +70,7 @@ Nutribox es una aplicación web Single Page Application (SPA) orientada a la con
 - **Laravel Framework 12+ PHP 8.2+**: Eloquent ORM, alta/reset contraseña con token, autenticación, colas, seeders, migraciones, etc..
 - **Inertia.js**: Conexión directa con el frontend React sin API REST convencional.
 - **Vite 6**: Para creación de bundles
-- **API de Google Gemini**: Evaluación nutricional con Flash-Lite y creación de menús con Flash mediante el cliente HTTP de Laravel.
+- **API de Google Gemini**: Evaluación nutricional y creación de menús con Gemini 3.5 Flash-Lite mediante el cliente HTTP de Laravel.
 - **API Open Food Facts v1**: Para búsqueda de alimentos y productos en su base de datos.
 - **API Pexels v1**: Para decoración background resultados evaluador nutricional.
 - **Lubusin Decomposer y Stethoscope**: Diagnóstico del entorno Laravel y del Servidor.
@@ -291,7 +291,7 @@ En el `.env` de Laravel o en las variables de entorno de Coolify:
 GEMINI_API_KEY=tu_clave_de_google_ai_studio
 GEMINI_BASE_URL=https://generativelanguage.googleapis.com/v1beta
 GEMINI_MODEL_EVAL=gemini-3.5-flash-lite
-GEMINI_MODEL_MENU=gemini-3.8-flash
+GEMINI_MODEL_MENU=gemini-3.5-flash-lite
 GEMINI_THINKING_LEVEL=LOW
 ```
 
@@ -300,6 +300,8 @@ Obtén la clave en [Google AI Studio](https://aistudio.google.com/apikey). La ap
 Después de cambiar las variables, vuelve a desplegar la aplicación. Si gestionas la configuración manualmente, ejecuta `php artisan config:clear` en el contenedor de Laravel (o regenera la caché con `php artisan config:cache`). La clave se usa exclusivamente en el servidor. Los menús solicitan el modo JSON de Gemini y las evaluaciones solicitan texto.
 
 Modelos y formato de la API: [catálogo de Gemini](https://ai.google.dev/gemini-api/docs/models) y [generateContent](https://ai.google.dev/api/generate-content).
+
+La generación de menús espera hasta 120 segundos a Gemini. El script de arranque `nutribox/fix-nginx-conf.mjs` configura `fastcgi_read_timeout 150s` en Nginx para que Laravel pueda devolver el resultado o su mensaje de tiempo agotado antes de un error 504. PHP dispone de 130 segundos de ejecución en ese flujo. Este ajuste se aplica al volver a desplegar con Nixpacks.
 <p>&nbsp;</p>
 
 ## Buenas prácticas, accesibilidad y detalles técnicos

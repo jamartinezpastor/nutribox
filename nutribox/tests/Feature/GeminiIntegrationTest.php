@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -19,7 +20,7 @@ class GeminiIntegrationTest extends TestCase
             'services.gemini.key' => 'test-gemini-key',
             'services.gemini.base_url' => 'https://generativelanguage.googleapis.com/v1beta/',
             'services.gemini.model_eval' => 'gemini-3.5-flash-lite',
-            'services.gemini.model_menu' => 'gemini-3.8-flash',
+            'services.gemini.model_menu' => 'gemini-3.5-flash-lite',
             'services.gemini.thinking_level' => 'LOW',
         ]);
         Http::preventStrayRequests();
@@ -178,6 +179,20 @@ class GeminiIntegrationTest extends TestCase
             ->assertInertia(fn (Assert $page) => $page
                 ->component('menu-crear-previsualizar')
                 ->where('error', 'El modelo ha devuelto un JSON inválido')
+                ->missing('menu'));
+    }
+
+    public function test_google_timeouts_return_an_application_error_instead_of_a_gateway_page(): void
+    {
+        Http::fake(function (Request $request) {
+            throw new ConnectionException('cURL error 28: private connection details');
+        });
+
+        $this->post('/menucrearacontroller', $this->menuInput())
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('menu-crear-previsualizar')
+                ->where('error', 'Gemini no ha respondido a tiempo. Vuelve a intentar generar el menú en unos instantes.')
                 ->missing('menu'));
     }
 

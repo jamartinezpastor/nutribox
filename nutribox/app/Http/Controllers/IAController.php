@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Client\ConnectionException;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Http;
 use App\Models\Menu;
@@ -43,6 +44,7 @@ class IAController extends Controller
 
         $response = Http::withHeaders(['x-goog-api-key' => $this->geminiKey])
             ->acceptJson()
+            ->connectTimeout(10)
             ->timeout($timeout)
             ->post(rtrim(config('services.gemini.base_url'), '/') . '/models/' . rawurlencode($model) . ':generateContent', [
                 'contents' => [['role' => 'user', 'parts' => [['text' => $prompt]]]],
@@ -206,7 +208,9 @@ class IAController extends Controller
             ";
 
             // Petición Completa a la API IA
-            set_time_limit(120); // Ampliado de 30 a 120 por si la consulta es lenta evitar errores
+            // HTTP: 120 s, PHP: 130 s, Nginx: 150 s (fix-nginx-conf.mjs).
+            // Laravel debe poder devolver el error antes de que corte Nginx.
+            set_time_limit(130);
             $analisis = $this->llamarIA($prompt, config('services.gemini.model_menu'), 120, true)[0];
 
             $menu = json_decode($analisis, true);
@@ -220,6 +224,11 @@ class IAController extends Controller
                 'tipoIcono' => $tipoIcono,
                 'info_extra' => $infoExtra,
                 'menu' => $menu,
+            ]);
+        } catch (ConnectionException $e) {
+            Log::warning('Tiempo de espera o conexión agotada al generar menú con Gemini');
+            return Inertia::render('menu-crear-previsualizar', [
+                'error' => 'Gemini no ha respondido a tiempo. Vuelve a intentar generar el menú en unos instantes.',
             ]);
         } catch (\Exception $e) {
             return Inertia::render('menu-crear-previsualizar', ['error' => 'Error de conexión con la plataforma de IA: ' . $e->getMessage()]);
